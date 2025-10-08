@@ -22,6 +22,9 @@ include_once get_template_directory() . '/includes/class-database.php';
 include_once get_template_directory() . '/includes/class-lazy-loading.php';
 include_once get_template_directory() . '/includes/class-image-sizes.php';
 include_once get_template_directory() . '/includes/class-grid-awareness.php';
+include_once get_template_directory() . '/includes/class-logger.php';
+include_once get_template_directory() . '/includes/class-settings-validator.php';
+include_once get_template_directory() . '/includes/class-security-manager.php';
 
 // Initialize the classes
 new SustainableTheme\Settings();
@@ -31,6 +34,7 @@ new SustainableTheme\Database();
 new SustainableTheme\LazyLoading();
 new SustainableTheme\Image_Sizes();
 new SustainableTheme\GridAwareness();
+new SustainableTheme\SecurityManager();
 
 /**
  * Enqueue main frontend styles

@@ -42,6 +42,26 @@ class AdminMenu
       [$this, 'render_admin_page']
     );
 
+    // Add Design submenu
+    add_submenu_page(
+      'sustainable-theme',
+      __('Design', 'sustainable'),
+      __('Design', 'sustainable'),
+      'manage_options',
+      'sustainable-theme-design',
+      [$this, 'render_design_page']
+    );
+
+    // Add Sustainability submenu
+    add_submenu_page(
+      'sustainable-theme',
+      __('Sustainability', 'sustainable'),
+      __('Sustainability', 'sustainable'),
+      'manage_options',
+      'sustainable-theme-sustainability',
+      [$this, 'render_sustainability_page']
+    );
+
     // Remove the default "Carbonfooter" submenu item if we created the main menu
     if (!$plugin_menu_exists) {
       remove_submenu_page('sustainable-theme', 'sustainable-theme');
@@ -79,25 +99,48 @@ class AdminMenu
     echo '<div id="sustainable-theme-page-root"></div>';
   }
 
+  public function render_design_page(): void
+  {
+    echo '<div id="sustainable-theme-design-page-root"></div>';
+  }
+
+  public function render_sustainability_page(): void
+  {
+    echo '<div id="sustainable-theme-sustainability-page-root"></div>';
+  }
+
   public function enqueue_react_assets(): void
   {
     // Only load on our admin pages
     $screen = get_current_screen();
-    if (!$screen || ($screen->id !== 'toplevel_page_sustainable-theme' && $screen->id !== 'sustainable-theme_page_sustainable-theme-settings')) {
+    if (!$screen || !in_array($screen->id, [
+      'toplevel_page_sustainable-theme',
+      'sustainable-theme_page_sustainable-theme-settings',
+      'sustainable-theme_page_sustainable-theme-design',
+      'sustainable-theme_page_sustainable-theme-sustainability'
+    ])) {
       return;
     }
 
     // Always enqueue WordPress Components styles
     wp_enqueue_style('wp-components');
 
-    $asset_file_path = SUSTAINABLE_THEME_DIR . '/build/admin.asset.php';
+    // Determine which script to load based on the current page
+    $script_name = 'admin'; // Default
+    if ($screen->id === 'sustainable-theme_page_sustainable-theme-design') {
+      $script_name = 'design-admin';
+    } elseif ($screen->id === 'sustainable-theme_page_sustainable-theme-sustainability') {
+      $script_name = 'sustainability-admin';
+    }
+
+    $asset_file_path = SUSTAINABLE_THEME_DIR . "/build/{$script_name}.asset.php";
 
     if (file_exists($asset_file_path)) {
       $asset_data = include $asset_file_path;
 
       wp_enqueue_script(
         'sustainable-theme-admin',
-        SUSTAINABLE_THEME_URL . '/build/admin.js',
+        SUSTAINABLE_THEME_URL . "/build/{$script_name}.js",
         $asset_data['dependencies'],
         $asset_data['version'],
         true
@@ -116,7 +159,7 @@ class AdminMenu
       // Fallback for development mode
       wp_enqueue_script(
         'sustainable-theme-admin',
-        SUSTAINABLE_THEME_URL . '/build/admin.js',
+        SUSTAINABLE_THEME_URL . "/build/{$script_name}.js",
         ['wp-element', 'wp-components', 'wp-i18n', 'wp-api-fetch'],
         SUSTAINABLE_THEME_VERSION,
         true

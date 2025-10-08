@@ -163,6 +163,22 @@ class Database
   public function handle_cleanup_request(): \WP_REST_Response
   {
     try {
+      // Check rate limit
+      if (!SecurityManager::checkRateLimit('database_cleanup')) {
+        Logger::warning('Database cleanup rate limit exceeded', [
+          'user_id' => get_current_user_id()
+        ]);
+        
+        return new \WP_REST_Response([
+          'success' => false,
+          'message' => 'Rate limit exceeded. Please wait before running another cleanup.'
+        ], 429);
+      }
+
+      Logger::info('Starting manual database cleanup', [
+        'user_id' => get_current_user_id()
+      ]);
+
       $stats = $this->cleanup_database();
 
       $total_items = array_sum($stats);
@@ -176,12 +192,24 @@ class Database
         $stats['expired_transients_deleted']
       );
 
+      Logger::info('Database cleanup completed successfully', [
+        'user_id' => get_current_user_id(),
+        'stats' => $stats,
+        'total_items' => $total_items
+      ]);
+
       return new \WP_REST_Response([
         'success' => true,
         'message' => $message,
         'stats' => $stats
       ], 200);
     } catch (\Exception $e) {
+      Logger::error('Database cleanup failed', [
+        'error' => $e->getMessage(),
+        'user_id' => get_current_user_id(),
+        'trace' => $e->getTraceAsString()
+      ]);
+      
       return new \WP_REST_Response([
         'success' => false,
         'message' => __('Failed to clean up database: ', 'sustainable') . $e->getMessage()

@@ -77,14 +77,10 @@ export default function AdminPage() {
 
 				if (response.ok) {
 					const data = await response.json();
-					// Merge with default state to ensure all settings are present
-					const mergedSettings = {
-						...settings,
-						...data,
-					};
-					setSettings(mergedSettings);
+					// Use the loaded settings directly
+					setSettings(data);
 					// Store original settings for comparison
-					setOriginalSettings(mergedSettings);
+					setOriginalSettings(data);
 				}
 			} catch (error) {
 				console.error("Failed to load settings:", error);
@@ -223,8 +219,7 @@ export default function AdminPage() {
 		// Get the predefined settings for this mode
 		const modeSettings = getModeSettings(mode);
 		setSettings(modeSettings);
-		// Update original settings to reflect the mode change
-		setOriginalSettings(modeSettings);
+		// Don't update originalSettings here - let the user save to make it "official"
 	};
 
 	const handleSettingChange = (settingName, value) => {
@@ -308,8 +303,8 @@ export default function AdminPage() {
 					...baseSettings,
 					sustainability_mode: "super",
 					dequeue_non_sustainable: true,
-					use_grid_awareness: settings.use_grid_awareness, // Preserve current grid awareness setting
-					electricity_maps_api_key: settings.electricity_maps_api_key || "", // Preserve existing API key
+					use_grid_awareness: false, // Don't enable by default - requires API key
+					electricity_maps_api_key: "", // Keep empty - user must add their own
 					disable_rss_feed: true,
 					disable_emojis: true,
 					remove_embeds: true,
@@ -328,7 +323,7 @@ export default function AdminPage() {
 					remove_dns_prefetch: true,
 					disable_dashicons_frontend: true,
 					disable_file_editing: true,
-					reduce_heartbeat_frequency: true,
+					reduce_heartbeat_frequency: false, // Can't reduce frequency when disabled
 					disable_gravatar: true,
 					remove_capital_p_dangit: true,
 					disable_automatic_updates: true,

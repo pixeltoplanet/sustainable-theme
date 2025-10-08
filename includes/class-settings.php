@@ -368,7 +368,7 @@ class Settings
           'above_fold_image_limit' => 1,
           // Super mode image optimization
           'enable_image_optimization' => true,
-          'max_image_size' => 'full',
+          'max_image_size' => 'large',
           'remove_default_image_sizes' => true,
         ]);
 
@@ -439,17 +439,43 @@ class Settings
   }
 
   /**
-   * Update settings
+   * Update settings with validation
    */
   public function update_settings(\WP_REST_Request $request): \WP_REST_Response
   {
     try {
+      // Check rate limit
+      if (!SecurityManager::checkRateLimit('settings_update')) {
+        return new \WP_REST_Response([
+          'success' => false,
+          'message' => 'Rate limit exceeded. Please wait before making another request.'
+        ], 429);
+      }
+
       $new_settings = $request->get_param('settings');
 
       if (empty($new_settings)) {
+        Logger::warning('Empty settings provided for update', [
+          'user_id' => get_current_user_id()
+        ]);
         return new \WP_REST_Response([
           'success' => false,
           'message' => 'No settings provided'
+        ], 400);
+      }
+
+      // Validate settings before sanitization
+      $validation_errors = SettingsValidator::validateSettings($new_settings);
+      if (!empty($validation_errors)) {
+        Logger::warning('Settings validation failed', [
+          'errors' => $validation_errors,
+          'user_id' => get_current_user_id()
+        ]);
+
+        return new \WP_REST_Response([
+          'success' => false,
+          'message' => 'Settings validation failed',
+          'errors' => $validation_errors
         ], 400);
       }
 
@@ -457,19 +483,33 @@ class Settings
       $updated = update_option('sustainable_theme_settings', $sanitized_settings);
 
       if ($updated !== false) {
+        Logger::info('Settings updated successfully', [
+          'user_id' => get_current_user_id(),
+          'settings_count' => count($sanitized_settings)
+        ]);
+
         return new \WP_REST_Response([
           'success' => true,
           'settings' => $sanitized_settings,
           'message' => 'Settings updated successfully'
         ], 200);
       } else {
+        Logger::warning('Settings update failed - no changes made', [
+          'user_id' => get_current_user_id()
+        ]);
+
         return new \WP_REST_Response([
           'success' => false,
           'message' => 'Failed to update settings - no changes made'
         ], 500);
       }
     } catch (\Exception $e) {
-      error_log('Settings update error: ' . $e->getMessage());
+      Logger::error('Settings update error', [
+        'error' => $e->getMessage(),
+        'user_id' => get_current_user_id(),
+        'trace' => $e->getTraceAsString()
+      ]);
+
       return new \WP_REST_Response([
         'success' => false,
         'message' => 'Server error: ' . $e->getMessage()
@@ -533,103 +573,33 @@ class Settings
   }
 
   /**
-   * Sanitize settings
+   * Sanitize settings using the SettingsValidator
    */
   public function sanitize_settings(array $settings): array
   {
-    $sanitized = [];
-    $defaults = $this->get_default_settings();
+    try {
+      // Use the SettingsValidator for comprehensive sanitization
+      $sanitized = SettingsValidator::sanitizeSettings($settings);
 
-    // Start with defaults to ensure all settings are present
-    $sanitized = $defaults;
+      // Merge with defaults to ensure all settings are present
+      $defaults = $this->get_default_settings();
+      $sanitized = array_merge($defaults, $sanitized);
 
-    // Sanitize sustainability_mode
-    if (isset($settings['sustainability_mode'])) {
-      $sanitized['sustainability_mode'] = in_array(
-        $settings['sustainability_mode'],
-        ['base', 'super', 'custom']
-      ) ? $settings['sustainability_mode'] : 'base';
+      Logger::info('Settings sanitized successfully', [
+        'total_settings' => count($sanitized),
+        'user_id' => get_current_user_id()
+      ]);
+
+      return $sanitized;
+    } catch (\Exception $e) {
+      Logger::error('Settings sanitization failed', [
+        'error' => $e->getMessage(),
+        'user_id' => get_current_user_id()
+      ]);
+
+      // Return defaults as fallback
+      return $this->get_default_settings();
     }
-
-    // Sanitize string settings
-    if (isset($settings['electricity_maps_api_key'])) {
-      $sanitized['electricity_maps_api_key'] = sanitize_text_field($settings['electricity_maps_api_key']);
-    }
-
-    // Sanitize boolean settings
-    $boolean_settings = [
-      'dequeue_non_sustainable',
-      'use_grid_awareness',
-      'disable_rss_feed',
-      'disable_emojis',
-      'remove_embeds',
-      'remove_header_metadata',
-      'remove_rest_output',
-      'disable_xmlrpc',
-      'disable_self_pingbacks',
-      'remove_jquery_migrate',
-      'remove_shortlinks',
-      'disable_heartbeat',
-      'remove_query_strings',
-      'disable_comments',
-      'remove_wp_version',
-      'remove_dns_prefetch',
-      'disable_dashicons_frontend',
-      'disable_file_editing',
-      'reduce_heartbeat_frequency',
-      'disable_gravatar',
-      'remove_capital_p_dangit',
-      'disable_automatic_updates',
-      'remove_theme_editor',
-      'enable_lazy_loading',
-      'enable_image_optimization',
-      'remove_default_image_sizes',
-    ];
-
-    foreach ($boolean_settings as $setting) {
-      if (isset($settings[$setting])) {
-        $sanitized[$setting] = (bool) $settings[$setting];
-      }
-    }
-
-    // Sanitize limit_post_revisions (integer)
-    if (isset($settings['limit_post_revisions'])) {
-      $revisions = (int) $settings['limit_post_revisions'];
-      $sanitized['limit_post_revisions'] = max(0, min(10, $revisions));
-    }
-
-    // Sanitize above_fold_image_limit (integer)
-    if (isset($settings['above_fold_image_limit'])) {
-      $limit = (int) $settings['above_fold_image_limit'];
-      $sanitized['above_fold_image_limit'] = max(1, min(5, $limit));
-    }
-
-    // Sanitize max_image_size (string)
-    if (isset($settings['max_image_size'])) {
-      $sanitized['max_image_size'] = in_array(
-        $settings['max_image_size'],
-        ['medium', 'large', 'full']
-      ) ? $settings['max_image_size'] : 'large';
-    }
-
-    // Merge with defaults to ensure all settings are present
-    return array_merge($defaults, $sanitized);
-  }
-
-  /**
-   * Check permissions for REST API
-   */
-  public function check_permissions(): bool
-  {
-    return current_user_can('manage_options');
-  }
-
-  /**
-   * Get current settings (helper method)
-   */
-  public function get_current_settings(): array
-  {
-    return get_option('sustainable_theme_settings', $this->get_default_settings());
   }
 
   /**
@@ -639,5 +609,13 @@ class Settings
   {
     $sanitized_settings = $this->sanitize_settings($settings);
     return update_option('sustainable_theme_settings', $sanitized_settings);
+  }
+
+  /**
+   * Check permissions for REST API
+   */
+  public function check_permissions(): bool
+  {
+    return current_user_can('manage_options');
   }
 }
