@@ -1,0 +1,115 @@
+/* Grid Awareness Visual Indicators */
+#grid-indicator {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+
+#grid-indicator:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.grid-indicator__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+  vertical-align: middle;
+  transition: background-color 0.3s ease;
+}
+
+.grid-indicator__status {
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: 500;
+}
+
+/* Grid intensity color classes */
+.grid-indicator.very-green .grid-indicator__dot {
+  background-color: #22c55e;
+}
+
+.grid-indicator.green .grid-indicator__dot {
+  background-color: #16a34a;
+}
+
+.grid-indicator.yellow .grid-indicator__dot {
+  background-color: #eab308;
+}
+
+.grid-indicator.orange .grid-indicator__dot {
+  background-color: #ea580c;
+}
+
+.grid-indicator.red .grid-indicator__dot {
+  background-color: #dc2626;
+}
+
+/* Intensity bar */
+.intensity-bar {
+  margin-top: 8px;
+  height: 4px;
+  background: #f3f4f6;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.intensity-bar__fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.intensity-bar.very-green .intensity-bar__fill {
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  width: 80%;
+}
+
+.intensity-bar.green .intensity-bar__fill {
+  background: linear-gradient(90deg, #16a34a, #15803d);
+  width: 60%;
+}
+
+.intensity-bar.yellow .intensity-bar__fill {
+  background: linear-gradient(90deg, #eab308, #ca8a04);
+  width: 40%;
+}
+
+.intensity-bar.orange .intensity-bar__fill {
+  background: linear-gradient(90deg, #ea580c, #c2410c);
+  width: 20%;
+}
+
+.intensity-bar.red .intensity-bar__fill {
+  background: linear-gradient(90deg, #dc2626, #b91c1c);
+  width: 10%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #grid-indicator {
+    top: 10px;
+    right: 10px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .grid-indicator__dot {
+    width: 10px;
+    height: 10px;
+    margin-right: 6px;
+  }
+}
