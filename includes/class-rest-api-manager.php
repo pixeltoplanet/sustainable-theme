@@ -149,6 +149,13 @@ class RestApiManager
       'callback' => [$this, 'reset_settings'],
       'permission_callback' => [$this, 'check_permissions'],
     ]);
+
+    // Route to test sustainability settings
+    register_rest_route('sustainable-theme/v1', '/test-settings', [
+      'methods' => 'GET',
+      'callback' => [$this, 'test_settings'],
+      'permission_callback' => [$this, 'check_permissions'],
+    ]);
   }
 
   /**
@@ -310,7 +317,7 @@ class RestApiManager
    * ```
    * 
    * @since 1.0.0
-   * @return WP_REST_Response JSON response with current settings
+   * @return \WP_REST_Response JSON response with current settings
    */
   public function get_settings(): \WP_REST_Response
   {
@@ -350,8 +357,8 @@ class RestApiManager
    * ```
    * 
    * @since 1.0.0
-   * @param WP_REST_Request $request The REST API request object
-   * @return WP_REST_Response JSON response with update status
+   * @param \WP_REST_Request $request The REST API request object
+   * @return \WP_REST_Response JSON response with update status
    */
   public function update_settings(\WP_REST_Request $request): \WP_REST_Response
   {
@@ -380,8 +387,8 @@ class RestApiManager
    * - **aggressive**: Maximum optimizations, best performance
    * 
    * @since 1.0.0
-   * @param WP_REST_Request $request The REST API request object
-   * @return WP_REST_Response JSON response with update status
+   * @param \WP_REST_Request $request The REST API request object
+   * @return \WP_REST_Response JSON response with update status
    */
   public function update_by_mode(\WP_REST_Request $request): \WP_REST_Response
   {
@@ -406,8 +413,8 @@ class RestApiManager
    * ```
    * 
    * @since 1.0.0
-   * @param WP_REST_Request $request The REST API request object
-   * @return WP_REST_Response JSON response with reset status
+   * @param \WP_REST_Request $request The REST API request object
+   * @return \WP_REST_Response JSON response with reset status
    */
   public function reset_settings(\WP_REST_Request $request): \WP_REST_Response
   {
@@ -442,7 +449,7 @@ class RestApiManager
    * ```
    * 
    * @since 1.0.0
-   * @return WP_REST_Response JSON response with recommended plugins
+   * @return \WP_REST_Response JSON response with recommended plugins
    */
   public function get_recommended_plugins(): \WP_REST_Response
   {
@@ -469,8 +476,8 @@ class RestApiManager
    * ```
    * 
    * @since 1.0.0
-   * @param WP_REST_Request $request The REST API request object
-   * @return WP_REST_Response JSON response with installation status
+   * @param \WP_REST_Request $request The REST API request object
+   * @return \WP_REST_Response JSON response with installation status
    */
   public function install_plugin(\WP_REST_Request $request): \WP_REST_Response
   {
@@ -495,8 +502,8 @@ class RestApiManager
    * ```
    * 
    * @since 1.0.0
-   * @param WP_REST_Request $request The REST API request object
-   * @return WP_REST_Response JSON response with activation status
+   * @param \WP_REST_Request $request The REST API request object
+   * @return \WP_REST_Response JSON response with activation status
    */
   public function activate_plugin(\WP_REST_Request $request): \WP_REST_Response
   {
@@ -528,8 +535,8 @@ class RestApiManager
    * - Detailed status reporting
    * 
    * @since 1.0.0
-   * @param WP_REST_Request $request The REST API request object
-   * @return WP_REST_Response JSON response with detailed installation status
+   * @param \WP_REST_Request $request The REST API request object
+   * @return \WP_REST_Response JSON response with detailed installation status
    */
   public function install_plugin_ajax(\WP_REST_Request $request): \WP_REST_Response
   {
@@ -563,12 +570,42 @@ class RestApiManager
    * ```
    * 
    * @since 1.0.0
-   * @param WP_REST_Request $request The REST API request object
-   * @return WP_REST_Response JSON response with filesystem access status
+   * @param \WP_REST_Request $request The REST API request object
+   * @return \WP_REST_Response JSON response with filesystem access status
    */
   public function check_filesystem_access(\WP_REST_Request $request): \WP_REST_Response
   {
     $result = $this->filesystem_manager->check_filesystem_access();
     return $this->format_response($result);
+  }
+
+  /**
+   * Test sustainability settings
+   * 
+   * Runs automated tests to verify all sustainability settings are working correctly.
+   * 
+   * @since 1.0.0
+   * @param \WP_REST_Request $request The REST API request object
+   * @return \WP_REST_Response JSON response with test results
+   */
+  public function test_settings(\WP_REST_Request $request): \WP_REST_Response
+  {
+    if (!class_exists('SustainableTheme\SustainabilityTester')) {
+      return $this->format_response([
+        'success' => false,
+        'message' => 'Sustainability tester class not found'
+      ], 500);
+    }
+
+    $tester = new \SustainableTheme\SustainabilityTester();
+    $results = $tester->run_all_tests();
+    $summary = $tester->get_summary();
+
+    return $this->format_response([
+      'success' => true,
+      'summary' => $summary,
+      'results' => $results,
+      'formatted_report' => $tester->get_formatted_report()
+    ]);
   }
 }
