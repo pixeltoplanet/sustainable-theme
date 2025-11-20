@@ -568,37 +568,6 @@ export default function SustainabilitySettingsPanel({
 
 						<ToggleControl
 							label={__(
-								"Disable File Editing - Security enhancement",
-								"sustainable-theme",
-							)}
-							checked={settings.disable_file_editing}
-							disabled={settings.sustainability_mode !== "custom"}
-							onChange={(value) =>
-								onSettingChange("disable_file_editing", value)
-							}
-							help={__(
-								"Prevents file editing through WordPress admin, improving security and reducing admin overhead.",
-								"sustainable-theme",
-							)}
-							className="sustainable-theme-settings-modal-toggle-control"
-						/>
-
-						<ToggleControl
-							label={__("Remove Theme Editor", "sustainable-theme")}
-							checked={settings.remove_theme_editor}
-							disabled={settings.sustainability_mode !== "custom"}
-							onChange={(value) =>
-								onSettingChange("remove_theme_editor", value)
-							}
-							help={__(
-								"Completely removes the theme editor from the admin area.",
-								"sustainable-theme",
-							)}
-							className="sustainable-theme-settings-modal-toggle-control"
-						/>
-
-						<ToggleControl
-							label={__(
 								"Disable Auto Updates - Manual control",
 								"sustainable-theme",
 							)}

@@ -271,12 +271,6 @@ class Settings
               'disable_dashicons_frontend' => ['type' => 'boolean', 'default' => false],
 
               /**
-               * FILE EDITING SECURITY - Disables file editing in WordPress admin
-               * @link https://wordpress.org/support/article/editing-files/#file-editing-via-dashboard
-               */
-              'disable_file_editing' => ['type' => 'boolean', 'default' => false],
-
-              /**
                * HEARTBEAT FREQUENCY OPTIMIZATION - Reduces Heartbeat frequency from 15-60s to 120s
                * @link https://developer.wordpress.org/reference/hooks/heartbeat_settings/
                */
@@ -299,12 +293,6 @@ class Settings
                * @link https://developer.wordpress.org/reference/hooks/automatic_updater_disabled/
                */
               'disable_automatic_updates' => ['type' => 'boolean', 'default' => false],
-
-              /**
-               * THEME EDITOR REMOVAL - Removes theme editor from admin area
-               * @link https://wordpress.org/support/article/editing-files/#file-editing-via-dashboard
-               */
-              'remove_theme_editor' => ['type' => 'boolean', 'default' => false],
 
               /**
                * LAZY LOADING OPTIMIZATION - Enables native lazy loading for images
@@ -426,12 +414,10 @@ class Settings
       'remove_wp_version' => false,
       'remove_dns_prefetch' => false,
       'disable_dashicons_frontend' => false,
-      'disable_file_editing' => false,
       'reduce_heartbeat_frequency' => false,
       'disable_gravatar' => false,
       'remove_capital_p_dangit' => false,
       'disable_automatic_updates' => false,
-      'remove_theme_editor' => false,
       // Lazy loading settings
       'enable_lazy_loading' => false,
       'above_fold_image_limit' => 2,
@@ -464,9 +450,7 @@ class Settings
           'disable_heartbeat' => false,
           'limit_post_revisions' => 5,
           'remove_query_strings' => true,
-          'disable_file_editing' => true,
           'remove_capital_p_dangit' => true,
-          'remove_theme_editor' => true,
           // Base mode lazy loading
           'enable_lazy_loading' => true,
           'above_fold_image_limit' => 2,
@@ -502,12 +486,10 @@ class Settings
           'remove_wp_version' => true,
           'remove_dns_prefetch' => true,
           'disable_dashicons_frontend' => true,
-          'disable_file_editing' => true,
           'reduce_heartbeat_frequency' => true,
           'disable_gravatar' => true,
           'remove_capital_p_dangit' => true,
           'disable_automatic_updates' => true,
-          'remove_theme_editor' => true,
           // Super mode lazy loading
           'enable_lazy_loading' => true,
           'above_fold_image_limit' => 1,
