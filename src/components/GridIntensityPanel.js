@@ -101,7 +101,7 @@ export default function GridIntensityPanel({
 				)}
 			</Text>
 
-			<div style={{ marginBottom: "20px" }}>
+			<div>
 				<ToggleControl
 					label={__("Enable Grid Awareness", "sustainable-theme")}
 					checked={false}
@@ -115,43 +115,6 @@ export default function GridIntensityPanel({
 			</div>
 
 			{/* API Key input is disabled - feature coming soon */}
-
-			{!isEnabled && (
-				<div style={{ marginTop: "16px" }}>
-					<div style={{
-						backgroundColor: "#fef3c7",
-						border: "1px solid #f59e0b",
-						borderRadius: "6px",
-						padding: "16px",
-						marginBottom: "12px"
-					}}>
-						<Text style={{ 
-							fontWeight: "bold", 
-							color: "#92400e",
-							marginBottom: "8px"
-						}}>
-							🚧 {__("Coming Soon", "sustainable-theme")}
-						</Text>
-						<Text style={{ 
-							fontStyle: "italic", 
-							color: "#92400e",
-							fontSize: "14px"
-						}}>
-							{__(
-								"Grid awareness is currently in development. This feature will allow your website to adapt based on local electricity grid conditions, showing more features when renewable energy is high and going into eco-mode when it's low.",
-								"sustainable-theme",
-							)}
-						</Text>
-					</div>
-					<Text style={{ fontStyle: "italic", color: "#6b7280" }}>
-						{__(
-							"Grid awareness is currently disabled. This feature will be available in a future update.",
-							"sustainable-theme",
-						)}
-					</Text>
-				</div>
-			)}
-
 			{/* Grid Status section is hidden - feature coming soon */}
 		</PanelBody>
 	);

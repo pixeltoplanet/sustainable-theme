@@ -4,6 +4,7 @@
   --wp-admin-theme-color: #3858e9;
   --wp-components-color-accent: #3858e9;
   --sustainable-theme-color-border: #ccc;
+  --sustainable-mode-selector-width: 350px;
 }
 
 .sustainable-theme-page-wrapper {
@@ -24,26 +25,30 @@
 
 .sustainable-theme-radio-group-vertical {
 
+
   & .components-radio-control__group-wrapper {
-    display: flex;
+    display: grid;
+    border: 1px solid var(--sustainable-theme-color-border);
     gap: 1rem;
-    flex-direction: row;
-    flex-wrap: wrap;
+
     justify-content: flex-start;
+
+    @media(min-width: 782px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
 
   }
 
   & .components-radio-control__option {
     padding: 8px;
-    border: 1px solid var(--sustainable-theme-color-border);
-    width: 350px;
-    max-width: 350px;
+    border: 2px solid transparent;
+
     font-size: 16px;
 
 
     &:has(input:checked) {
       border-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
-
+      background-color: color-mix(in srgb, var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9)) 10%, transparent);
     }
   }
 
@@ -72,4 +77,14 @@
   &:disabled {
     cursor: not-allowed;
   }
+}
+
+.sustainable-theme-settings-modal-toggle-control {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--sustainable-theme-color-border);
+}
+
+.sustainable-theme-open-modal-button {
+  justify-self: start;
+  align-self: start;
 }
