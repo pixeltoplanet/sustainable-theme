@@ -7,6 +7,7 @@ module.exports = {
 		admin: path.resolve(process.cwd(), "src", "admin.js"),
 		"design-admin": path.resolve(process.cwd(), "src", "design-admin.js"),
 		"sustainability-admin": path.resolve(process.cwd(), "src", "sustainability-admin.js"),
+		settings: path.resolve(process.cwd(), "src", "settings.js"),
 		frontend: path.resolve(process.cwd(), "src", "frontend.js"),
 		"frontend-styles": path.resolve(
 			process.cwd(),

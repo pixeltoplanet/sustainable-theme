@@ -1,5 +1,5 @@
 import { createRoot } from "@wordpress/element";
-import AdminPage from "./views/AdminPage";
+import SustainabilityPage from "./views/SustainabilityPage";
 import "./styles/admin.scss";
 import "./lib/grid-awareness.ts";
 
@@ -14,6 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	const adminRoot = document.getElementById("sustainable-theme-page-root");
 	if (adminRoot) {
 		const root = createRoot(adminRoot);
-		root.render(<AdminPage />);
+		root.render(<SustainabilityPage />);
 	}
 });
