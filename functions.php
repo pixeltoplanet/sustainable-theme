@@ -17,6 +17,9 @@ define('SUSTAINABLE_THEME_URL', get_template_directory_uri());
 
 include_once get_template_directory() . '/includes/class-admin.php';
 include_once get_template_directory() . '/includes/class-settings.php';
+include_once get_template_directory() . '/includes/class-plugin-manager.php';
+include_once get_template_directory() . '/includes/class-filesystem-manager.php';
+include_once get_template_directory() . '/includes/class-rest-api-manager.php';
 include_once get_template_directory() . '/includes/class-sustainability-optimizer.php';
 include_once get_template_directory() . '/includes/class-database.php';
 include_once get_template_directory() . '/includes/class-lazy-loading.php';
@@ -49,3 +52,5 @@ function sustainable_theme_enqueue_frontend_styles()
   );
 }
 add_action('wp_enqueue_scripts', 'sustainable_theme_enqueue_frontend_styles');
+
+// print_r($_SERVER['SERVER_SOFTWARE']);

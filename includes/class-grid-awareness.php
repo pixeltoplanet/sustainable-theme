@@ -6,38 +6,10 @@ namespace SustainableTheme;
  * Grid Awareness Class
  * 
  * Integrates with @greenweb/grid-aware-websites package to provide real-time
- * carbon intensity data and grid awareness functionality for WordPress themes.
- * 
- * ## How It Works
- * 
- * ### JavaScript Integration (@greenweb/grid-aware-websites)
- * The frontend JavaScript uses the @greenweb/grid-aware-websites package which:
- * - Fetches real-time carbon intensity data from Electricity Maps API
- * - Compares current grid intensity with annual averages
- * - Returns grid awareness status (clean/dirty) and intensity levels
- * - Provides 3 intensity levels: "low", "moderate", "high"
- * 
- * ### PHP Backend Integration
- * This class provides:
- * - Secure server-side API key handling (never exposed to frontend)
- * - REST API endpoint for frontend JavaScript consumption
- * - Fallback data when API is unavailable
- * - Development mode with sample data
- * - Helper functions for other plugins/themes
- * 
- * ### Data Flow
- * 1. Frontend JavaScript calls our REST API endpoint
- * 2. PHP class fetches data from Electricity Maps API (server-side)
- * 3. Data is processed and returned to frontend
- * 4. Frontend updates UI elements and body classes
+ * carbon intensity data and grid awareness functionality.
  * 
  * @package SustainableTheme
  * @since 1.0.0
- * 
- * @link https://developer.wordpress.org/reference/functions/wp_remote_get/
- * @link https://developer.wordpress.org/reference/functions/rest_ensure_response/
- * @link https://www.npmjs.com/package/@greenweb/grid-aware-websites
- * @link https://api-portal.electricitymaps.com/
  */
 class GridAwareness
 {
@@ -60,11 +32,8 @@ class GridAwareness
   /**
    * Initialize grid awareness functionality
    * 
-   * Sets up WordPress hooks for:
-   * - Script/style enqueuing (conditional on settings)
-   * - REST API endpoint registration
-   * - Meta tag injection for development mode
-   * - Settings change monitoring
+   * Sets up WordPress hooks for script enqueuing, REST API registration,
+   * and settings monitoring.
    * 
    * @since 1.0.0
    */
@@ -89,14 +58,7 @@ class GridAwareness
   /**
    * Enqueue grid awareness scripts and styles conditionally
    * 
-   * Only enqueues resources when:
-   * - Grid awareness is enabled in settings
-   * - API key is provided (or in development mode)
-   * 
-   * Enqueues:
-   * - Frontend JavaScript (grid-awareness.js)
-   * - Grid-aware CSS styles
-   * - Localized settings (without API key for security)
+   * Only enqueues resources when grid awareness is enabled and API key is provided.
    * 
    * @since 1.0.0
    * @return void
@@ -132,7 +94,6 @@ class GridAwareness
    * Add grid awareness meta tags to HTML head
    * 
    * Adds development mode indicator meta tag when in development environment.
-   * This helps with debugging and identifies when sample data is being used.
    * 
    * @since 1.0.0
    * @return void
@@ -147,11 +108,7 @@ class GridAwareness
   /**
    * Register REST API routes for grid awareness
    * 
-   * Registers the `/wp-json/sustainable-theme/v1/grid-status` endpoint
-   * that provides grid intensity data to frontend JavaScript and other plugins.
-   * 
-   * Endpoint is publicly accessible (no authentication required) as it only
-   * returns safe, non-sensitive grid data.
+   * Registers the grid status endpoint for frontend JavaScript consumption.
    * 
    * @since 1.0.0
    * @return void
@@ -171,14 +128,9 @@ class GridAwareness
    * Get grid status and statistics via REST API
    * 
    * Main REST API endpoint that returns current grid intensity data.
-   * Used by frontend JavaScript and other plugins to get real-time
-   * carbon intensity information.
    * 
    * @since 1.0.0
-   * @return \WP_REST_Response JSON response with grid data:
-   *   - success: bool - Whether request was successful
-   *   - data: array - Grid intensity data (see get_grid_intensity_data())
-   *   - development: bool - Whether in development mode
+   * @return \WP_REST_Response JSON response with grid data
    */
   public function get_grid_status(): \WP_REST_Response
   {
@@ -203,24 +155,10 @@ class GridAwareness
   /**
    * Helper function for other plugins to get grid status
    * 
-   * Provides direct PHP access to grid status data without requiring
-   * HTTP requests. More efficient than REST API for server-side usage.
+   * Provides direct PHP access to grid status data without requiring HTTP requests.
    * 
    * @since 1.0.0
-   * @return array Same format as REST API response:
-   *   - success: bool - Whether data was retrieved successfully
-   *   - data: array - Grid intensity data (see get_grid_intensity_data())
-   *   - development: bool - Whether in development mode
-   * 
-   * @example
-   * ```php
-   * $grid_data = SustainableTheme\GridAwareness::get_grid_status_for_plugin();
-   * if ($grid_data['success']) {
-   *     $intensity = $grid_data['data']['grid_intensity'];
-   *     $label = $grid_data['data']['grid_intensity_label'];
-   *     echo "Grid is {$label} ({$intensity}% clean)";
-   * }
-   * ```
+   * @return array Grid status data with success status and grid information
    */
   public static function get_grid_status_for_plugin(): array
   {

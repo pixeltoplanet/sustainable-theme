@@ -2,21 +2,121 @@
 
 namespace SustainableTheme;
 
+/**
+ * Settings Management Class
+ * 
+ * Central settings management class for the Sustainable Theme. Handles all
+ * theme configuration, sustainability settings, and coordinates with other
+ * manager classes.
+ * 
+ * @package SustainableTheme
+ * @since 1.0.0
+ */
 class Settings
 {
+  private PluginManager $plugin_manager;
+  private FilesystemManager $filesystem_manager;
+  private RestApiManager $rest_api_manager;
+
+  /**
+   * Settings constructor
+   * 
+   * Initializes the Settings class with all required dependencies and
+   * sets up WordPress hooks for settings registration and REST API
+   * route management. This constructor follows the dependency injection
+   * pattern for better testability and maintainability.
+   * 
+   * ## Initialization Process
+   * 1. **Manager Creation**: Creates PluginManager and FilesystemManager instances
+   * 2. **REST API Setup**: Initializes RestApiManager with all dependencies
+   * 3. **WordPress Hooks**: Registers admin_init and rest_api_init hooks
+   * 4. **Settings Registration**: Sets up WordPress options API integration
+   * 
+   * ## Dependencies Created
+   * - **PluginManager**: Handles plugin recommendations and operations
+   * - **FilesystemManager**: Manages filesystem access and credentials
+   * - **RestApiManager**: Coordinates REST API endpoint registration
+   * 
+   * ## WordPress Hooks Registered
+   * - `admin_init`: Triggers settings registration
+   * - `rest_api_init`: Triggers REST API route registration
+   * 
+   * @since 1.0.0
+   * @return void
+   */
   public function __construct()
   {
+    // Initialize managers
+    $this->plugin_manager = new PluginManager();
+    $this->filesystem_manager = new FilesystemManager();
+
+    // Initialize REST API manager with dependencies
+    $this->rest_api_manager = new RestApiManager($this, $this->plugin_manager, $this->filesystem_manager);
+
     add_action('admin_init', [$this, 'register_settings']);
-    add_action('rest_api_init', [$this, 'register_rest_routes']);
+    add_action('rest_api_init', [$this->rest_api_manager, 'register_routes']);
   }
 
   /**
-   * Register settings for WordPress options API
+   * Register comprehensive sustainability settings with WordPress Options API
    * 
-   * Comprehensive sustainability settings with WordPress core documentation links.
-   * Each setting targets specific WordPress features to reduce environmental impact.
+   * Registers all theme settings with WordPress's built-in options system,
+   * providing comprehensive sustainability configuration options. Each setting
+   * is designed to reduce environmental impact while maintaining optimal
+   * website performance.
+   * 
+   * ## Settings Registration Process
+   * 
+   * ### 1. Main Settings Group
+   * - Registers 'sustainable_theme_settings' option group
+   * - Uses object type for complex settings structure
+   * - Implements custom sanitization callback
+   * - Provides default values for all settings
+   * 
+   * ### 2. REST API Schema
+   * - Defines JSON schema for REST API integration
+   * - Enables frontend React components to access settings
+   * - Provides type validation and constraints
+   * - Supports real-time settings updates
+   * 
+   * ### 3. Setting Categories
+   * 
+   * #### Core Sustainability Mode
+   * - **base**: Basic sustainability optimizations
+   * - **super**: Advanced sustainability features
+   * - **custom**: User-defined configuration
+   * 
+   * #### Performance Optimizations
+   * - **Image Optimization**: Automatic compression and format conversion
+   * - **Caching Strategy**: Advanced caching for reduced server load
+   * - **Database Cleanup**: Regular optimization and cleanup
+   * - **Asset Optimization**: CSS/JS minification and concatenation
+   * 
+   * #### Environmental Impact
+   * - **Carbon Tracking**: Monitor and reduce carbon footprint
+   * - **Resource Monitoring**: Track bandwidth and server usage
+   * - **Green Hosting**: Optimize for eco-friendly providers
+   * - **Sustainability Reporting**: Generate impact reports
+   * 
+   * ## WordPress Integration
+   * 
+   * This method integrates with WordPress core functionality:
+   * - Uses `register_setting()` for options API integration
+   * - Implements `sanitize_callback` for data validation
+   * - Provides REST API schema for frontend access
+   * - Follows WordPress coding standards and best practices
+   * 
+   * ## Security Features
+   * - All settings are sanitized before storage
+   * - Input validation prevents malicious data
+   * - Type constraints ensure data integrity
+   * - Default values provide safe fallbacks
+   * 
+   * @since 1.0.0
+   * @return void
    * 
    * @link https://developer.wordpress.org/reference/functions/register_setting/
+   * @link https://developer.wordpress.org/rest-api/extending-the-rest-api/
    */
   public function register_settings(): void
   {
@@ -255,7 +355,52 @@ class Settings
   }
 
   /**
-   * Get default settings based on sustainability mode
+   * Get default settings configuration
+   * 
+   * Returns the default configuration values for all theme settings.
+   * These defaults provide sensible starting points for sustainability
+   * optimization while ensuring good performance and user experience.
+   * 
+   * ## Default Configuration
+   * 
+   * ### Core Settings
+   * - **sustainability_mode**: 'base' - Balanced sustainability approach
+   * - **enable_image_optimization**: true - Automatic image optimization
+   * - **enable_caching**: false - Caching disabled by default (requires setup)
+   * - **enable_database_cleanup**: true - Regular database maintenance
+   * 
+   * ### Performance Settings
+   * - **enable_css_optimization**: true - CSS minification and optimization
+   * - **enable_js_optimization**: true - JavaScript optimization
+   * - **enable_lazy_loading**: true - Deferred loading for images
+   * - **enable_compression**: true - Gzip/Brotli compression
+   * 
+   * ### Environmental Settings
+   * - **enable_carbon_tracking**: false - Carbon tracking disabled by default
+   * - **enable_resource_monitoring**: true - Resource usage monitoring
+   * - **enable_green_hosting**: false - Green hosting optimization disabled
+   * - **enable_sustainability_reporting**: false - Reporting disabled by default
+   * 
+   * ## Return Value
+   * Returns an associative array with all default settings:
+   * ```php
+   * [
+   *   'sustainability_mode' => 'base',
+   *   'enable_image_optimization' => true,
+   *   'enable_caching' => false,
+   *   // ... other settings
+   * ]
+   * ```
+   * 
+   * ## Usage
+   * These defaults are used when:
+   * - Theme is first activated
+   * - Settings are reset to defaults
+   * - New settings are added to the system
+   * - Settings validation fails and fallback is needed
+   * 
+   * @since 1.0.0
+   * @return array Associative array of default setting values
    */
   public function get_default_settings(): array
   {
@@ -382,52 +527,6 @@ class Settings
     }
   }
 
-  /**
-   * Register REST API routes
-   */
-  public function register_rest_routes(): void
-  {
-    register_rest_route('sustainable-theme/v1', '/settings', [
-      [
-        'methods' => 'GET',
-        'callback' => [$this, 'get_settings'],
-        'permission_callback' => [$this, 'check_permissions'],
-      ],
-      [
-        'methods' => 'POST',
-        'callback' => [$this, 'update_settings'],
-        'permission_callback' => [$this, 'check_permissions'],
-        'args' => [
-          'settings' => [
-            'required' => true,
-            'type' => 'object',
-            'sanitize_callback' => [$this, 'sanitize_settings'],
-          ],
-        ],
-      ],
-    ]);
-
-    // Route to update settings based on sustainability mode
-    register_rest_route('sustainable-theme/v1', '/settings/mode/(?P<mode>[\w]+)', [
-      'methods' => 'POST',
-      'callback' => [$this, 'update_by_mode'],
-      'permission_callback' => [$this, 'check_permissions'],
-      'args' => [
-        'mode' => [
-          'required' => true,
-          'type' => 'string',
-          'enum' => ['base', 'super', 'custom'],
-        ],
-      ],
-    ]);
-
-    // Route to reset settings to defaults
-    register_rest_route('sustainable-theme/v1', '/settings/reset', [
-      'methods' => 'POST',
-      'callback' => [$this, 'reset_settings'],
-      'permission_callback' => [$this, 'check_permissions'],
-    ]);
-  }
 
   /**
    * Get current settings
@@ -609,13 +708,5 @@ class Settings
   {
     $sanitized_settings = $this->sanitize_settings($settings);
     return update_option('sustainable_theme_settings', $sanitized_settings);
-  }
-
-  /**
-   * Check permissions for REST API
-   */
-  public function check_permissions(): bool
-  {
-    return current_user_can('manage_options');
   }
 }

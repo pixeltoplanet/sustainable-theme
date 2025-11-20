@@ -3,12 +3,13 @@
 namespace SustainableTheme;
 
 /**
- * Lazy Loading Class
+ * Lazy Loading Implementation Class
  * 
- * Implements native lazy loading for images with sustainability optimizations
+ * Implements native lazy loading for images with sustainability optimizations.
+ * Enhances WordPress's built-in lazy loading capabilities for better performance.
  * 
- * @link https://developer.wordpress.org/reference/functions/wp_img_tag_add_loading_attr/
- * @link https://developer.wordpress.org/reference/functions/get_avatar/
+ * @package SustainableTheme
+ * @since 1.0.0
  */
 class LazyLoading
 {
@@ -19,6 +20,11 @@ class LazyLoading
 
   /**
    * Initialize lazy loading functionality
+   * 
+   * Sets up WordPress hooks for native lazy loading implementation.
+   * 
+   * @since 1.0.0
+   * @return void
    */
   public function __construct()
   {

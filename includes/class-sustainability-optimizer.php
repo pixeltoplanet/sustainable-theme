@@ -7,10 +7,13 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Sustainability Optimizer
+ * Sustainability Optimizer Class
  * 
- * Comprehensive WordPress optimization for sustainability and performance.
- * Implements various techniques to reduce carbon footprint and improve efficiency.
+ * Comprehensive WordPress optimization system designed to reduce environmental
+ * impact while maintaining optimal performance.
+ * 
+ * @package SustainableTheme
+ * @since 1.0.0
  */
 class SustainabilityOptimizer
 {

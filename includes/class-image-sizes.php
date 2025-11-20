@@ -5,12 +5,13 @@ namespace SustainableTheme;
 defined('ABSPATH') || exit('Forbidden');
 
 /**
- * Image Sizes Class
+ * Image Sizes Management Class
  * 
- * Manages responsive image sizes for sustainability and performance
+ * Manages responsive image sizes for sustainability and performance optimization.
+ * Handles creation, modification, and removal of WordPress image sizes.
  * 
- * @link https://developer.wordpress.org/reference/functions/add_image_size/
- * @link https://developer.wordpress.org/reference/functions/remove_image_size/
+ * @package SustainableTheme
+ * @since 1.0.0
  */
 class Image_Sizes
 {
@@ -57,6 +58,11 @@ class Image_Sizes
 
   /**
    * Setup image sizes
+   * 
+   * Adds optimized image sizes and optionally removes default sizes.
+   * 
+   * @since 1.0.0
+   * @return void
    */
   public function setup()
   {
@@ -70,7 +76,7 @@ class Image_Sizes
 
   /**
    * Get sizes for a category
-   *
+   * 
    * @param string $category Size category ('small', 'medium', 'large', 'full')
    * @return array Array of size names for the category
    */
@@ -86,7 +92,7 @@ class Image_Sizes
 
   /**
    * Get the max size for a category
-   *
+   * 
    * @param string $category Size category ('small', 'medium', 'large', 'full')
    * @return string The maximum size name for this category
    */
@@ -102,6 +108,11 @@ class Image_Sizes
 
   /**
    * Add optimized image sizes
+   * 
+   * Creates responsive image sizes based on theme settings.
+   * 
+   * @since 1.0.0
+   * @return void
    */
   public function add_image_sizes()
   {
@@ -134,6 +145,11 @@ class Image_Sizes
 
   /**
    * Remove default image sizes for sustainability
+   * 
+   * Removes WordPress default image sizes to reduce storage and processing.
+   * 
+   * @since 1.0.0
+   * @return void
    */
   public function remove_default_image_sizes()
   {
@@ -148,6 +164,7 @@ class Image_Sizes
    * @param string $option_name Option name
    * @param mixed $old_value Old value
    * @param mixed $new_value New value
+   * @return void
    */
   public function update_settings(string $option_name, $old_value, $new_value): void
   {
