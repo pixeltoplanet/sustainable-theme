@@ -533,7 +533,26 @@ class Settings
    */
   public function get_settings(): \WP_REST_Response
   {
-    $settings = get_option('sustainable_theme_settings', $this->get_default_settings());
+    $stored_settings = get_option('sustainable_theme_settings', []);
+    $defaults = $this->get_default_settings();
+    
+    // Merge stored settings with defaults to ensure all settings are present
+    // This ensures boolean false values are preserved
+    $settings = array_merge($defaults, $stored_settings);
+    
+    // Normalize boolean values - ensure they're actual booleans, not strings
+    foreach ($settings as $key => $value) {
+      // Check if this is a boolean setting
+      if (isset($defaults[$key]) && is_bool($defaults[$key])) {
+        // Convert string representations to boolean
+        if (is_string($value)) {
+          $settings[$key] = in_array(strtolower($value), ['true', '1', 'yes', 'on']);
+        } else {
+          $settings[$key] = (bool) $value;
+        }
+      }
+    }
+    
     return new \WP_REST_Response($settings, 200);
   }
 

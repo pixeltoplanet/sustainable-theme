@@ -263,7 +263,8 @@ class SettingsValidator
     ];
 
     foreach ($boolean_settings as $setting) {
-      if (isset($settings[$setting])) {
+      // Use array_key_exists instead of isset to preserve false values
+      if (array_key_exists($setting, $settings)) {
         $value = $settings[$setting];
         // Handle various boolean representations
         if (is_string($value)) {
