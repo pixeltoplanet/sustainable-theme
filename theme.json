@@ -12,77 +12,77 @@
 			"defaultPalette": false,
 			"palette": [
 				{
-					"color": "#C9CFF7",
+					"color": "#E8F5E9",
 					"name": "Primary Background",
 					"slug": "primary-background"
 				},
 				{
-					"color": "#4A5EE5",
+					"color": "#2E7D32",
 					"name": "Primary",
 					"slug": "primary"
 				},
 				{
-					"color": "#0F132E",
+					"color": "#1B5E20",
 					"name": "Primary Foreground",
 					"slug": "primary-foreground"
 				},
 				{
-					"color": "#000000",
+					"color": "#FFF3E0",
 					"name": "Secondary Background",
 					"slug": "secondary-background"
 				},
 				{
-					"color": "#EDF9A8",
+					"color": "#E65100",
 					"name": "Secondary",
 					"slug": "secondary"
 				},
 				{
-					"color": "#000000",
+					"color": "#BF360C",
 					"name": "Secondary Foreground",
 					"slug": "secondary-foreground"
 				},
 				{
-					"color": "#CABBF5",
+					"color": "#E3F2FD",
 					"name": "Tertiary Background",
 					"slug": "tertiary-background"
 				},
 				{
-					"color": "#7B55E6",
+					"color": "#1976D2",
 					"name": "Tertiary",
 					"slug": "tertiary"
 				},
 				{
-					"color": "#19112E",
+					"color": "#0D47A1",
 					"name": "Tertiary Foreground",
 					"slug": "tertiary-foreground"
 				},
 				{
-					"color": "#ffffff",
+					"color": "#FFFFFF",
 					"name": "Background",
 					"slug": "background"
 				},
 				{
-					"color": "#010101",
+					"color": "#000000",
 					"name": "Foreground",
 					"slug": "foreground"
 				},
 				{
-					"color": "#7b7b7b",
+					"color": "#9E9E9E",
 					"name": "muted",
 					"slug": "muted"
 				},
 				{
-					"color": "#F8FAFC",
+					"color": "#F5F5F5",
 					"name": "Neutral background",
 					"slug": "neutral-background"
 				},
 				{
-					"color": "#aeafb0",
+					"color": "#757575",
 					"name": "Neutral",
 					"slug": "neutral"
 				},
 				{
-					"color": "#4a4b4c",
+					"color": "#212121",
 					"name": "Neutral foreground",
 					"slug": "neutral-foreground"
 				},
@@ -92,14 +92,14 @@
 					"slug": "black"
 				},
 				{
-					"color": "#ffffff",
+					"color": "#FFFFFF",
 					"name": "White",
 					"slug": "white"
 				}
 			]
 		},
 		"layout": {
-			"contentSize": "645px",
+			"contentSize": "900px",
 			"wideSize": "1340px"
 		},
 		"spacing": {
@@ -211,34 +211,9 @@
 			"title": "Header"
 		},
 		{
-			"area": "header",
-			"name": "vertical-header",
-			"title": "Vertical site header"
-		},
-		{
-			"area": "header",
-			"name": "header-large-title",
-			"title": "Header with large title"
-		},
-		{
 			"area": "footer",
 			"name": "footer",
 			"title": "Footer"
-		},
-		{
-			"area": "footer",
-			"name": "footer-columns",
-			"title": "Footer Columns"
-		},
-		{
-			"area": "footer",
-			"name": "footer-newsletter",
-			"title": "Footer Newsletter"
-		},
-		{
-			"area": "uncategorized",
-			"name": "sidebar",
-			"title": "Sidebar"
 		}
 	],
 	"customTemplates": [
