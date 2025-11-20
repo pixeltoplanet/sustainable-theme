@@ -89,6 +89,17 @@ export default function SustainabilitySettingsPanel({
 					size="large"
 				>
 					<div style={{ padding: "20px 0" }}>
+						{/* Display current sustainability mode */}
+						<div style={{ marginBottom: "20px", padding: "12px", backgroundColor: "#f0f6fc", borderRadius: "4px", border: "1px solid #c3dafe" }}>
+							<Text style={{ margin: 0 }}>
+								<strong>{__("Current Sustainability Mode:", "sustainable-theme")}</strong> {getModeDisplayName(settings.sustainability_mode)}
+							</Text>
+							{settings.sustainability_mode !== "custom" && (
+								<Text style={{ marginTop: "8px", fontSize: "13px", color: "#666" }}>
+									{__("These settings are controlled by your selected mode. Switch to Custom mode to modify individual settings.", "sustainable-theme")}
+								</Text>
+							)}
+						</div>
 			
 						<div
 							style={{

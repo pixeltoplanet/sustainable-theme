@@ -27,8 +27,10 @@ export default function SustainabilityPage() {
 		const loadSettingsData = async () => {
 			try {
 				const data = await loadSettings();
-					setSettings(data);
-					setOriginalSettings(data);
+				// Normalize settings to ensure all properties exist
+				const normalizedData = { ...getDefaultSettings(), ...data };
+				setSettings(normalizedData);
+				setOriginalSettings(normalizedData);
 			} catch (error) {
 				console.error("Failed to load settings:", error);
 			}
@@ -52,8 +54,10 @@ export default function SustainabilityPage() {
 				if (result.success) {
 					setSaveMessage(result.message);
 					setSaveStatus("success");
-					setSettings(result.settings);
-					setOriginalSettings(result.settings);
+					// Normalize saved settings to ensure all properties exist
+					const normalizedSaved = { ...getDefaultSettings(), ...result.settings };
+					setSettings(normalizedSaved);
+					setOriginalSettings(normalizedSaved);
 				} else {
 					setSaveMessage(result.message);
 					setSaveStatus("error");
@@ -136,16 +140,37 @@ export default function SustainabilityPage() {
 
 	const handleModeChange = (mode) => {
 		// Get the predefined settings for this mode
+		// Preserve grid awareness settings and API key when switching modes
+		const currentGridSettings = {
+			use_grid_awareness: settings.use_grid_awareness,
+			electricity_maps_api_key: settings.electricity_maps_api_key || "",
+		};
+		
 		const modeSettings = getModeSettings(mode, settings);
-		setSettings(modeSettings);
+		// Merge mode settings with preserved grid settings
+		const updatedSettings = {
+			...modeSettings,
+			...currentGridSettings,
+		};
+		
+		setSettings(updatedSettings);
 		// Don't update originalSettings here - let the user save to make it "official"
 	};
 
 	const handleSettingChange = (settingName, value) => {
-		setSettings((prev) => ({
-			...prev,
-			[settingName]: value,
-		}));
+		setSettings((prev) => {
+			const updated = {
+				...prev,
+				[settingName]: value,
+			};
+			// If manually changing a setting (except grid awareness which is allowed in any mode)
+			// and not in custom mode, switch to custom mode
+			const gridAwarenessSettings = ["use_grid_awareness", "electricity_maps_api_key"];
+			if (prev.sustainability_mode !== "custom" && !gridAwarenessSettings.includes(settingName)) {
+				updated.sustainability_mode = "custom";
+			}
+			return updated;
+		});
 	};
 
 

@@ -114,8 +114,8 @@ export const getModeSettings = (mode, currentSettings = {}) => {
 				...baseSettings,
 				sustainability_mode: "super",
 				dequeue_non_sustainable: true,
-				use_grid_awareness: false, // Don't enable by default - requires API key
-				electricity_maps_api_key: "", // Keep empty - user must add their own
+				use_grid_awareness: currentSettings.use_grid_awareness || false, // Preserve current grid awareness setting
+				electricity_maps_api_key: currentSettings.electricity_maps_api_key || "", // Preserve existing API key
 				disable_rss_feed: true,
 				disable_emojis: true,
 				remove_embeds: true,
@@ -164,10 +164,35 @@ export const getModeSettings = (mode, currentSettings = {}) => {
  * @returns {boolean} True if settings have changed
  */
 export const hasSettingsChanged = (settings, originalSettings) => {
-	if (!originalSettings) return false;
+	if (!originalSettings) {
+		// If no original settings, check if current settings differ from defaults
+		const defaults = getDefaultSettings();
+		return JSON.stringify(settings) !== JSON.stringify(defaults);
+	}
 	
-	// Deep comparison of settings objects
-	return JSON.stringify(settings) !== JSON.stringify(originalSettings);
+	// Normalize both objects by sorting keys and handling undefined/null
+	const normalize = (obj) => {
+		const normalized = {};
+		// Get all unique keys from both objects
+		const allKeys = new Set([...Object.keys(obj || {}), ...Object.keys(originalSettings || {})]);
+		
+		allKeys.forEach(key => {
+			const value = obj?.[key];
+			// Convert undefined to null for consistent comparison
+			normalized[key] = value === undefined ? null : value;
+		});
+		
+		// Sort keys for consistent stringification
+		return Object.keys(normalized).sort().reduce((acc, key) => {
+			acc[key] = normalized[key];
+			return acc;
+		}, {});
+	};
+	
+	const normalizedCurrent = normalize(settings);
+	const normalizedOriginal = normalize(originalSettings);
+	
+	return JSON.stringify(normalizedCurrent) !== JSON.stringify(normalizedOriginal);
 };
 
 /**
