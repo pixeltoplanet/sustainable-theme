@@ -68,6 +68,44 @@ export const saveSettings = async (settings) => {
 };
 
 /**
+ * Test sustainability settings via the WordPress REST API
+ * @returns {Promise<Object>} Test results
+ */
+export const testSettings = async () => {
+	try {
+		const response = await fetch("/wp-json/sustainable-theme/v1/test-settings", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				"X-WP-Nonce": window.wpApiSettings?.nonce || "",
+			},
+		});
+
+		if (response.ok) {
+			const data = await response.json();
+			return {
+				success: true,
+				summary: data.summary,
+				results: data.results,
+				formattedReport: data.formatted_report,
+			};
+		} else {
+			const errorData = await response.json();
+			return {
+				success: false,
+				message: errorData.message || "Failed to run tests.",
+			};
+		}
+	} catch (error) {
+		console.error("Failed to test settings:", error);
+		return {
+			success: false,
+			message: "An error occurred while testing settings.",
+		};
+	}
+};
+
+/**
  * Clean up database via the WordPress REST API
  * @returns {Promise<Object>} Response data
  */

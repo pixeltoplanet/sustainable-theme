@@ -54,10 +54,10 @@ class Logger
 
     // Format log entry
     $formatted_message = self::format_log_entry($log_entry);
-    
+
     // Write to WordPress error log
     error_log($formatted_message);
-    
+
     // Also store in custom log file if WP_DEBUG is enabled
     if (defined('WP_DEBUG') && WP_DEBUG) {
       self::write_to_file($log_entry);
@@ -134,7 +134,7 @@ class Logger
   private static function format_log_entry(array $log_entry): string
   {
     $context_str = !empty($log_entry['context']) ? ' ' . json_encode($log_entry['context']) : '';
-    
+
     return sprintf(
       '[%s] %s: %s%s',
       $log_entry['timestamp'],
@@ -151,7 +151,7 @@ class Logger
   {
     $log_file = WP_CONTENT_DIR . '/sustainable-theme.log';
     $formatted_message = self::format_log_entry($log_entry) . PHP_EOL;
-    
+
     file_put_contents($log_file, $formatted_message, FILE_APPEND | LOCK_EX);
   }
 
@@ -161,7 +161,7 @@ class Logger
   private static function get_client_ip(): string
   {
     $ip_keys = ['HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR'];
-    
+
     foreach ($ip_keys as $key) {
       if (array_key_exists($key, $_SERVER) === true) {
         foreach (explode(',', $_SERVER[$key]) as $ip) {
@@ -172,7 +172,7 @@ class Logger
         }
       }
     }
-    
+
     return $_SERVER['REMOTE_ADDR'] ?? 'unknown';
   }
 
@@ -182,11 +182,11 @@ class Logger
   public static function clear_logs(): bool
   {
     $log_file = WP_CONTENT_DIR . '/sustainable-theme.log';
-    
+
     if (file_exists($log_file)) {
       return unlink($log_file);
     }
-    
+
     return true;
   }
 
@@ -196,11 +196,11 @@ class Logger
   public static function get_log_size(): int
   {
     $log_file = WP_CONTENT_DIR . '/sustainable-theme.log';
-    
+
     if (file_exists($log_file)) {
       return filesize($log_file);
     }
-    
+
     return 0;
   }
 
@@ -210,15 +210,15 @@ class Logger
   public static function get_recent_logs(int $lines = 50): array
   {
     $log_file = WP_CONTENT_DIR . '/sustainable-theme.log';
-    
+
     if (!file_exists($log_file)) {
       return [];
     }
-    
+
     $log_content = file_get_contents($log_file);
     $log_lines = explode(PHP_EOL, $log_content);
     $log_lines = array_filter($log_lines); // Remove empty lines
-    
+
     return array_slice($log_lines, -$lines);
   }
 }
