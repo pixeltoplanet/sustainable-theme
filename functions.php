@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define theme constants
-define('SUSTAINABLE_THEME_VERSION', '1.0.0');
+define('SUSTAINABLE_THEME_VERSION', '0.1.0');
 define('SUSTAINABLE_THEME_DIR', get_template_directory());
 define('SUSTAINABLE_THEME_URL', get_template_directory_uri());
 
