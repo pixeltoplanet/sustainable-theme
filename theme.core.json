@@ -4,201 +4,143 @@
 	"settings": {
 		"appearanceTools": true,
 		"color": {
-			"background": true,
-			"text": true,
-			"link": true,
-			"defaultDuotone": true,
+			"defaultDuotone": false,
 			"defaultGradients": false,
 			"defaultPalette": false,
 			"palette": [
 				{
-					"color": "#E8F5E9",
-					"name": "Primary Background",
-					"slug": "primary-background"
-				},
-				{
-					"color": "#2E7D32",
-					"name": "Primary",
-					"slug": "primary"
-				},
-				{
-					"color": "#1B5E20",
-					"name": "Primary Foreground",
-					"slug": "primary-foreground"
-				},
-				{
-					"color": "#FFF3E0",
-					"name": "Secondary Background",
-					"slug": "secondary-background"
-				},
-				{
-					"color": "#E65100",
-					"name": "Secondary",
-					"slug": "secondary"
-				},
-				{
-					"color": "#BF360C",
-					"name": "Secondary Foreground",
-					"slug": "secondary-foreground"
-				},
-				{
-					"color": "#E3F2FD",
-					"name": "Tertiary Background",
-					"slug": "tertiary-background"
-				},
-				{
-					"color": "#1976D2",
-					"name": "Tertiary",
-					"slug": "tertiary"
-				},
-				{
-					"color": "#0D47A1",
-					"name": "Tertiary Foreground",
-					"slug": "tertiary-foreground"
-				},
-				{
 					"color": "#FFFFFF",
-					"name": "Background",
-					"slug": "background"
+					"name": "Base",
+					"slug": "base"
 				},
 				{
-					"color": "#000000",
-					"name": "Foreground",
-					"slug": "foreground"
+					"color": "#111111",
+					"name": "Contrast",
+					"slug": "contrast"
 				},
 				{
-					"color": "#9E9E9E",
-					"name": "muted",
-					"slug": "muted"
+					"color": "#FFEE58",
+					"name": "Accent 1",
+					"slug": "accent-1"
 				},
 				{
-					"color": "#F5F5F5",
-					"name": "Neutral background",
-					"slug": "neutral-background"
+					"color": "#F6CFF4",
+					"name": "Accent 2",
+					"slug": "accent-2"
 				},
 				{
-					"color": "#757575",
-					"name": "Neutral",
-					"slug": "neutral"
+					"color": "#503AA8",
+					"name": "Accent 3",
+					"slug": "accent-3"
 				},
 				{
-					"color": "#212121",
-					"name": "Neutral foreground",
-					"slug": "neutral-foreground"
+					"color": "#686868",
+					"name": "Accent 4",
+					"slug": "accent-4"
 				},
 				{
-					"color": "#000000",
-					"name": "Black",
-					"slug": "black"
+					"color": "#FBFAF3",
+					"name": "Accent 5",
+					"slug": "accent-5"
 				},
 				{
-					"color": "#FFFFFF",
-					"name": "White",
-					"slug": "white"
+					"color": "color-mix(in srgb, currentColor 20%, transparent)",
+					"name": "Accent 6",
+					"slug": "accent-6"
 				}
 			]
 		},
 		"layout": {
-			"contentSize": "900px",
-			"contentDefaultSize": "1140px",
-			"wideSize": "1240px"
+			"contentSize": "645px",
+			"wideSize": "1340px"
 		},
 		"spacing": {
 			"defaultSpacingSizes": false,
 			"spacingSizes": [
 				{
-					"name": "xs",
-					"size": "var(--spacing-xs)",
-					"slug": "xs"
+					"name": "Tiny",
+					"size": "10px",
+					"slug": "20"
 				},
 				{
-					"name": "sm",
-					"size": "var(--spacing-sm)",
-					"slug": "sm"
+					"name": "X-Small",
+					"size": "20px",
+					"slug": "30"
 				},
 				{
-					"name": "md",
-					"size": "var(--spacing-md)",
-					"slug": "md"
+					"name": "Small",
+					"size": "30px",
+					"slug": "40"
 				},
 				{
-					"name": "lg",
-					"size": "var(--spacing-lg)",
-					"slug": "lg"
+					"name": "Regular",
+					"size": "clamp(30px, 5vw, 50px)",
+					"slug": "50"
 				},
 				{
-					"name": "xl",
-					"size": "var(--spacing-xl)",
-					"slug": "xl"
+					"name": "Large",
+					"size": "clamp(30px, 7vw, 70px)",
+					"slug": "60"
 				},
 				{
-					"name": "2xl",
-					"size": "var(--spacing-2xl)",
-					"slug": "2xl"
+					"name": "X-Large",
+					"size": "clamp(50px, 7vw, 90px)",
+					"slug": "70"
 				},
 				{
-					"name": "3xl",
-					"size": "var(--spacing-3xl)",
-					"slug": "3xl"
-				},
-				{
-					"name": "4xl",
-					"size": "var(--spacing-4xl)",
-					"slug": "4xl"
-				},
-				{
-					"name": "5xl",
-					"size": "var(--spacing-5xl)",
-					"slug": "5xl"
-				},
-				{
-					"name": "6xl",
-					"size": "var(--spacing-6xl)",
-					"slug": "6xl"
+					"name": "XX-Large",
+					"size": "clamp(70px, 10vw, 140px)",
+					"slug": "80"
 				}
 			],
 			"units": ["%", "px", "em", "rem", "vh", "vw"]
 		},
 		"typography": {
-			"customFontSize": false,
 			"writingMode": true,
 			"defaultFontSizes": false,
 			"fluid": true,
-			"dropCap": false,
 			"fontSizes": [
 				{
-					"name": "Small copy",
-					"size": "0.8rem",
+					"fluid": false,
+					"name": "Small",
+					"size": "0.875rem",
+					"slug": "small"
+				},
+				{
 					"fluid": {
-						"min": "0.5rem",
-						"max": "0.9rem"
+						"max": "1.125rem",
+						"min": "1rem"
 					},
-					"slug": "sm"
-				},
-				{
-					"name": "Body text",
+					"name": "Medium",
 					"size": "1rem",
-					"slug": "md"
+					"slug": "medium"
 				},
 				{
-					"name": "Intro and large body text",
-					"size": "1.5rem",
-					"slug": "lg"
+					"fluid": {
+						"max": "1.375rem",
+						"min": "1.125rem"
+					},
+					"name": "Large",
+					"size": "1.38rem",
+					"slug": "large"
 				},
 				{
-					"name": "Heading",
-					"size": "2rem",
-					"slug": "xl"
+					"fluid": {
+						"max": "2rem",
+						"min": "1.75rem"
+					},
+					"name": "Extra Large",
+					"size": "1.75rem",
+					"slug": "x-large"
 				},
 				{
-					"name": "Large heading",
-					"size": "3rem",
-					"slug": "2xl"
-				},
-				{
-					"name": "Hero / marketing headings",
-					"size": "3.5rem",
-					"slug": "3xl"
+					"fluid": {
+						"max": "3rem",
+						"min": "2.15rem"
+					},
+					"name": "Extra Extra Large",
+					"size": "2.15rem",
+					"slug": "xx-large"
 				}
 			],
 			"fontFamilies": [
@@ -232,10 +174,9 @@
 						}
 					]
 				}
-			],
-			"fontStyle": true
+			]
 		},
-		"useRootPaddingAwareAlignments": false
+		"useRootPaddingAwareAlignments": true
 	},
 	"styles": {
 		"color": {
@@ -744,9 +685,34 @@
 			"title": "Header"
 		},
 		{
+			"area": "header",
+			"name": "vertical-header",
+			"title": "Vertical site header"
+		},
+		{
+			"area": "header",
+			"name": "header-large-title",
+			"title": "Header with large title"
+		},
+		{
 			"area": "footer",
 			"name": "footer",
 			"title": "Footer"
+		},
+		{
+			"area": "footer",
+			"name": "footer-columns",
+			"title": "Footer Columns"
+		},
+		{
+			"area": "footer",
+			"name": "footer-newsletter",
+			"title": "Footer Newsletter"
+		},
+		{
+			"area": "uncategorized",
+			"name": "sidebar",
+			"title": "Sidebar"
 		}
 	],
 	"customTemplates": [
