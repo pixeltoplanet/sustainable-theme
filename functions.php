@@ -52,7 +52,7 @@ function sustainable_theme_enqueue_frontend_styles()
     SUSTAINABLE_THEME_VERSION
   );
 }
-add_action('wp_enqueue_scripts', 'sustainable_theme_enqueue_frontend_styles');
+// add_action('wp_enqueue_scripts', 'sustainable_theme_enqueue_frontend_styles');
 
 /**
  * Limit file upload size to 1MB
@@ -67,7 +67,7 @@ function sustainable_theme_limit_upload_size()
 {
   // Set maximum upload size to 1MB (1048576 bytes)
   $max_size = 1048576; // 1MB
-  
+
   // Try to modify PHP upload settings (may not work if PHP is restricted)
   @ini_set('upload_max_filesize', '1M');
   @ini_set('post_max_size', '1M');
@@ -85,14 +85,14 @@ add_action('init', 'sustainable_theme_limit_upload_size');
 function sustainable_theme_validate_upload_size($file)
 {
   $max_size = 1048576; // 1MB
-  
+
   if (isset($file['size']) && $file['size'] > $max_size) {
     $file['error'] = sprintf(
       __('File is too large. Maximum upload size is %s.', 'sustainable-theme'),
       size_format($max_size)
     );
   }
-  
+
   return $file;
 }
 add_filter('wp_handle_upload_prefilter', 'sustainable_theme_validate_upload_size');

@@ -20,7 +20,8 @@ class RestApiManager
   /**
    * RestApiManager constructor
    * 
-   * Initializes the REST API manager with required dependencies.
+   * Initializes the REST API manager with required dependencies and sets up
+   * SSL/HTTPS support filters for REST API URLs.
    * 
    * @param Settings $settings Theme settings manager instance
    * @param PluginManager $plugin_manager Plugin operations manager instance
@@ -32,6 +33,34 @@ class RestApiManager
     $this->settings = $settings;
     $this->plugin_manager = $plugin_manager;
     $this->filesystem_manager = $filesystem_manager;
+
+    // Ensure REST API URLs use HTTPS when SSL is detected
+    add_filter('rest_url', [$this, 'force_https_rest_url'], 10, 2);
+  }
+
+  /**
+   * Force HTTPS for REST API URLs when SSL is detected
+   * 
+   * Fixes issues where WordPress doesn't detect HTTPS correctly behind proxies
+   * or SSL termination. This ensures REST API URLs always use HTTPS when
+   * the site is accessed via HTTPS.
+   * 
+   * @param string $url REST API URL
+   * @param string $path REST API path
+   * @return string Modified URL with HTTPS if SSL is detected
+   */
+  public function force_https_rest_url(string $url, string $path): string
+  {
+    // Check if we're behind a proxy/load balancer with SSL termination
+    $is_ssl = is_ssl() || 
+              (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ||
+              (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on');
+
+    if ($is_ssl && strpos($url, 'http://') === 0) {
+      $url = str_replace('http://', 'https://', $url);
+    }
+
+    return $url;
   }
 
   /**
@@ -90,6 +119,12 @@ class RestApiManager
    */
   public function register_routes(): void
   {
+    // Check if REST API is enabled
+    if (!function_exists('register_rest_route')) {
+      error_log("Sustainable Theme: REST API is not available");
+      return;
+    }
+
     error_log("Sustainable Theme: Registering REST API routes");
 
     // Settings routes
@@ -102,6 +137,7 @@ class RestApiManager
     $this->register_filesystem_routes();
 
     error_log("Sustainable Theme: REST API routes registered successfully");
+    error_log("Sustainable Theme: REST API base URL: " . rest_url('sustainable-theme/v1/'));
   }
 
   /**
@@ -155,6 +191,13 @@ class RestApiManager
       'methods' => 'GET',
       'callback' => [$this, 'test_settings'],
       'permission_callback' => [$this, 'check_permissions'],
+    ]);
+
+    // Debug route to verify REST API is working (public for troubleshooting)
+    register_rest_route('sustainable-theme/v1', '/debug', [
+      'methods' => 'GET',
+      'callback' => [$this, 'debug_info'],
+      'permission_callback' => '__return_true', // Public for troubleshooting
     ]);
   }
 
@@ -606,6 +649,60 @@ class RestApiManager
       'summary' => $summary,
       'results' => $results,
       'formatted_report' => $tester->get_formatted_report()
+    ]);
+  }
+
+  /**
+   * Debug endpoint to verify REST API is working
+   * 
+   * Provides diagnostic information about REST API registration, SSL detection,
+   * and permission checks. Useful for troubleshooting 404 errors.
+   * 
+   * @param \WP_REST_Request $request The REST API request object
+   * @return \WP_REST_Response Debug information
+   */
+  public function debug_info(\WP_REST_Request $request): \WP_REST_Response
+  {
+    global $wp_rest_server;
+    
+    $routes = [];
+    if ($wp_rest_server) {
+      $all_routes = $wp_rest_server->get_routes();
+      foreach ($all_routes as $route => $handlers) {
+        if (strpos($route, 'sustainable-theme/v1') !== false) {
+          $routes[$route] = array_keys($handlers);
+        }
+      }
+    }
+
+    $is_ssl = is_ssl() || 
+              (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ||
+              (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on');
+
+    $rest_url = rest_url('sustainable-theme/v1/');
+    if ($is_ssl && strpos($rest_url, 'http://') === 0) {
+      $rest_url = str_replace('http://', 'https://', $rest_url);
+    }
+
+    return $this->format_response([
+      'success' => true,
+      'message' => 'REST API debug information',
+      'data' => [
+        'rest_api_enabled' => function_exists('register_rest_route'),
+        'rest_api_base_url' => rest_url(),
+        'theme_api_url' => $rest_url,
+        'is_ssl' => $is_ssl,
+        'home_url' => home_url(),
+        'site_url' => site_url(),
+        'registered_routes' => $routes,
+        'current_user_id' => get_current_user_id(),
+        'user_can_manage_options' => current_user_can('manage_options'),
+        'server_vars' => [
+          'HTTPS' => $_SERVER['HTTPS'] ?? 'not set',
+          'HTTP_X_FORWARDED_PROTO' => $_SERVER['HTTP_X_FORWARDED_PROTO'] ?? 'not set',
+          'SERVER_PORT' => $_SERVER['SERVER_PORT'] ?? 'not set',
+        ],
+      ]
     ]);
   }
 }

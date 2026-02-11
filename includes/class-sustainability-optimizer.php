@@ -23,36 +23,46 @@ class SustainabilityOptimizer
   {
     // Load settings immediately
     $this->load_settings();
-    
+
     // Also reload on after_setup_theme to ensure fresh settings
     add_action('after_setup_theme', [$this, 'load_settings'], 1);
-    
+
     // Run optimizations that need to happen before WordPress registers actions
     add_action('after_setup_theme', [$this, 'early_optimizations'], 5);
-    
+
     // Run main optimizations on init
     add_action('init', [$this, 'init_optimizations'], 10);
-    
+
     // Frontend optimizations
     add_action('wp_enqueue_scripts', [$this, 'frontend_optimizations'], 100);
-    
+
     // Admin optimizations
     add_action('admin_init', [$this, 'admin_optimizations']);
   }
-  
+
+
+  /**
+   * Check if we're in a block editor context (site editor or post/page editor)
+   * 
+   * @return bool True if in block editor, false otherwise
+   */
+  private function is_block_editor(): bool
+  {
+    global $pagenow;
+    $editor_pages = ['site-editor.php', 'post.php', 'post-new.php'];
+    return in_array($pagenow, $editor_pages, true) || (function_exists('get_current_screen') && get_current_screen() && get_current_screen()->is_block_editor());
+  }
 
   /**
    * Early optimizations that need to run before WordPress registers actions
    */
   public function early_optimizations(): void
   {
-    global $pagenow;
-    
-    // Don't apply optimizations on site editor - it needs all its scripts/styles
-    if ($pagenow === 'site-editor.php') {
+    // Don't apply optimizations on block editor pages - they need all their scripts/styles
+    if ($this->is_block_editor()) {
       return;
     }
-    
+
     // Reload settings to ensure we have the latest
     $this->load_settings();
     // Disable emojis early (before WordPress registers them)
@@ -86,10 +96,8 @@ class SustainabilityOptimizer
    */
   public function init_optimizations(): void
   {
-    global $pagenow;
-    
-    // Don't apply optimizations on site editor - it needs all its scripts/styles
-    if ($pagenow === 'site-editor.php') {
+    // Don't apply optimizations on block editor pages - they need all their scripts/styles
+    if ($this->is_block_editor()) {
       return;
     }
     // Remove REST API output links
@@ -185,10 +193,8 @@ class SustainabilityOptimizer
    */
   public function frontend_optimizations(): void
   {
-    global $pagenow;
-    
-    // Don't apply optimizations on site editor - it needs all its scripts/styles
-    if ($pagenow === 'site-editor.php') {
+    // Don't apply optimizations on block editor pages - they need all their scripts/styles
+    if ($this->is_block_editor()) {
       return;
     }
 
@@ -224,13 +230,11 @@ class SustainabilityOptimizer
    */
   public function admin_optimizations(): void
   {
-    global $pagenow;
-    
-    // Don't apply optimizations on site editor - it needs all its scripts/styles
-    if ($pagenow === 'site-editor.php') {
+    // Don't apply optimizations on block editor pages - they need all their scripts/styles
+    if ($this->is_block_editor()) {
       return;
     }
-    
+
     // Reserved for future admin-specific optimizations
   }
 
@@ -334,13 +338,12 @@ class SustainabilityOptimizer
   }
 
   /**
-   * Disable heartbeat safely (excludes site editor)
+   * Disable heartbeat safely (excludes block editor pages)
    */
   public function disable_heartbeat_safely(): void
   {
-    global $pagenow;
-    // Don't disable heartbeat on site editor - it needs it to function
-    if ($pagenow === 'site-editor.php') {
+    // Don't disable heartbeat on block editor pages - they need it to function
+    if ($this->is_block_editor()) {
       return;
     }
     wp_deregister_script('heartbeat');

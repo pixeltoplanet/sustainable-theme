@@ -43,12 +43,13 @@ class AdminMenu
     // Always create main menu to ensure submenus work
     add_menu_page(
       __('Sustainable theme', 'sustainable'),
-      'Sustainable theme',
+      'Theme settings',
       'manage_options',
       'sustainable-theme',
       [$this, 'render_admin_page'],
-      $this->get_menu_icon_svg(),
-      30
+      'dashicons-admin-generic',
+      // $this->get_menu_icon_svg(),
+      999
     );
 
     // Always add theme settings submenu
@@ -163,12 +164,30 @@ class AdminMenu
   {
     // Only load on our admin pages
     $screen = get_current_screen();
-    if (!$screen || !in_array($screen->id, [
-      'toplevel_page_sustainable-theme',
-      'sustainable-theme_page_sustainable-theme-settings',
-      'sustainable-theme_page_sustainable-theme-design',
-      'sustainable-theme_page_sustainable-theme-sustainability'
-    ])) {
+
+    // Check screen ID or page parameter (WordPress redirects toplevel to first submenu)
+    $is_our_page = false;
+    if ($screen) {
+      $is_our_page = in_array($screen->id, [
+        'toplevel_page_sustainable-theme',
+        'sustainable-theme_page_sustainable-theme-settings',
+        'sustainable-theme_page_sustainable-theme-design',
+        'sustainable-theme_page_sustainable-theme-sustainability'
+      ], true);
+    }
+
+    // Also check by page parameter in case screen ID doesn't match
+    if (!$is_our_page && isset($_GET['page'])) {
+      $page = sanitize_text_field($_GET['page']);
+      $is_our_page = in_array($page, [
+        'sustainable-theme',
+        'sustainable-theme-settings',
+        'sustainable-theme-design',
+        'sustainable-theme-sustainability'
+      ], true);
+    }
+
+    if (!$is_our_page) {
       return;
     }
 
@@ -176,13 +195,48 @@ class AdminMenu
     wp_enqueue_style('wp-components');
 
     // Determine which script to load based on the current page
-    $script_name = 'admin'; // Default
-    if ($screen->id === 'sustainable-theme_page_sustainable-theme-design') {
-      $script_name = 'design-admin';
-    } elseif ($screen->id === 'sustainable-theme_page_sustainable-theme-sustainability') {
-      $script_name = 'sustainability-admin';
-    } elseif ($screen->id === 'sustainable-theme_page_sustainable-theme-settings') {
-      $script_name = 'settings';
+    $page = isset($_GET['page']) ? sanitize_text_field($_GET['page']) : '';
+
+    // Check screen ID first - this is most reliable for detecting toplevel vs submenu
+    // When WordPress redirects toplevel to first submenu, screen ID may still be toplevel
+    if ($screen) {
+      if ($screen->id === 'toplevel_page_sustainable-theme') {
+        // Toplevel page (even if redirected to first submenu URL)
+        $script_name = 'admin';
+      } elseif ($screen->id === 'sustainable-theme_page_sustainable-theme-settings') {
+        // Theme Settings submenu (explicit navigation)
+        $script_name = 'settings';
+      } elseif ($screen->id === 'sustainable-theme_page_sustainable-theme-design') {
+        $script_name = 'design-admin';
+      } elseif ($screen->id === 'sustainable-theme_page_sustainable-theme-sustainability') {
+        $script_name = 'sustainability-admin';
+      } else {
+        // Fallback to page parameter if screen ID doesn't match
+        if ($page === 'sustainable-theme') {
+          $script_name = 'admin';
+        } elseif ($page === 'sustainable-theme-settings') {
+          $script_name = 'settings';
+        } elseif ($page === 'sustainable-theme-design') {
+          $script_name = 'design-admin';
+        } elseif ($page === 'sustainable-theme-sustainability') {
+          $script_name = 'sustainability-admin';
+        } else {
+          $script_name = 'admin'; // Default fallback
+        }
+      }
+    } else {
+      // No screen object, use page parameter
+      if ($page === 'sustainable-theme') {
+        $script_name = 'admin';
+      } elseif ($page === 'sustainable-theme-settings') {
+        $script_name = 'settings';
+      } elseif ($page === 'sustainable-theme-design') {
+        $script_name = 'design-admin';
+      } elseif ($page === 'sustainable-theme-sustainability') {
+        $script_name = 'sustainability-admin';
+      } else {
+        $script_name = 'admin'; // Default fallback
+      }
     }
 
     $asset_file_path = SUSTAINABLE_THEME_DIR . "/build/{$script_name}.asset.php";
@@ -230,13 +284,23 @@ class AdminMenu
 
     // Localize script with nonce and REST API data
     $nonce = wp_create_nonce('wp_rest');
+    $rest_url = rest_url();
+    
+    // Ensure REST API URL uses HTTPS if site is accessed via HTTPS
+    if (is_ssl() || 
+        (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ||
+        (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')) {
+      $rest_url = str_replace('http://', 'https://', $rest_url);
+    }
+    
     error_log("Sustainable Theme: Created nonce: " . $nonce);
     error_log("Sustainable Theme: Current user ID: " . get_current_user_id());
     error_log("Sustainable Theme: User can manage options: " . (current_user_can('manage_options') ? 'true' : 'false'));
+    error_log("Sustainable Theme: REST API URL: " . $rest_url);
 
     wp_localize_script('sustainable-theme-admin', 'wpApiSettings', [
       'nonce' => $nonce,
-      'root' => esc_url_raw(rest_url()),
+      'root' => esc_url_raw($rest_url),
     ]);
 
     // Enqueue grid awareness script for admin

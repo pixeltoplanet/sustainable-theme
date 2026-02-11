@@ -115,6 +115,12 @@ class GridAwareness
    */
   public function register_rest_routes(): void
   {
+    // Check if REST API is enabled
+    if (!function_exists('register_rest_route')) {
+      error_log("Sustainable Theme: REST API is not available for grid-status route");
+      return;
+    }
+
     register_rest_route('sustainable-theme/v1', '/grid-status', [
       [
         'methods' => 'GET',
