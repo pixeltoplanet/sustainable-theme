@@ -10,7 +10,7 @@
  */
 
 ?>
-<!-- wp:group {"metadata":{"categories":["sustainable-theme","sustainable-theme/content"],"patternName":"sustainable-theme/content-simple-two-col","name":"Content simple two column"},"style":{"spacing":{"padding":{"top":"var:preset|spacing|fluid-large","bottom":"var:preset|spacing|fluid-large"},"blockGap":"var:preset|spacing|fluid-small"}},"layout":{"type":"constrained"}} -->
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|fluid-large","bottom":"var:preset|spacing|fluid-large"},"blockGap":"var:preset|spacing|fluid-small"}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group" style="padding-top:var(--wp--preset--spacing--fluid-large);padding-bottom:var(--wp--preset--spacing--fluid-large)"><!-- wp:group {"metadata":{"name":"Container"},"style":{"spacing":{"blockGap":"var:preset|spacing|fluid-small"}},"layout":{"type":"constrained"}} -->
   <div class="wp-block-group"><!-- wp:heading {"align":"full","className":"is-style-subtitle"} -->
     <h2 class="wp-block-heading alignfull is-style-subtitle">Our approach</h2>
