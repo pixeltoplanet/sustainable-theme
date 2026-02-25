@@ -1,0 +1,13 @@
+{
+	"$schema": "https://schemas.wp.org/wp/6.7/theme.json",
+	"version": 3,
+	"title": "Title",
+	"slug": "text-title",
+	"blockTypes": ["core/heading"],
+	"styles": {
+		"typography": {
+			"fontSize": "var:preset|font-size|xxl",
+			"lineHeight": "0.9"
+		}
+	}
+}

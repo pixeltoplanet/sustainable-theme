@@ -18,6 +18,12 @@ module.exports = {
 			"styles",
 			"grid-aware.scss",
 		),
+		"editor-styles": path.resolve(
+			process.cwd(),
+			"src",
+			"styles",
+			"editor.scss",
+		),
 	},
 	output: {
 		path: path.resolve(process.cwd(), "build"),

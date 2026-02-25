@@ -22,6 +22,7 @@ include_once get_template_directory() . '/includes/class-database.php';
 include_once get_template_directory() . '/includes/class-lazy-loading.php';
 include_once get_template_directory() . '/includes/class-image-sizes.php';
 include_once get_template_directory() . '/includes/class-grid-awareness.php';
+include_once get_template_directory() . '/includes/class-block-patterns.php';
 
 // Initialize the classes
 new SustainableTheme\Settings();
@@ -31,6 +32,7 @@ new SustainableTheme\Database();
 new SustainableTheme\LazyLoading();
 new SustainableTheme\Image_Sizes();
 new SustainableTheme\GridAwareness();
+new SustainableTheme\BlockPatterns();
 
 /**
  * Enqueue main frontend styles
@@ -45,3 +47,12 @@ function sustainable_theme_enqueue_frontend_styles()
   );
 }
 add_action('wp_enqueue_scripts', 'sustainable_theme_enqueue_frontend_styles');
+
+/**
+ * Enqueue editor styles for both site editor and block editor
+ */
+function sustainable_theme_enqueue_editor_styles()
+{
+  add_editor_style('build/editor-styles.css');
+}
+add_action('after_setup_theme', 'sustainable_theme_enqueue_editor_styles');
