@@ -11,8 +11,17 @@
 ?>
 <!-- wp:group {"align":"full","className":"is-style-default","style":{"spacing":{"padding":{"top":"var:preset|spacing|fluid-x-large","bottom":"var:preset|spacing|fluid-x-large"}}},"backgroundColor":"neutral-1","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull is-style-default has-neutral-1-background-color has-background" style="padding-top:var(--wp--preset--spacing--fluid-x-large);padding-bottom:var(--wp--preset--spacing--fluid-x-large)"><!-- wp:columns {"align":"wide","className":"is-style-default","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|fluid-large","left":"var:preset|spacing|fluid-large"}}}} -->
-  <div class="wp-block-columns alignwide is-style-default"><!-- wp:column {"verticalAlignment":"center","width":"","style":{"spacing":{"blockGap":"var:preset|spacing|fluid-medium"}}} -->
-    <div class="wp-block-column is-vertically-aligned-center"><!-- wp:heading {"className":"wp-block-heading is-style-text-title"} -->
+  <div class="wp-block-columns alignwide is-style-default">
+    <!-- wp:column {"verticalAlignment":"center","width":"","layout":{"type":"default"}} -->
+    <div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"id":217,"aspectRatio":"1","scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
+      <figure class="wp-block-image size-full"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/color-green-light.webp" alt="" class="wp-image-217" style="aspect-ratio:1;object-fit:cover" /></figure>
+      <!-- /wp:image -->
+    </div>
+    <!-- /wp:column -->
+
+    <!-- wp:column {"verticalAlignment":"center","width":"","style":{"spacing":{"blockGap":"var:preset|spacing|fluid-medium"}}} -->
+    <div class="wp-block-column is-vertically-aligned-center">
+      <!-- wp:heading {"className":"wp-block-heading is-style-text-title"} -->
       <h2 class="wp-block-heading is-style-text-title">About the book</h2>
       <!-- /wp:heading -->
 
@@ -29,12 +38,7 @@
     </div>
     <!-- /wp:column -->
 
-    <!-- wp:column {"verticalAlignment":"center","width":"","layout":{"type":"default"}} -->
-    <div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"id":217,"aspectRatio":"1","scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
-      <figure class="wp-block-image size-full"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/color-blue.webp" alt="" class="wp-image-217" style="aspect-ratio:1;object-fit:cover" /></figure>
-      <!-- /wp:image -->
-    </div>
-    <!-- /wp:column -->
+
   </div>
   <!-- /wp:columns -->
 </div>
