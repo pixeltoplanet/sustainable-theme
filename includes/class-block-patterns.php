@@ -59,5 +59,17 @@ class BlockPatterns
       'label'       => __('Sustainable Theme / Header', 'sustainable-theme'),
       'description' => __('Header patterns for Sustainable Theme.', 'sustainable-theme'),
     ]);
+    register_block_pattern_category('sustainable-theme/footer', [
+      'label'       => __('Sustainable Theme / Footer', 'sustainable-theme'),
+      'description' => __('Footer patterns for Sustainable Theme.', 'sustainable-theme'),
+    ]);
+    register_block_pattern_category('sustainable-theme/gallery', [
+      'label'       => __('Sustainable Theme / Gallery', 'sustainable-theme'),
+      'description' => __('Gallery and image layout patterns.', 'sustainable-theme'),
+    ]);
+    register_block_pattern_category('sustainable-theme/cta', [
+      'label'       => __('Sustainable Theme / CTA', 'sustainable-theme'),
+      'description' => __('Call to action patterns.', 'sustainable-theme'),
+    ]);
   }
 }
