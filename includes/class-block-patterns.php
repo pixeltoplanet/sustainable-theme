@@ -55,5 +55,9 @@ class BlockPatterns
       'label'       => __('Sustainable Theme / Hero', 'sustainable-theme'),
       'description' => __('Hero patterns for Sustainable Theme.', 'sustainable-theme'),
     ]);
+    register_block_pattern_category('sustainable-theme/header', [
+      'label'       => __('Sustainable Theme / Header', 'sustainable-theme'),
+      'description' => __('Header patterns for Sustainable Theme.', 'sustainable-theme'),
+    ]);
   }
 }
