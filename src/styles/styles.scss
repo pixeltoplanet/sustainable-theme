@@ -31,7 +31,7 @@ body {
 
   .wp-block-post-template,
   .wp-block-query .wp-block-post-template {
-    // display: block !important;
+    display: block !important;
     column-count: 3;
     column-gap: var(--wp--preset--spacing--fluid-small, 1.5rem);
     list-style: none;
@@ -59,5 +59,115 @@ body {
     height: auto;
     display: block;
     vertical-align: bottom;
+  }
+}
+
+/* Horizontal scroll posts */
+.sustainable-posts-horizontal {
+  .wp-block-query {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .wp-block-post-template {
+    display: flex !important;
+    flex-wrap: nowrap;
+    gap: var(--wp--preset--spacing--fluid-medium, 1.5rem);
+    padding-bottom: var(--wp--preset--spacing--fluid-small);
+  }
+
+  .wp-block-post-template > * {
+    flex: 0 0 min(280px, 85vw);
+    min-width: min(280px, 85vw);
+  }
+}
+
+/* Featured post grid responsive */
+.sustainable-theme-post-grid .wp-block-query:nth-of-type(2) .is-layout-grid {
+  @media (max-width: 781px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Bento grid responsive */
+.sustainable-content-bento .wp-block-columns {
+  @media (max-width: 781px) {
+    flex-direction: column;
+
+    .wp-block-column {
+      flex-basis: 100% !important;
+    }
+  }
+}
+
+/* Gallery masonry - CSS columns */
+.sustainable-gallery-masonry .sustainable-masonry-gallery,
+.sustainable-gallery-masonry .sustainable-masonry-gallery > div {
+  column-count: 3;
+  column-gap: var(--wp--preset--spacing--fluid-small, 1rem);
+
+  .wp-block-image,
+  figure {
+    break-inside: avoid;
+    margin-bottom: var(--wp--preset--spacing--fluid-small);
+    page-break-inside: avoid;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  @media (min-width: 600px) and (max-width: 960px) {
+    column-count: 2;
+  }
+
+  @media (max-width: 599px) {
+    column-count: 1;
+  }
+}
+
+/* Gallery featured - thumbnails scroll on small screens */
+.sustainable-gallery-featured .wp-block-group {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+
+  @media (max-width: 600px) {
+    .wp-block-image {
+      flex: 0 0 100px;
+      min-width: 100px;
+    }
+  }
+}
+
+/* Hero asymmetric & CTA split - stack columns on mobile */
+@media (max-width: 781px) {
+  .sustainable-hero-asymmetric .wp-block-column,
+  .sustainable-cta-split .wp-block-column {
+    flex-basis: 100% !important;
+  }
+
+  .sustainable-hero-asymmetric .wp-block-column:last-child,
+  .sustainable-cta-split .wp-block-column:last-child {
+    min-height: 40vh;
+  }
+}
+
+/* Footer columns - stack on mobile */
+.sustainable-footer-columns .wp-block-columns {
+  @media (max-width: 781px) {
+    flex-direction: column;
+
+    .wp-block-column {
+      flex-basis: 100% !important;
+    }
   }
 }
