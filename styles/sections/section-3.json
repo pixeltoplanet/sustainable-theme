@@ -3,15 +3,11 @@
 	"version": 3,
 	"slug": "section-3",
 	"title": "Style 3",
-	"blockTypes": [
-		"core/group",
-		"core/columns",
-		"core/column"
-	],
+	"blockTypes": ["core/columns", "core/column"],
 	"styles": {
 		"color": {
-			"background": "var:preset|color|accent-1",
-			"text": "var:preset|color|contrast"
+			"background": "var:preset|color|secondary",
+			"text": "var:preset|color|foreground"
 		},
 		"blocks": {
 			"core/separator": {
@@ -32,12 +28,12 @@
 				}
 			},
 			"core/post-date": {
-				"color":{
+				"color": {
 					"text": "color-mix(in srgb, currentColor 85%, transparent)"
 				},
 				"elements": {
 					"link": {
-						"color" : {
+						"color": {
 							"text": "color-mix(in srgb, currentColor 85%, transparent)"
 						}
 					}

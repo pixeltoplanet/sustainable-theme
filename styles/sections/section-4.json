@@ -3,15 +3,11 @@
 	"version": 3,
 	"slug": "section-4",
 	"title": "Style 4",
-	"blockTypes": [
-		"core/group",
-		"core/columns",
-		"core/column"
-	],
+	"blockTypes": ["core/columns", "core/column"],
 	"styles": {
 		"color": {
-			"background": "var:preset|color|accent-3",
-			"text": "var:preset|color|accent-2"
+			"background": "var:preset|color|foreground",
+			"text": "var:preset|color|primary"
 		},
 		"blocks": {
 			"core/separator": {
@@ -32,12 +28,12 @@
 				}
 			},
 			"core/post-date": {
-				"color":{
+				"color": {
 					"text": "color-mix(in srgb, currentColor 85%, transparent)"
 				},
 				"elements": {
 					"link": {
-						"color" : {
+						"color": {
 							"text": "color-mix(in srgb, currentColor 85%, transparent)"
 						}
 					}
@@ -117,13 +113,13 @@
 		"elements": {
 			"button": {
 				"color": {
-					"background": "var:preset|color|accent-2",
-					"text": "var:preset|color|accent-3"
+					"background": "var:preset|color|primary",
+					"text": "var:preset|color|foreground"
 				},
 				":hover": {
 					"color": {
-						"background": "color-mix(in srgb, var(--wp--preset--color--accent-2) 85%, transparent)",
-						"text": "var:preset|color|accent-3"
+						"background": "color-mix(in srgb, var(--wp--preset--color--primary) 85%, transparent)",
+						"text": "var:preset|color|foreground"
 					}
 				}
 			}
