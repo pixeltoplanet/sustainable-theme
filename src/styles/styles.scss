@@ -1,6 +1,6 @@
 /* Main Theme Styles */
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  // font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   // line-height: 1.6;
 }
 
@@ -33,7 +33,7 @@ body {
   .wp-block-query .wp-block-post-template {
     display: block !important;
     column-count: 3;
-    column-gap: var(--wp--preset--spacing--fluid-small, 1.5rem);
+    // column-gap: var(--wp--preset--spacing--fluid-small, 1.5rem);
     list-style: none;
     padding: 0;
     margin: 0;
@@ -78,7 +78,7 @@ body {
     padding-bottom: var(--wp--preset--spacing--fluid-small);
   }
 
-  .wp-block-post-template > * {
+  .wp-block-post-template>* {
     flex: 0 0 min(280px, 85vw);
     min-width: min(280px, 85vw);
   }
@@ -108,7 +108,7 @@ body {
 
 /* Gallery masonry - CSS columns */
 .sustainable-gallery-masonry .sustainable-masonry-gallery,
-.sustainable-gallery-masonry .sustainable-masonry-gallery > div {
+.sustainable-gallery-masonry .sustainable-masonry-gallery>div {
   column-count: 3;
   column-gap: var(--wp--preset--spacing--fluid-small, 1rem);
 
@@ -150,6 +150,7 @@ body {
 
 /* Hero asymmetric & CTA split - stack columns on mobile */
 @media (max-width: 781px) {
+
   .sustainable-hero-asymmetric .wp-block-column,
   .sustainable-cta-split .wp-block-column {
     flex-basis: 100% !important;
