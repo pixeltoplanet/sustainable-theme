@@ -12,8 +12,6 @@
 ?>
 <!-- wp:group {"align":"full","className":"sustainable-gallery-masonry","style":{"spacing":{"padding":{"top":"var:preset|spacing|fluid-x-large","bottom":"var:preset|spacing|fluid-x-large"},"blockGap":"var:preset|spacing|fluid-small"}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull sustainable-gallery-masonry" style="padding-top:var(--wp--preset--spacing--fluid-x-large);padding-bottom:var(--wp--preset--spacing--fluid-x-large)"><!-- wp:heading {"className":"is-style-subtitle"} -->
-  <h2 class="wp-block-heading is-style-subtitle">Portfolio</h2>
-  <!-- /wp:heading -->
 
   <!-- wp:group {"className":"sustainable-masonry-gallery","layout":{"type":"constrained"}} -->
   <div class="wp-block-group sustainable-masonry-gallery"><!-- wp:image {"aspectRatio":"1","sizeSlug":"large","linkDestination":"none"} -->

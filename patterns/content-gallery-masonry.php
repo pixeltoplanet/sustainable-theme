@@ -13,8 +13,6 @@
 <!-- wp:group {"align":"full","className":"sustainable-gallery-masonry","style":{"spacing":{"padding":{"top":"var:preset|spacing|fluid-large","bottom":"var:preset|spacing|fluid-large"},"blockGap":"var:preset|spacing|fluid-small"}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull sustainable-gallery-masonry" style="padding-top:var(--wp--preset--spacing--fluid-large);padding-bottom:var(--wp--preset--spacing--fluid-large)"><!-- wp:group {"metadata":{"name":"Container"},"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|fluid-small"}},"layout":{"type":"constrained"}} -->
   <div class="wp-block-group alignwide"><!-- wp:heading {"align":"full","className":"is-style-subtitle"} -->
-    <h2 class="wp-block-heading alignfull is-style-subtitle">Portfolio</h2>
-    <!-- /wp:heading -->
 
     <!-- wp:group {"align":"full","className":"sustainable-masonry-gallery","style":{"spacing":{"padding":{"right":"0","left":"0"}}},"layout":{"type":"constrained"}} -->
     <div class="wp-block-group alignfull sustainable-masonry-gallery" style="padding-right:0;padding-left:0"><!-- wp:image {"aspectRatio":"1","sizeSlug":"large","linkDestination":"none"} -->
