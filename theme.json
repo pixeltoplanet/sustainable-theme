@@ -100,91 +100,39 @@
 		},
 		"spacing": {
 			"defaultSpacingSizes": false,
+			"customSpacingSize": true,
+			"spacingScale": {
+				"operator": "*",
+				"increment": 1.5,
+				"steps": 8,
+				"mediumStep": 1.5,
+				"unit": "rem"
+			},
 			"spacingSizes": [
 				{
-					"name": "Section",
-					"size": "clamp(1.5rem, 4.5vw, 6rem)",
-					"slug": "section"
+					"name": "Fluid X-Small",
+					"size": "clamp(0.25rem, 1.5vw, 0.5rem)",
+					"slug": "fluid-x-small"
 				},
 				{
-					"name": "Between 2 columns",
+					"name": "Fluid Small",
+					"size": "clamp(1rem, 3vw, 1.5rem)",
+					"slug": "fluid-small"
+				},
+				{
+					"name": "Fluid Medium",
 					"size": "clamp(1.5rem, 4.5vw, 5rem)",
-					"slug": "between-2-cols"
+					"slug": "fluid-medium"
 				},
 				{
-					"name": "Between 3 columns",
-					"size": "clamp(1.5rem, 4vw, 2rem)",
-					"slug": "between-3-cols"
+					"name": "Fluid Large",
+					"size": "clamp(2rem, 5vw, 6rem)",
+					"slug": "fluid-large"
 				},
 				{
-					"name": "Between 4 columns",
-					"size": "clamp(1.5rem, 4vw, 2rem)",
-					"slug": "between-4-cols"
-				},
-				{
-					"name": "2XS",
-					"size": "var(--wp--custom--size--0-5)",
-					"slug": "2xs"
-				},
-				{
-					"name": "XS",
-					"size": "var(--wp--custom--size--1)",
-					"slug": "xs"
-				},
-				{
-					"name": "SM",
-					"size": "var(--wp--custom--size--1-5)",
-					"slug": "sm"
-				},
-				{
-					"name": "MD",
-					"size": "var(--wp--custom--size--2)",
-					"slug": "md"
-				},
-				{
-					"name": "LG",
-					"size": "var(--wp--custom--size--3)",
-					"slug": "lg"
-				},
-				{
-					"name": "XL",
-					"size": "var(--wp--custom--size--4)",
-					"slug": "xl"
-				},
-				{
-					"name": "2XL",
-					"size": "var(--wp--custom--size--6)",
-					"slug": "two-xl"
-				},
-				{
-					"name": "3XL",
-					"size": "var(--wp--custom--size--8)",
-					"slug": "three-xl"
-				},
-				{
-					"name": "4XL",
-					"size": "var(--wp--custom--size--12)",
-					"slug": "four-xl"
-				},
-				{
-					"name": "5XL",
-					"size": "var(--wp--custom--size--16)",
-					"slug": "five-xl"
-				},
-				{
-					"name": "6XL",
-					"size": "var(--wp--custom--size--20)",
-					"slug": "six-xl"
-				},
-				{
-					"name": "7XL",
-					"size": "var(--wp--custom--size--24)",
-					"slug": "seven-xl"
-				},
-				{
-					"name": "8XL",
-					"size": "var(--wp--custom--size--32)",
-					"slug": "eight-xl"
+					"name": "Fluid X-Large",
+					"size": "clamp(4rem, 8vw, 10rem)",
+					"slug": "fluid-x-large"
 				}
 			],
 			"units": ["%", "px", "rem", "vh", "vw"]
@@ -291,8 +239,8 @@
 		},
 		"spacing": {
 			"padding": {
-				"left": "var:preset|spacing|xl",
-				"right": "var:preset|spacing|xl"
+				"left": "var:preset|spacing|fluid-small",
+				"right": "var:preset|spacing|fluid-small"
 			},
 			"blockGap": "0"
 		},
@@ -307,6 +255,11 @@
 			}
 		},
 		"blocks": {
+			"core/image": {
+				"lightbox": {
+					"allowEditing": true
+				}
+			},
 			"core/group": {
 				"spacing": {
 					"defaultSpacingSizes": false,
@@ -653,8 +606,7 @@
 			},
 			"core/site-title": {
 				"typography": {
-					"fontWeight": "700",
-					"letterSpacing": "-.5px"
+					"fontSize": "var:preset|font-size|sm"
 				},
 				"elements": {
 					"link": {
