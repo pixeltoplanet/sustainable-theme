@@ -1,115 +1,188 @@
-/* Grid Awareness Visual Indicators */
-#grid-indicator {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 12px 16px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+/* Grid-Aware Top Bar */
+
+.grid-aware-bar {
+  position: relative;
   z-index: 9999;
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 14px;
-  line-height: 1.4;
-  backdrop-filter: blur(8px);
-  transition: all 0.3s ease;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: #374151;
+  text-transform: uppercase;
 }
 
-#grid-indicator:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.1);
+.grid-aware-bar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 8px 20px;
+  gap: 16px;
 }
 
-.grid-indicator__dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 8px;
-  vertical-align: middle;
-  transition: background-color 0.3s ease;
-}
-
-.grid-indicator__status {
-  display: inline-block;
-  vertical-align: middle;
+/* Left: zone */
+.grid-aware-bar__zone {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
   font-weight: 500;
 }
 
-/* Grid intensity color classes */
-.grid-indicator.very-green .grid-indicator__dot {
-  background-color: #22c55e;
+.grid-aware-bar__icon {
+  flex-shrink: 0;
+  opacity: 0.6;
 }
 
-.grid-indicator.green .grid-indicator__dot {
-  background-color: #16a34a;
+/* Center: status dot + message */
+.grid-aware-bar__status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
 }
 
-.grid-indicator.yellow .grid-indicator__dot {
-  background-color: #eab308;
+.grid-aware-bar__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background-color 0.3s ease;
 }
 
-.grid-indicator.orange .grid-indicator__dot {
-  background-color: #ea580c;
+.grid-aware-bar__message {
+  font-weight: 400;
+  color: #6b7280;
 }
 
-.grid-indicator.red .grid-indicator__dot {
-  background-color: #dc2626;
+/* Right: mode toggle */
+.grid-aware-bar__mode {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
 }
 
-/* Intensity bar */
-.intensity-bar {
-  margin-top: 8px;
-  height: 4px;
-  background: #f3f4f6;
-  border-radius: 2px;
-  overflow: hidden;
+.grid-aware-bar__mode-label {
+  font-weight: 500;
 }
 
-.intensity-bar__fill {
-  height: 100%;
-  border-radius: 2px;
-  transition: width 0.3s ease;
+.grid-aware-bar__toggle {
+  display: inline-flex;
+  cursor: default;
 }
 
-.intensity-bar.very-green .intensity-bar__fill {
-  background: linear-gradient(90deg, #22c55e, #16a34a);
-  width: 80%;
+.grid-aware-bar__toggle-track {
+  display: inline-flex;
+  align-items: center;
+  width: 32px;
+  height: 18px;
+  border-radius: 9px;
+  padding: 2px;
+  transition: background-color 0.2s ease;
 }
 
-.intensity-bar.green .intensity-bar__fill {
-  background: linear-gradient(90deg, #16a34a, #15803d);
-  width: 60%;
+.grid-aware-bar__toggle-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  margin-left: auto;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  transition: margin 0.2s ease;
 }
 
-.intensity-bar.yellow .intensity-bar__fill {
-  background: linear-gradient(90deg, #eab308, #ca8a04);
-  width: 40%;
+.grid-aware-bar__auto {
+  font-weight: 600;
+  font-size: 11px;
 }
 
-.intensity-bar.orange .intensity-bar__fill {
-  background: linear-gradient(90deg, #ea580c, #c2410c);
-  width: 20%;
+.grid-aware-bar__info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  color: #9ca3af;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: #374151;
+  }
 }
 
-.intensity-bar.red .intensity-bar__fill {
-  background: linear-gradient(90deg, #dc2626, #b91c1c);
-  width: 10%;
+/* Info panel */
+.grid-aware-bar__info-panel {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 10px 20px 12px;
+  border-top: 1px solid #f3f4f6;
+  font-size: 13px;
+  line-height: 1.5;
+  text-transform: none;
+  letter-spacing: normal;
+  color: #6b7280;
+
+  p {
+    margin: 0;
+  }
 }
 
-/* Responsive adjustments */
+/* ── Level colors ── */
+
+// Low: green
+.grid-aware-bar--low {
+  .grid-aware-bar__dot {
+    background-color: #22c55e;
+  }
+  .grid-aware-bar__toggle-track {
+    background-color: #22c55e;
+  }
+}
+
+// Medium: amber
+.grid-aware-bar--medium {
+  .grid-aware-bar__dot {
+    background-color: #f59e0b;
+  }
+  .grid-aware-bar__toggle-track {
+    background-color: #f59e0b;
+  }
+}
+
+// High: red
+.grid-aware-bar--high {
+  .grid-aware-bar__dot {
+    background-color: #ef4444;
+  }
+  .grid-aware-bar__toggle-track {
+    background-color: #ef4444;
+  }
+}
+
+/* ── Responsive ── */
+
 @media (max-width: 768px) {
-  #grid-indicator {
-    top: 10px;
-    right: 10px;
-    padding: 8px 12px;
-    font-size: 12px;
+  .grid-aware-bar__inner {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 16px;
+    padding: 6px 12px;
   }
 
-  .grid-indicator__dot {
-    width: 10px;
-    height: 10px;
-    margin-right: 6px;
+  .grid-aware-bar__mode-label {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-aware-bar__zone span {
+    display: none;
   }
 }

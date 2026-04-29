@@ -1,158 +1,335 @@
 import { __ } from "@wordpress/i18n";
 import { useEffect, useState } from "@wordpress/element";
-import { PanelBody, ToggleControl, TextControl } from "@wordpress/components";
+import {
+	PanelBody,
+	ToggleControl,
+	TextControl,
+	RangeControl,
+	Button,
+	Notice,
+} from "@wordpress/components";
 import Text from "./Text";
 import Heading from "./Heading";
+
+const COMMON_ZONES = [
+	{ code: "NL", name: "Netherlands" },
+	{ code: "DE", name: "Germany" },
+	{ code: "FR", name: "France" },
+	{ code: "GB", name: "United Kingdom" },
+	{ code: "ES", name: "Spain" },
+	{ code: "IT", name: "Italy" },
+	{ code: "SE", name: "Sweden" },
+	{ code: "NO", name: "Norway" },
+	{ code: "DK", name: "Denmark" },
+	{ code: "BE", name: "Belgium" },
+	{ code: "AT", name: "Austria" },
+	{ code: "CH", name: "Switzerland" },
+	{ code: "PL", name: "Poland" },
+	{ code: "PT", name: "Portugal" },
+	{ code: "FI", name: "Finland" },
+	{ code: "IE", name: "Ireland" },
+	{ code: "US", name: "United States" },
+	{ code: "CA", name: "Canada" },
+	{ code: "AU", name: "Australia" },
+	{ code: "JP", name: "Japan" },
+	{ code: "IN", name: "India" },
+	{ code: "BR", name: "Brazil" },
+];
 
 export default function GridIntensityPanel({
 	isEnabled,
 	onToggleChange,
 	apiKey,
 	onApiKeyChange,
+	zone,
+	onZoneChange,
+	cacheMinutes,
+	onCacheMinutesChange,
 }) {
-	const [gridAwarenessData, setGridAwarenessData] = useState(null);
-	const [gridAwarenessLoading, setGridAwarenessLoading] = useState(true);
+	const [gridStatus, setGridStatus] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
+	const [testResult, setTestResult] = useState(null);
+	const [isTesting, setIsTesting] = useState(false);
 
-	// Fetch grid awareness data directly from API
 	useEffect(() => {
-		const fetchGridData = async () => {
+		if (!isEnabled) {
+			setGridStatus(null);
+			return;
+		}
+
+		const fetchStatus = async () => {
+			setIsLoading(true);
 			try {
 				const response = await fetch(
 					"/wp-json/sustainable-theme/v1/grid-status",
 				);
 				if (response.ok) {
 					const data = await response.json();
-					if (data.success && data.data) {
-						setGridAwarenessData({
-							intensity: data.data.grid_intensity,
-							country: data.data.country_name,
-							status: data.data.status_message,
-							lastUpdated: new Date(data.data.last_updated).toLocaleString(),
-							development: data.development,
-						});
-						setGridAwarenessLoading(false);
+					if (data.success) {
+						setGridStatus(data.data);
 					}
 				}
 			} catch (error) {
-				console.error("Failed to fetch grid awareness data:", error);
-				setGridAwarenessLoading(false);
+				console.error("Failed to fetch grid status:", error);
 			}
+			setIsLoading(false);
 		};
 
-		if (isEnabled) {
-			fetchGridData();
-		}
+		fetchStatus();
 	}, [isEnabled]);
 
-	// Listen for grid awareness data updates from JavaScript
-	useEffect(() => {
-		const checkGridAwarenessData = () => {
-			const statsContainer = document.getElementById("grid-awareness-stats");
-			if (statsContainer?.innerHTML.includes("Grid Intensity:")) {
-				// Extract data from the DOM
-				const intensityMatch = statsContainer.innerHTML.match(
-					/Grid Intensity:\s*(\d+)%/,
-				);
-				const countryMatch =
-					statsContainer.innerHTML.match(/Country:\s*([^(]+)/);
-				const statusMatch = statsContainer.innerHTML.match(
-					/Status:\s*<span[^>]*>([^<]+)<\/span>/,
-				);
-				const lastUpdatedMatch = statsContainer.innerHTML.match(
-					/Last Updated:\s*([^<]+)/,
-				);
-				const developmentMatch =
-					statsContainer.innerHTML.includes("Development Mode:");
+	const handleTestConnection = async () => {
+		setIsTesting(true);
+		setTestResult(null);
 
-				if (intensityMatch && countryMatch && statusMatch) {
-					setGridAwarenessData({
-						intensity: intensityMatch[1],
-						country: countryMatch[1].trim(),
-						status: statusMatch[1],
-						lastUpdated: lastUpdatedMatch
-							? lastUpdatedMatch[1].trim()
-							: "Unknown",
-						development: developmentMatch,
-					});
-					setGridAwarenessLoading(false);
-				}
-			}
-		};
+		try {
+			const response = await fetch(
+				"/wp-json/sustainable-theme/v1/grid-test",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						"X-WP-Nonce": window.wpApiSettings?.nonce || "",
+					},
+				},
+			);
 
-		// Check immediately and then every 1 second for faster response
-		checkGridAwarenessData();
-		const interval = setInterval(checkGridAwarenessData, 1000);
+			const data = await response.json();
+			setTestResult({
+				success: data.success,
+				message: data.message,
+			});
+		} catch (error) {
+			setTestResult({
+				success: false,
+				message: __("Connection failed. Check your network.", "sustainable-theme"),
+			});
+		}
 
-		return () => clearInterval(interval);
-	}, []);
+		setIsTesting(false);
+
+		setTimeout(() => setTestResult(null), 5000);
+	};
+
+	const zoneName =
+		COMMON_ZONES.find((z) => z.code === zone)?.name || zone || "Unknown";
+
+	const levelColors = {
+		low: "#22c55e",
+		medium: "#f59e0b",
+		high: "#ef4444",
+	};
 
 	return (
 		<PanelBody
-			title={__(
-				"Grid Awareness - Coming Soon",
-				"sustainable-theme",
-			)}
+			title={__("Grid Awareness", "sustainable-theme")}
 			initialOpen={false}
 		>
 			<Text style={{ marginBottom: "16px" }}>
 				{__(
-					"Grid awareness will adapt your website based on the carbon intensity of your local electricity grid. When renewable energy is high, your site will show more features. When it's low, it will go into eco-mode. This feature is coming soon!",
+					"Grid awareness adapts your website based on the carbon intensity of the local electricity grid. When the grid is clean, visitors get the full experience. When it relies more on fossil fuels, page weight is reduced automatically.",
 					"sustainable-theme",
 				)}
 			</Text>
 
-			<div style={{ marginBottom: "20px" }}>
-				<ToggleControl
-					label={__("Enable Grid Awareness", "sustainable-theme")}
-					checked={false}
-					onChange={() => {}} // Disabled - no action
-					disabled={true}
-					help={__(
-						"Grid awareness is coming soon! This feature will adapt your website based on local electricity grid conditions.",
-						"sustainable-theme",
-					)}
-				/>
-			</div>
+			<ToggleControl
+				label={__("Enable Grid Awareness", "sustainable-theme")}
+				checked={isEnabled}
+				onChange={onToggleChange}
+				help={
+					isEnabled
+						? __(
+								"Grid awareness is active. The top bar and body classes will be applied to your site.",
+								"sustainable-theme",
+							)
+						: __(
+								"Enable to show a grid status bar and adapt your site to electricity grid conditions.",
+								"sustainable-theme",
+							)
+				}
+			/>
 
-			{/* API Key input is disabled - feature coming soon */}
+			{isEnabled && (
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						gap: "16px",
+						marginTop: "16px",
+					}}
+				>
+					<Heading level={4}>
+						{__("API Configuration", "sustainable-theme")}
+					</Heading>
 
-			{!isEnabled && (
-				<div style={{ marginTop: "16px" }}>
-					<div style={{
-						backgroundColor: "#fef3c7",
-						border: "1px solid #f59e0b",
-						borderRadius: "6px",
-						padding: "16px",
-						marginBottom: "12px"
-					}}>
-						<Text style={{ 
-							fontWeight: "bold", 
-							color: "#92400e",
-							marginBottom: "8px"
-						}}>
-							🚧 {__("Coming Soon", "sustainable-theme")}
-						</Text>
-						<Text style={{ 
-							fontStyle: "italic", 
-							color: "#92400e",
-							fontSize: "14px"
-						}}>
+					<TextControl
+						label={__("Electricity Maps API Key", "sustainable-theme")}
+						value={apiKey || ""}
+						onChange={onApiKeyChange}
+						type="password"
+						help={
+							<span>
+								{__("Get a free key at ", "sustainable-theme")}
+								<a
+									href="https://www.electricitymaps.com/free-tier-api"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									electricitymaps.com/free-tier-api
+								</a>
+							</span>
+						}
+					/>
+
+					<div>
+						<label
+							htmlFor="grid-zone-select"
+							style={{
+								display: "block",
+								marginBottom: "8px",
+								fontWeight: 500,
+								fontSize: "11px",
+								textTransform: "uppercase",
+							}}
+						>
+							{__("Zone", "sustainable-theme")}
+						</label>
+						<select
+							id="grid-zone-select"
+							value={zone || "NL"}
+							onChange={(e) => onZoneChange(e.target.value)}
+							style={{
+								width: "100%",
+								padding: "8px",
+								borderRadius: "4px",
+								border: "1px solid #8c8f94",
+								fontSize: "14px",
+							}}
+						>
+							{COMMON_ZONES.map((z) => (
+								<option key={z.code} value={z.code}>
+									{z.name} ({z.code})
+								</option>
+							))}
+						</select>
+						<p
+							style={{
+								fontSize: "12px",
+								color: "#757575",
+								marginTop: "6px",
+							}}
+						>
 							{__(
-								"Grid awareness is currently in development. This feature will allow your website to adapt based on local electricity grid conditions, showing more features when renewable energy is high and going into eco-mode when it's low.",
+								"The electricity grid zone for your server location. Find all zone codes at ",
 								"sustainable-theme",
 							)}
-						</Text>
+							<a
+								href="https://docs.electricitymaps.com/coverage"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								docs.electricitymaps.com/coverage
+							</a>
+						</p>
 					</div>
-					<Text style={{ fontStyle: "italic", color: "#6b7280" }}>
-						{__(
-							"Grid awareness is currently disabled. This feature will be available in a future update.",
+
+					<RangeControl
+						label={__("Cache Duration (minutes)", "sustainable-theme")}
+						value={cacheMinutes || 15}
+						onChange={onCacheMinutesChange}
+						min={5}
+						max={60}
+						step={5}
+						help={__(
+							"How long to cache the grid intensity data before fetching fresh data from the API.",
 							"sustainable-theme",
 						)}
-					</Text>
+					/>
+
+					{apiKey && (
+						<div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+							<Button
+								isSecondary
+								__next40pxDefaultSize
+								onClick={handleTestConnection}
+								isBusy={isTesting}
+								disabled={isTesting}
+							>
+								{isTesting
+									? __("Testing...", "sustainable-theme")
+									: __("Test API Connection", "sustainable-theme")}
+							</Button>
+						</div>
+					)}
+
+					{testResult && (
+						<Notice
+							status={testResult.success ? "success" : "error"}
+							isDismissible={false}
+						>
+							{testResult.message}
+						</Notice>
+					)}
+
+					{gridStatus && (
+						<div
+							style={{
+								backgroundColor: "#f9fafb",
+								border: "1px solid #e5e7eb",
+								borderRadius: "6px",
+								padding: "16px",
+							}}
+						>
+							<Heading level={4} style={{ marginBottom: "12px" }}>
+								{__("Current Grid Status", "sustainable-theme")}
+							</Heading>
+
+							<div
+								style={{
+									display: "grid",
+									gridTemplateColumns: "auto 1fr",
+									gap: "6px 12px",
+									fontSize: "13px",
+								}}
+							>
+								<strong>{__("Zone:", "sustainable-theme")}</strong>
+								<span>
+									{gridStatus.zone_name} ({gridStatus.zone})
+								</span>
+
+								<strong>{__("Level:", "sustainable-theme")}</strong>
+								<span
+									style={{
+										color: levelColors[gridStatus.level] || "#6b7280",
+										fontWeight: 600,
+										textTransform: "capitalize",
+									}}
+								>
+									{gridStatus.level}
+								</span>
+
+								<strong>{__("Status:", "sustainable-theme")}</strong>
+								<span>{gridStatus.message}</span>
+
+								{gridStatus.datetime && (
+									<>
+										<strong>{__("Last Update:", "sustainable-theme")}</strong>
+										<span>
+											{new Date(gridStatus.datetime).toLocaleString()}
+										</span>
+									</>
+								)}
+							</div>
+						</div>
+					)}
+
+					{isLoading && (
+						<Text style={{ color: "#6b7280", fontStyle: "italic" }}>
+							{__("Loading grid status...", "sustainable-theme")}
+						</Text>
+					)}
 				</div>
 			)}
-
-			{/* Grid Status section is hidden - feature coming soon */}
 		</PanelBody>
 	);
 }

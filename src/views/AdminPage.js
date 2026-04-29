@@ -25,6 +25,8 @@ export default function AdminPage() {
 		dequeue_non_sustainable: false,
 		use_grid_awareness: false,
 		electricity_maps_api_key: "",
+		grid_awareness_zone: "NL",
+		grid_awareness_cache_minutes: 15,
 		disable_rss_feed: false,
 		disable_emojis: false,
 		remove_embeds: false,
@@ -248,6 +250,8 @@ export default function AdminPage() {
 			dequeue_non_sustainable: false,
 			use_grid_awareness: false,
 			electricity_maps_api_key: "",
+			grid_awareness_zone: "NL",
+			grid_awareness_cache_minutes: 15,
 			disable_rss_feed: false,
 			disable_emojis: false,
 			remove_embeds: false,
@@ -284,8 +288,10 @@ export default function AdminPage() {
 				return {
 					...baseSettings,
 					sustainability_mode: "base",
-					use_grid_awareness: settings.use_grid_awareness, // Preserve current grid awareness setting
-					electricity_maps_api_key: settings.electricity_maps_api_key || "", // Preserve existing API key
+					use_grid_awareness: settings.use_grid_awareness,
+					electricity_maps_api_key: settings.electricity_maps_api_key || "",
+					grid_awareness_zone: settings.grid_awareness_zone || "NL",
+					grid_awareness_cache_minutes: settings.grid_awareness_cache_minutes || 15,
 					disable_emojis: true,
 					remove_embeds: true,
 					remove_header_metadata: true,
@@ -308,8 +314,10 @@ export default function AdminPage() {
 					...baseSettings,
 					sustainability_mode: "super",
 					dequeue_non_sustainable: true,
-					use_grid_awareness: settings.use_grid_awareness, // Preserve current grid awareness setting
-					electricity_maps_api_key: settings.electricity_maps_api_key || "", // Preserve existing API key
+					use_grid_awareness: settings.use_grid_awareness,
+					electricity_maps_api_key: settings.electricity_maps_api_key || "",
+					grid_awareness_zone: settings.grid_awareness_zone || "NL",
+					grid_awareness_cache_minutes: settings.grid_awareness_cache_minutes || 15,
 					disable_rss_feed: true,
 					disable_emojis: true,
 					remove_embeds: true,
@@ -928,6 +936,14 @@ export default function AdminPage() {
 						apiKey={settings.electricity_maps_api_key}
 						onApiKeyChange={(value) =>
 							handleSettingChange("electricity_maps_api_key", value)
+						}
+						zone={settings.grid_awareness_zone}
+						onZoneChange={(value) =>
+							handleSettingChange("grid_awareness_zone", value)
+						}
+						cacheMinutes={settings.grid_awareness_cache_minutes}
+						onCacheMinutesChange={(value) =>
+							handleSettingChange("grid_awareness_cache_minutes", value)
 						}
 					/>
 					<Spacer margin={4} />

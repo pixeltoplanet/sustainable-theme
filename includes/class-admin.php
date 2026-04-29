@@ -139,32 +139,5 @@ class AdminMenu
       'root' => esc_url_raw(rest_url()),
     ]);
 
-    // Enqueue grid awareness script for admin
-    $this->enqueue_grid_awareness_for_admin();
-  }
-
-  /**
-   * Enqueue grid awareness script for admin pages
-   */
-  private function enqueue_grid_awareness_for_admin(): void
-  {
-    // Get theme settings
-    $settings = get_option('sustainable_theme_settings', []);
-
-    // Enqueue the frontend script (which contains grid awareness)
-    wp_enqueue_script(
-      'sustainable-grid-awareness-admin',
-      SUSTAINABLE_THEME_URL . '/build/frontend.js',
-      ['wp-element'],
-      SUSTAINABLE_THEME_VERSION,
-      true
-    );
-
-    // Localize script with settings
-    wp_localize_script('sustainable-grid-awareness-admin', 'sustainableGridSettings', [
-      'enabled' => $settings['use_grid_awareness'] ?? false,
-      'apiUrl' => rest_url('sustainable-theme/v1/grid-status'),
-      'apiKey' => $settings['electricity_maps_api_key'] ?? null,
-    ]);
   }
 }

@@ -4,643 +4,485 @@ namespace SustainableTheme;
 
 /**
  * Grid Awareness Class
- * 
- * Integrates with @greenweb/grid-aware-websites package to provide real-time
- * carbon intensity data and grid awareness functionality for WordPress themes.
- * 
- * ## How It Works
- * 
- * ### JavaScript Integration (@greenweb/grid-aware-websites)
- * The frontend JavaScript uses the @greenweb/grid-aware-websites package which:
- * - Fetches real-time carbon intensity data from Electricity Maps API
- * - Compares current grid intensity with annual averages
- * - Returns grid awareness status (clean/dirty) and intensity levels
- * - Provides 3 intensity levels: "low", "moderate", "high"
- * 
- * ### PHP Backend Integration
- * This class provides:
- * - Secure server-side API key handling (never exposed to frontend)
- * - REST API endpoint for frontend JavaScript consumption
- * - Fallback data when API is unavailable
- * - Development mode with sample data
- * - Helper functions for other plugins/themes
- * 
- * ### Data Flow
- * 1. Frontend JavaScript calls our REST API endpoint
- * 2. PHP class fetches data from Electricity Maps API (server-side)
- * 3. Data is processed and returned to frontend
- * 4. Frontend updates UI elements and body classes
- * 
+ *
+ * Fetches carbon intensity level from the Electricity Maps API, caches it
+ * with WordPress transients, renders a top bar, and adds body classes so
+ * that CSS and PHP can adapt to grid conditions.
+ *
  * @package SustainableTheme
- * @since 1.0.0
- * 
- * @link https://developer.wordpress.org/reference/functions/wp_remote_get/
- * @link https://developer.wordpress.org/reference/functions/rest_ensure_response/
- * @link https://www.npmjs.com/package/@greenweb/grid-aware-websites
- * @link https://api-portal.electricitymaps.com/
+ * @since   1.0.0
  */
 class GridAwareness
 {
-  /**
-   * Theme settings array containing grid awareness configuration
-   * 
-   * @var array Contains keys:
-   *   - use_grid_awareness: bool - Whether grid awareness is enabled
-   *   - electricity_maps_api_key: string - API key for Electricity Maps
-   */
-  private $settings;
+  private const API_BASE = 'https://api.electricitymap.org/v3';
+  private const TRANSIENT_PREFIX = 'sustainable_grid_';
 
-  /**
-   * Cached grid intensity data
-   * 
-   * @var array|null Grid data array or null if not loaded
-   */
-  private $grid_data;
+  private array $settings;
 
-  /**
-   * Initialize grid awareness functionality
-   * 
-   * Sets up WordPress hooks for:
-   * - Script/style enqueuing (conditional on settings)
-   * - REST API endpoint registration
-   * - Meta tag injection for development mode
-   * - Settings change monitoring
-   * 
-   * @since 1.0.0
-   */
+  /** @var array{level: string, zone: string, datetime: string|null}|null */
+  private ?array $grid_data = null;
+
+  private static array $zone_names = [
+    'NL'  => 'Netherlands',
+    'DE'  => 'Germany',
+    'FR'  => 'France',
+    'GB'  => 'United Kingdom',
+    'ES'  => 'Spain',
+    'IT'  => 'Italy',
+    'SE'  => 'Sweden',
+    'NO'  => 'Norway',
+    'DK'  => 'Denmark',
+    'BE'  => 'Belgium',
+    'AT'  => 'Austria',
+    'CH'  => 'Switzerland',
+    'PL'  => 'Poland',
+    'PT'  => 'Portugal',
+    'FI'  => 'Finland',
+    'IE'  => 'Ireland',
+    'US'  => 'United States',
+    'CA'  => 'Canada',
+    'AU'  => 'Australia',
+    'JP'  => 'Japan',
+    'IN'  => 'India',
+    'BR'  => 'Brazil',
+  ];
+
+  private static array $level_messages = [
+    'low'    => 'Your local grid: Cleaner than average.',
+    'medium' => 'Your local grid: About average.',
+    'high'   => 'Your local grid: Dirtier than average.',
+  ];
+
   public function __construct()
   {
-    // Get theme settings
     $this->settings = get_option('sustainable_theme_settings', []);
 
-    // Grid awareness is now controlled by user settings
-
-    // Always enqueue scripts, but pass the enabled state
-    add_action('wp_enqueue_scripts', [$this, 'enqueue_grid_awareness_scripts']);
-    add_action('wp_head', [$this, 'add_grid_awareness_meta']);
-
-    // Update settings when they change
-    add_action('updated_option', [$this, 'update_settings'], 10, 3);
-
-    // Register REST API routes
-    add_action('rest_api_init', [$this, 'register_rest_routes']);
-  }
-
-  /**
-   * Enqueue grid awareness scripts and styles conditionally
-   * 
-   * Only enqueues resources when:
-   * - Grid awareness is enabled in settings
-   * - API key is provided (or in development mode)
-   * 
-   * Enqueues:
-   * - Frontend JavaScript (grid-awareness.js)
-   * - Grid-aware CSS styles
-   * - Localized settings (without API key for security)
-   * 
-   * @since 1.0.0
-   * @return void
-   */
-  public function enqueue_grid_awareness_scripts(): void
-  {
-    // Check if grid awareness is enabled and has API key
-    $is_enabled = !empty($this->settings['use_grid_awareness']);
-    $has_api_key = !empty($this->settings['electricity_maps_api_key']);
-
-    // Only enqueue if enabled and has API key (or in development)
-    if (!$is_enabled || (!$has_api_key && !$this->is_development())) {
+    if (!$this->is_enabled()) {
       return;
     }
 
-    // Prepare settings first - DO NOT expose API key to frontend
-    $localized_settings = [
-      'enabled' => $this->settings['use_grid_awareness'] ?? false,
-      'apiUrl' => rest_url('sustainable-theme/v1/grid-status'),
-      // API key is handled server-side only for security
-    ];
+    add_filter('body_class', [$this, 'add_body_classes']);
+    add_action('wp_body_open', [$this, 'render_top_bar']);
+    add_action('wp_enqueue_scripts', [$this, 'enqueue_assets']);
+    add_action('wp_head', [$this, 'add_meta']);
+    add_action('rest_api_init', [$this, 'register_rest_routes']);
+    add_action('updated_option', [$this, 'on_settings_update'], 10, 3);
+  }
 
-    // Enqueue grid-aware styles (no frontend JS; banner is server-rendered)
+  // ──────────────────────────────────────────────────────────────
+  // Public API
+  // ──────────────────────────────────────────────────────────────
+
+  /**
+   * Get grid data for use by other theme code or plugins.
+   *
+   * @return array{level: string, zone: string, zone_name: string, message: string, datetime: string|null}
+   */
+  public static function get_status(): array
+  {
+    $instance = new self();
+    $data = $instance->get_grid_data();
+
+    return [
+      'level'     => $data['level'],
+      'zone'      => $data['zone'],
+      'zone_name' => self::get_zone_name($data['zone']),
+      'message'   => self::$level_messages[$data['level']] ?? '',
+      'datetime'  => $data['datetime'],
+    ];
+  }
+
+  // ──────────────────────────────────────────────────────────────
+  // Hooks
+  // ──────────────────────────────────────────────────────────────
+
+  public function add_body_classes(array $classes): array
+  {
+    if (is_admin()) {
+      return $classes;
+    }
+
+    $data = $this->get_grid_data();
+    $level = $data['level'];
+
+    $classes[] = 'grid-intensity-' . $level;
+
+    /** Allow plugins to modify grid-related body classes. */
+    $classes = apply_filters('sustainable_grid_body_classes', $classes, $level, $data);
+
+    return $classes;
+  }
+
+  public function render_top_bar(): void
+  {
+    if (is_admin()) {
+      return;
+    }
+
+    $data      = $this->get_grid_data();
+    $level     = esc_attr($data['level']);
+    $zone      = esc_html($data['zone']);
+    $zone_name = esc_html(self::get_zone_name($data['zone']));
+    $message   = esc_html(self::$level_messages[$data['level']] ?? '');
+
+    $html = '<div id="grid-aware-bar" class="grid-aware-bar grid-aware-bar--' . $level . '" role="status" aria-label="' . esc_attr__('Grid awareness status', 'sustainable-theme') . '">';
+    $html .= '  <div class="grid-aware-bar__inner">';
+
+    // Left: zone
+    $html .= '    <div class="grid-aware-bar__zone">';
+    $html .= '      <svg class="grid-aware-bar__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+    $html .= '      <span>' . $zone_name . '</span>';
+    $html .= '    </div>';
+
+    // Center: status
+    $html .= '    <div class="grid-aware-bar__status">';
+    $html .= '      <span class="grid-aware-bar__dot"></span>';
+    $html .= '      <span class="grid-aware-bar__message">' . $message . '</span>';
+    $html .= '    </div>';
+
+    // Right: mode indicator
+    $html .= '    <div class="grid-aware-bar__mode">';
+    $html .= '      <span class="grid-aware-bar__mode-label">' . esc_html__('Grid-aware mode', 'sustainable-theme') . '</span>';
+    $html .= '      <span class="grid-aware-bar__toggle" role="img" aria-label="' . esc_attr__('Active', 'sustainable-theme') . '"><span class="grid-aware-bar__toggle-track"><span class="grid-aware-bar__toggle-thumb"></span></span></span>';
+    $html .= '      <span class="grid-aware-bar__auto">' . esc_html__('Auto', 'sustainable-theme') . '</span>';
+    $html .= '      <button type="button" class="grid-aware-bar__info" aria-label="' . esc_attr__('About grid awareness', 'sustainable-theme') . '" data-grid-info-toggle>';
+    $html .= '        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+    $html .= '      </button>';
+    $html .= '    </div>';
+
+    $html .= '  </div>';
+
+    // Info panel (hidden by default)
+    $html .= '  <div class="grid-aware-bar__info-panel" hidden>';
+    $html .= '    <p>' . esc_html__('This website adapts to the carbon intensity of your local electricity grid. When renewable energy is abundant, you get the full experience. When the grid is dirtier, we reduce page weight to lower environmental impact.', 'sustainable-theme') . '</p>';
+    $html .= '  </div>';
+
+    $html .= '</div>';
+
+    /** Allow plugins to modify the top bar HTML. */
+    $html = apply_filters('sustainable_grid_bar_html', $html, $data);
+
+    echo $html;
+  }
+
+  public function enqueue_assets(): void
+  {
     wp_enqueue_style(
       'sustainable-grid-aware-styles',
       SUSTAINABLE_THEME_URL . '/build/grid-aware-styles.css',
       [],
       SUSTAINABLE_THEME_VERSION
     );
-  }
 
-  /**
-   * Add grid awareness meta tags to HTML head
-   * 
-   * Adds development mode indicator meta tag when in development environment.
-   * This helps with debugging and identifies when sample data is being used.
-   * 
-   * @since 1.0.0
-   * @return void
-   */
-  public function add_grid_awareness_meta(): void
-  {
-    if ($this->is_development()) {
-      echo '<meta name="sustainable-grid-awareness" content="development-mode" />';
-    }
-  }
+    $asset_path = SUSTAINABLE_THEME_DIR . '/build/frontend.asset.php';
+    $asset = is_readable($asset_path) ? include $asset_path : [];
 
-  /**
-   * Register REST API routes for grid awareness
-   * 
-   * Registers the `/wp-json/sustainable-theme/v1/grid-status` endpoint
-   * that provides grid intensity data to frontend JavaScript and other plugins.
-   * 
-   * Endpoint is publicly accessible (no authentication required) as it only
-   * returns safe, non-sensitive grid data.
-   * 
-   * @since 1.0.0
-   * @return void
-   */
-  public function register_rest_routes(): void
-  {
-    register_rest_route('sustainable-theme/v1', '/grid-status', [
-      [
-        'methods' => 'GET',
-        'callback' => [$this, 'get_grid_status'],
-        'permission_callback' => '__return_true',
-      ],
+    wp_enqueue_script(
+      'sustainable-grid-aware-frontend',
+      SUSTAINABLE_THEME_URL . '/build/frontend.js',
+      is_array($asset) ? ($asset['dependencies'] ?? []) : [],
+      is_array($asset) ? (string) ($asset['version'] ?? SUSTAINABLE_THEME_VERSION) : SUSTAINABLE_THEME_VERSION,
+      true
+    );
+
+    wp_localize_script('sustainable-grid-aware-frontend', 'sustainableGridSettings', [
+      'enabled'  => true,
+      'apiUrl'   => rest_url('sustainable-theme/v1/grid-status'),
+      'level'    => $this->get_grid_data()['level'],
     ]);
   }
 
-  /**
-   * Get grid status and statistics via REST API
-   * 
-   * Main REST API endpoint that returns current grid intensity data.
-   * Used by frontend JavaScript and other plugins to get real-time
-   * carbon intensity information.
-   * 
-   * @since 1.0.0
-   * @return \WP_REST_Response JSON response with grid data:
-   *   - success: bool - Whether request was successful
-   *   - data: array - Grid intensity data (see get_grid_intensity_data())
-   *   - development: bool - Whether in development mode
-   */
-  public function get_grid_status(): \WP_REST_Response
+  public function add_meta(): void
   {
-    $grid_data = $this->get_grid_intensity_data();
+    $data = $this->get_grid_data();
+    echo '<meta name="grid-intensity" content="' . esc_attr($data['level']) . '" />' . "\n";
+  }
 
-    // Return simplified API response
+  public function register_rest_routes(): void
+  {
+    register_rest_route('sustainable-theme/v1', '/grid-status', [
+      'methods'             => 'GET',
+      'callback'            => [$this, 'rest_get_status'],
+      'permission_callback' => '__return_true',
+    ]);
+
+    register_rest_route('sustainable-theme/v1', '/grid-test', [
+      'methods'             => 'POST',
+      'callback'            => [$this, 'rest_test_connection'],
+      'permission_callback' => function () {
+        return current_user_can('manage_options');
+      },
+    ]);
+  }
+
+  public function rest_get_status(): \WP_REST_Response
+  {
+    $data = $this->get_grid_data();
+
     return new \WP_REST_Response([
       'success' => true,
-      'data' => [
-        'is_green' => $grid_data['is_green'],
-        'grid_intensity' => $grid_data['grid_intensity'],
-        'grid_intensity_label' => $this->get_intensity_label($grid_data['grid_intensity']),
-        'region' => $grid_data['region'],
-        'country_name' => $grid_data['country_name'],
-        'carbon_intensity' => $grid_data['carbon_intensity'],
-        'last_updated' => $grid_data['last_updated'],
+      'data'    => [
+        'level'     => $data['level'],
+        'zone'      => $data['zone'],
+        'zone_name' => self::get_zone_name($data['zone']),
+        'message'   => self::$level_messages[$data['level']] ?? '',
+        'datetime'  => $data['datetime'],
       ],
-      'development' => $this->is_development(),
     ], 200);
   }
 
-  /**
-   * Helper function for other plugins to get grid status
-   * 
-   * Provides direct PHP access to grid status data without requiring
-   * HTTP requests. More efficient than REST API for server-side usage.
-   * 
-   * @since 1.0.0
-   * @return array Same format as REST API response:
-   *   - success: bool - Whether data was retrieved successfully
-   *   - data: array - Grid intensity data (see get_grid_intensity_data())
-   *   - development: bool - Whether in development mode
-   * 
-   * @example
-   * ```php
-   * $grid_data = SustainableTheme\GridAwareness::get_grid_status_for_plugin();
-   * if ($grid_data['success']) {
-   *     $intensity = $grid_data['data']['grid_intensity'];
-   *     $label = $grid_data['data']['grid_intensity_label'];
-   *     echo "Grid is {$label} ({$intensity}% clean)";
-   * }
-   * ```
-   */
-  public static function get_grid_status_for_plugin(): array
+  public function rest_test_connection(): \WP_REST_Response
   {
-    $instance = new self();
-    $grid_data = $instance->get_grid_intensity_data();
+    $api_key = $this->settings['electricity_maps_api_key'] ?? '';
+    $zone    = $this->settings['grid_awareness_zone'] ?? 'NL';
 
-    return [
+    if (empty($api_key)) {
+      return new \WP_REST_Response([
+        'success' => false,
+        'message' => 'No API key configured.',
+      ], 400);
+    }
+
+    $result = $this->fetch_from_api($api_key, $zone);
+
+    if (is_wp_error($result)) {
+      return new \WP_REST_Response([
+        'success' => false,
+        'message' => $result->get_error_message(),
+      ], 502);
+    }
+
+    return new \WP_REST_Response([
       'success' => true,
-      'data' => [
-        'is_green' => $grid_data['is_green'],
-        'grid_intensity' => $grid_data['grid_intensity'],
-        'grid_intensity_label' => $instance->get_intensity_label($grid_data['grid_intensity']),
-        'region' => $grid_data['region'],
-        'country_name' => $grid_data['country_name'],
-        'carbon_intensity' => $grid_data['carbon_intensity'],
-        'last_updated' => $grid_data['last_updated'],
-      ],
-      'development' => $instance->is_development(),
-    ];
+      'message' => 'Connection successful.',
+      'data'    => $result,
+    ], 200);
   }
 
-  /**
-   * Get grid intensity data from appropriate source
-   * 
-   * Determines the best data source based on environment and settings:
-   * 1. Development mode → Returns sample data for testing
-   * 2. Has API key → Fetches real data from Electricity Maps API
-   * 3. No API key → Returns sample data as fallback
-   * 
-   * @since 1.0.0
-   * @return array Grid intensity data with keys:
-   *   - is_green: bool - Whether grid is cleaner than average
-   *   - grid_intensity: int - Clean energy percentage (0-100)
-   *   - region: string - Country/region code (e.g., 'NL', 'DE')
-   *   - country_name: string - Human-readable country name
-   *   - carbon_intensity: int - Carbon intensity in gCO2/kWh
-   *   - status_message: string - User-friendly status message
-   *   - intensity_class: string - CSS class for styling ('green', 'yellow', etc.)
-   *   - last_updated: string - MySQL timestamp of last update
-   *   - development_mode: bool - Whether using development data
-   */
-  private function get_grid_intensity_data(): array
+  public function on_settings_update(string $option, $old, $new): void
   {
-    // In development mode, always return development data
-    if ($this->is_development()) {
-      return $this->get_development_data();
-    }
-
-    // Use real API if we have an API key
-    if (!empty($this->settings['electricity_maps_api_key'])) {
-      return $this->get_real_api_data();
-    }
-
-    // Fallback to sample data if no API key
-    return $this->get_sample_data();
-  }
-
-  /**
-   * Get development environment data
-   * 
-   * Returns consistent sample data for development/testing environments.
-   * Always returns "clean" grid status to simulate optimal conditions.
-   * 
-   * @since 1.0.0
-   * @return array Sample grid data with Netherlands as default region
-   */
-  private function get_development_data(): array
-  {
-    return [
-      'is_green' => true,
-      'grid_intensity' => 75,
-      'region' => 'NL',
-      'country_name' => 'Netherlands',
-      'carbon_intensity' => 250,
-      'status_message' => 'Development Mode: Your local grid is cleaner than average.',
-      'intensity_class' => 'green',
-      'last_updated' => current_time('mysql'),
-      'development_mode' => true,
-    ];
-  }
-
-  /**
-   * Get real API data from Electricity Maps API
-   * 
-   * Makes server-side HTTP request to Electricity Maps API using stored API key.
-   * Processes the response to calculate intensity percentages and status.
-   * 
-   * Falls back to sample data if API request fails or returns invalid data.
-   * 
-   * @since 1.0.0
-   * @return array Real grid data or sample data on failure
-   * @throws \Exception If API request fails
-   */
-  private function get_real_api_data(): array
-  {
-    try {
-      // Use the @greenweb/grid-aware-websites package
-      // This would require installing the package via Composer
-      // For now, we'll use a direct API call to Electricity Maps
-
-      $api_key = $this->settings['electricity_maps_api_key'];
-      $zone = $this->get_user_zone();
-
-      // Make API call to Electricity Maps
-      $url = "https://api.electricitymap.org/v3/carbon-intensity/latest?zone={$zone}";
-      $args = [
-        'headers' => [
-          'auth-token' => $api_key,
-        ],
-        'timeout' => 10,
-      ];
-
-      $response = wp_remote_get($url, $args);
-
-      if (is_wp_error($response)) {
-        error_log('Electricity Maps API error: ' . $response->get_error_message());
-        return $this->get_sample_data();
-      }
-
-      $body = wp_remote_retrieve_body($response);
-      $data = json_decode($body, true);
-
-      if (!$data || !isset($data['carbonIntensity'])) {
-        return $this->get_sample_data();
-      }
-
-      $intensity_percentage = $this->calculate_intensity_percentage($data['carbonIntensity']);
-      $intensity_class = $this->get_intensity_class($intensity_percentage);
-      $is_green = $data['carbonIntensity'] < 400; // Consider green if under 400 gCO2/kWh
-
-      return [
-        'is_green' => $is_green,
-        'grid_intensity' => $intensity_percentage,
-        'region' => $zone,
-        'country_name' => $this->get_country_name($zone),
-        'carbon_intensity' => $data['carbonIntensity'],
-        'status_message' => $this->get_status_message($is_green, $intensity_percentage),
-        'intensity_class' => $intensity_class,
-        'last_updated' => current_time('mysql'),
-        'development_mode' => false,
-      ];
-    } catch (\Exception $e) {
-      error_log('Real API data error: ' . $e->getMessage());
-      return $this->get_sample_data();
-    }
-  }
-
-  /**
-   * Get sample data for demonstration/fallback
-   * 
-   * Returns randomized sample data from predefined regions when:
-   * - No API key is available
-   * - API request fails
-   * - Development mode is disabled but no real data available
-   * 
-   * @since 1.0.0
-   * @return array Random sample grid data from predefined regions
-   */
-  private function get_sample_data(): array
-  {
-    $sample_regions = [
-      'NL' => ['name' => 'Netherlands', 'intensity' => 250, 'is_green' => true],
-      'DE' => ['name' => 'Germany', 'intensity' => 400, 'is_green' => false],
-      'US' => ['name' => 'United States', 'intensity' => 450, 'is_green' => false],
-      'FR' => ['name' => 'France', 'intensity' => 200, 'is_green' => true],
-      'GB' => ['name' => 'United Kingdom', 'intensity' => 300, 'is_green' => true],
-    ];
-
-    $region = array_rand($sample_regions);
-    $data = $sample_regions[$region];
-
-    $intensity_percentage = $this->calculate_intensity_percentage($data['intensity']);
-    $intensity_class = $this->get_intensity_class($intensity_percentage);
-
-    return [
-      'is_green' => $data['is_green'],
-      'grid_intensity' => $intensity_percentage,
-      'region' => $region,
-      'country_name' => $data['name'],
-      'carbon_intensity' => $data['intensity'],
-      'status_message' => $this->get_status_message($data['is_green'], $intensity_percentage),
-      'intensity_class' => $intensity_class,
-      'last_updated' => current_time('mysql'),
-      'development_mode' => false,
-    ];
-  }
-
-  /**
-   * Calculate intensity percentage from carbon intensity
-   * 
-   * Converts carbon intensity (gCO2/kWh) to a clean energy percentage (0-100).
-   * Uses inverse calculation: lower carbon intensity = higher clean percentage.
-   * 
-   * Formula: percentage = ((max_intensity - carbon_intensity) / (max_intensity - min_intensity)) * 100
-   * Where max_intensity = 1000 gCO2/kWh, min_intensity = 0 gCO2/kWh
-   * 
-   * @since 1.0.0
-   * @param int $carbon_intensity Carbon intensity in gCO2/kWh
-   * @return int Clean energy percentage (0-100)
-   */
-  private function calculate_intensity_percentage(int $carbon_intensity): int
-  {
-    $max_intensity = 1000;
-    $min_intensity = 0;
-    $percentage = max(0, min(100, (($max_intensity - $carbon_intensity) / ($max_intensity - $min_intensity)) * 100));
-    return (int) round($percentage);
-  }
-
-  /**
-   * Get intensity class for CSS styling
-   * 
-   * Converts intensity percentage to CSS class name for styling.
-   * Used by frontend JavaScript to apply appropriate visual styling.
-   * 
-   * @since 1.0.0
-   * @param int $intensity Clean energy percentage (0-100)
-   * @return string CSS class name: 'very-green', 'green', 'yellow', 'orange', 'red'
-   */
-  private function get_intensity_class(int $intensity): string
-  {
-    if ($intensity >= 80) return 'very-green';
-    if ($intensity >= 60) return 'green';
-    if ($intensity >= 40) return 'yellow';
-    if ($intensity >= 20) return 'orange';
-    return 'red';
-  }
-
-  /**
-   * Get intensity label following @greenweb/grid-aware-websites package standards
-   * 
-   * Converts intensity percentage to standardized labels used by the
-   * @greenweb/grid-aware-websites package. Uses 3 levels for consistency
-   * with the official package API.
-   * 
-   * @since 1.0.0
-   * @param int $intensity Clean energy percentage (0-100)
-   * @return string Intensity label: 'low', 'moderate', 'high'
-   * 
-   * @link https://www.npmjs.com/package/@greenweb/grid-aware-websites
-   */
-  private function get_intensity_label(int $intensity): string
-  {
-    if ($intensity >= 60) return 'low';      // Clean/low carbon
-    if ($intensity >= 30) return 'moderate'; // Average carbon
-    return 'high';                           // Dirty/high carbon
-  }
-
-  /**
-   * Get user-friendly status message
-   * 
-   * Generates human-readable status message based on grid conditions.
-   * Used by theme functions and can be displayed to users.
-   * 
-   * @since 1.0.0
-   * @param bool $is_green Whether grid is cleaner than average
-   * @param int $intensity Clean energy percentage (0-100)
-   * @return string User-friendly status message
-   */
-  private function get_status_message(bool $is_green, int $intensity): string
-  {
-    if ($is_green) return 'Your local grid: Cleaner than average.';
-    if ($intensity >= 40 && $intensity < 60) return 'Your local grid: About average.';
-    return 'Your local grid: Dirtier than average.';
-  }
-
-  /**
-   * Get user's zone based on IP or default
-   * 
-   * Determines the electricity grid zone for API requests.
-   * Currently returns a default zone (Netherlands) but could be
-   * enhanced with IP geolocation services.
-   * 
-   * @since 1.0.0
-   * @return string Zone code (e.g., 'NL', 'DE', 'US')
-   */
-  private function get_user_zone(): string
-  {
-    // For now, return a default zone
-    // In production, you could use IP geolocation services
-    return 'NL'; // Default to Netherlands
-  }
-
-  /**
-   * Get country name from zone code
-   * 
-   * Maps electricity grid zone codes to human-readable country names.
-   * Used for displaying location information to users.
-   * 
-   * @since 1.0.0
-   * @param string $zone Zone code (e.g., 'NL', 'DE', 'US')
-   * @return string Country name or 'Unknown' if zone not found
-   */
-  private function get_country_name(string $zone): string
-  {
-    $zone_map = [
-      'NL' => 'Netherlands',
-      'DE' => 'Germany',
-      'US' => 'United States',
-      'FR' => 'France',
-      'GB' => 'United Kingdom',
-    ];
-
-    return $zone_map[$zone] ?? 'Unknown';
-  }
-
-  /**
-   * Check if we're in development environment
-   * 
-   * Determines if the site is running in a development environment
-   * based on URL patterns. Used to enable development features like
-   * sample data and debug information.
-   * 
-   * @since 1.0.0
-   * @return bool True if in development environment
-   */
-  private function is_development(): bool
-  {
-    $is_local = strpos(home_url(), 'localhost') !== false ||
-      strpos(home_url(), '.local') !== false ||
-      strpos(home_url(), '127.0.0.1') !== false ||
-      strpos(home_url(), 'pixeltoplanet.local') !== false;
-
-    // Only use WP_DEBUG for development if we're actually on localhost
-    return $is_local || ($is_local && defined('WP_DEBUG') && WP_DEBUG);
-  }
-
-  /**
-   * Update settings when they change
-   * 
-   * WordPress hook callback that updates the local settings array
-   * when the theme settings option is updated in the database.
-   * 
-   * @since 1.0.0
-   * @param string $option_name The option name being updated
-   * @param mixed $old_value Previous option value
-   * @param mixed $new_value New option value
-   * @return void
-   */
-  public function update_settings(string $option_name, $old_value, $new_value): void
-  {
-    if ($option_name === 'sustainable_theme_settings') {
-      $this->settings = $new_value;
-    }
-  }
-
-
-  /**
-   * Check permissions for REST API
-   * 
-   * Permission callback for REST API endpoints. Always returns true
-   * since grid status data is safe to expose publicly.
-   * 
-   * @since 1.0.0
-   * @return bool Always true (public access allowed)
-   */
-  public function check_permissions(): bool
-  {
-    // Allow access for grid status endpoint - this is safe data
-    return true;
-  }
-
-  /**
-   * Theme function to get grid status message for display
-   * 
-   * Provides a simple way for themes and plugins to get user-friendly
-   * grid status messages without needing to process raw data.
-   * 
-   * @since 1.0.0
-   * @return string User-friendly status message
-   * 
-   * @example
-   * ```php
-   * // In theme template or plugin
-   * $message = SustainableTheme\GridAwareness::get_status_message_for_display();
-   * echo "<p class='grid-status'>{$message}</p>";
-   * ```
-   */
-  public static function get_status_message_for_display(): string
-  {
-    $instance = new self();
-    $grid_data = $instance->get_grid_intensity_data();
-
-    return $instance->get_status_message($grid_data['is_green'], $grid_data['grid_intensity']);
-  }
-
-  /**
-   * Display a server-rendered grid intensity banner
-   * 
-   * Renders a small banner with current grid status, clean energy percentage,
-   * and country information. Only renders when grid awareness is enabled and
-   * (API key present or in development). Intended for server-side rendering to
-   * avoid any frontend script requirements.
-   * 
-   * @since 1.0.0
-   * @return void
-   */
-  public function display_grid_intencity_banner(): void
-  {
-    $is_enabled = !empty($this->settings['use_grid_awareness']);
-    $has_api_key = !empty($this->settings['electricity_maps_api_key']);
-
-    if (!$is_enabled || (!$has_api_key && !$this->is_development())) {
+    if ($option !== 'sustainable_theme_settings') {
       return;
     }
 
-    $grid = $this->get_grid_intensity_data();
+    $this->settings = is_array($new) ? $new : [];
 
-    // Compute class based on percentage
-    $intensity_class = $this->get_intensity_class((int) $grid['grid_intensity']);
-    $status = esc_html($this->get_status_message((bool) $grid['is_green'], (int) $grid['grid_intensity']));
-    $country = esc_html($grid['country_name']);
-    $region = esc_html($grid['region']);
-    $percent = (int) $grid['grid_intensity'];
-    $updated = esc_html(mysql2date('Y-m-d H:i', $grid['last_updated']));
+    $old_zone = is_array($old) ? ($old['grid_awareness_zone'] ?? '') : '';
+    $new_zone = $this->settings['grid_awareness_zone'] ?? '';
 
-    echo '<div class="grid-indicator ' . esc_attr($intensity_class) . '" style="display:inline-flex">';
-    echo '  <div class="grid-indicator__dot"></div>';
-    echo '  <div class="grid-indicator__status">' . $status . ' (' . $country . ' ' . $region . ')</div>';
-    echo '  <div class="intensity-bar ' . esc_attr($intensity_class) . '"><div class="intensity-bar__fill" style="width:' . $percent . '%"></div></div>';
-    echo '  <span class="grid-indicator__meta" style="margin-left:8px;opacity:.7">' . $percent . '% • ' . $updated . '</span>';
-    echo '</div>';
+    if ($old_zone !== $new_zone) {
+      delete_transient(self::TRANSIENT_PREFIX . sanitize_key($old_zone));
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────────
+  // Data fetching & caching
+  // ──────────────────────────────────────────────────────────────
+
+  /**
+   * Get grid data, from cache or API.
+   *
+   * @return array{level: string, zone: string, datetime: string|null}
+   */
+  private function get_grid_data(): array
+  {
+    if ($this->grid_data !== null) {
+      return $this->grid_data;
+    }
+
+    $zone      = $this->settings['grid_awareness_zone'] ?? 'NL';
+    $cache_key = self::TRANSIENT_PREFIX . sanitize_key($zone);
+    $cached    = get_transient($cache_key);
+
+    if ($cached !== false && is_array($cached)) {
+      $this->grid_data = $cached;
+
+      /** Allow overriding the intensity level. */
+      $this->grid_data['level'] = apply_filters(
+        'sustainable_grid_intensity_level',
+        $this->grid_data['level'],
+        $this->grid_data
+      );
+
+      return $this->grid_data;
+    }
+
+    $api_key = $this->settings['electricity_maps_api_key'] ?? '';
+
+    if (empty($api_key)) {
+      $this->grid_data = $this->get_fallback_data($zone);
+      return $this->grid_data;
+    }
+
+    $result = $this->fetch_from_api($api_key, $zone);
+
+    if (is_wp_error($result)) {
+      error_log('Grid awareness API error: ' . $result->get_error_message());
+      $this->grid_data = $this->get_fallback_data($zone);
+      return $this->grid_data;
+    }
+
+    $cache_minutes = (int) ($this->settings['grid_awareness_cache_minutes'] ?? 15);
+    set_transient($cache_key, $result, $cache_minutes * MINUTE_IN_SECONDS);
+
+    do_action('sustainable_grid_intensity_updated', $result);
+
+    $this->grid_data = $result;
+
+    /** Allow overriding the intensity level. */
+    $this->grid_data['level'] = apply_filters(
+      'sustainable_grid_intensity_level',
+      $this->grid_data['level'],
+      $this->grid_data
+    );
+
+    return $this->grid_data;
+  }
+
+  /**
+   * Try the Carbon Intensity Level endpoint first (free Carbon Aware key),
+   * then fall back to the /home-assistant endpoint (free Home Assistant key).
+   *
+   * @return array{level: string, zone: string, datetime: string|null}|\WP_Error
+   */
+  private function fetch_from_api(string $api_key, string $zone): array|\WP_Error
+  {
+    $headers = ['auth-token' => $api_key];
+
+    // 1. Try the Carbon Intensity Level API (free via forms.electricitymaps.com/carbon-aware)
+    $result = $this->try_level_endpoint($zone, $headers);
+    if (!is_wp_error($result)) {
+      return $result;
+    }
+
+    // 2. Fall back to the /home-assistant endpoint (free via electricitymaps.com/free-tier-api)
+    $result = $this->try_home_assistant_endpoint($zone, $headers);
+    if (!is_wp_error($result)) {
+      return $result;
+    }
+
+    return $result;
+  }
+
+  /**
+   * /v3/carbon-intensity-level/latest — returns low/moderate/high directly.
+   * Available with the free Carbon Aware API key (forms.electricitymaps.com/carbon-aware).
+   */
+  private function try_level_endpoint(string $zone, array $headers): array|\WP_Error
+  {
+    $url = self::API_BASE . '/carbon-intensity-level/latest?' . http_build_query(['zone' => $zone]);
+
+    $response = wp_remote_get($url, ['headers' => $headers, 'timeout' => 10]);
+
+    if (is_wp_error($response)) {
+      return $response;
+    }
+
+    $code = wp_remote_retrieve_response_code($response);
+    if ($code !== 200) {
+      return new \WP_Error('level_endpoint_unavailable', "Level API returned HTTP {$code}");
+    }
+
+    $json = json_decode(wp_remote_retrieve_body($response), true);
+
+    if (!is_array($json) || empty($json['data'][0]['level'])) {
+      return new \WP_Error('invalid_response', 'Unexpected Level API response.');
+    }
+
+    $raw_level = strtolower($json['data'][0]['level']);
+    $level = ($raw_level === 'moderate') ? 'medium' : $raw_level;
+
+    if (!in_array($level, ['low', 'medium', 'high'], true)) {
+      $level = 'medium';
+    }
+
+    return [
+      'level'    => $level,
+      'zone'     => $json['zone'] ?? $zone,
+      'datetime' => $json['data'][0]['datetime'] ?? null,
+    ];
+  }
+
+  /**
+   * /v3/home-assistant — returns carbonIntensity + fossilFuelPercentage.
+   * Available with the free Home Assistant API key (electricitymaps.com/free-tier-api).
+   * We derive the level from fossilFuelPercentage.
+   */
+  private function try_home_assistant_endpoint(string $zone, array $headers): array|\WP_Error
+  {
+    $url = self::API_BASE . '/home-assistant?' . http_build_query(['zone' => $zone]);
+
+    $response = wp_remote_get($url, ['headers' => $headers, 'timeout' => 10]);
+
+    if (is_wp_error($response)) {
+      return $response;
+    }
+
+    $code = wp_remote_retrieve_response_code($response);
+    $body = wp_remote_retrieve_body($response);
+
+    if ($code !== 200) {
+      $error_body = json_decode($body, true);
+      $msg = $error_body['message'] ?? $error_body['error'] ?? "HTTP {$code}";
+      return new \WP_Error('api_error', 'Electricity Maps: ' . $msg);
+    }
+
+    $json = json_decode($body, true);
+
+    if (!is_array($json) || !isset($json['fossilFuelPercentage'])) {
+      return new \WP_Error('invalid_response', 'Unexpected Home Assistant API response.');
+    }
+
+    $fossil = (float) $json['fossilFuelPercentage'];
+
+    if ($fossil <= 40) {
+      $level = 'low';
+    } elseif ($fossil <= 60) {
+      $level = 'medium';
+    } else {
+      $level = 'high';
+    }
+
+    return [
+      'level'    => $level,
+      'zone'     => $json['zone'] ?? $zone,
+      'datetime' => $json['datetime'] ?? null,
+    ];
+  }
+
+  private function get_fallback_data(string $zone): array
+  {
+    return [
+      'level'    => 'low',
+      'zone'     => $zone,
+      'datetime' => null,
+    ];
+  }
+
+  // ──────────────────────────────────────────────────────────────
+  // Helpers
+  // ──────────────────────────────────────────────────────────────
+
+  private function is_enabled(): bool
+  {
+    $enabled = !empty($this->settings['use_grid_awareness']);
+    $has_key = !empty($this->settings['electricity_maps_api_key']);
+    $is_dev  = $this->is_development();
+
+    return $enabled && ($has_key || $is_dev);
+  }
+
+  private function is_development(): bool
+  {
+    $url = home_url();
+    return str_contains($url, 'localhost')
+      || str_contains($url, '.local')
+      || str_contains($url, '127.0.0.1');
+  }
+
+  private static function get_zone_name(string $zone): string
+  {
+    $base = strtoupper(explode('-', $zone)[0]);
+    return self::$zone_names[$base] ?? $zone;
   }
 }

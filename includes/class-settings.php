@@ -59,6 +59,22 @@ class Settings
               'electricity_maps_api_key' => ['type' => 'string', 'default' => ''],
 
               /**
+               * Grid awareness zone code for Electricity Maps API (e.g. NL, DE, US-CAL-CISO)
+               * @link https://docs.electricitymaps.com/coverage
+               */
+              'grid_awareness_zone' => ['type' => 'string', 'default' => 'NL'],
+
+              /**
+               * Grid awareness cache duration in minutes (how long to cache API responses)
+               */
+              'grid_awareness_cache_minutes' => [
+                'type' => 'integer',
+                'minimum' => 5,
+                'maximum' => 60,
+                'default' => 15
+              ],
+
+              /**
                * RSS & FEEDS - Removes RSS feed links and redirects feed URLs
                * @link https://developer.wordpress.org/reference/functions/feed_links/
                * @link https://developer.wordpress.org/reference/functions/feed_links_extra/
@@ -264,6 +280,8 @@ class Settings
       'dequeue_non_sustainable' => false,
       'use_grid_awareness' => false,
       'electricity_maps_api_key' => '',
+      'grid_awareness_zone' => 'NL',
+      'grid_awareness_cache_minutes' => 15,
       'disable_rss_feed' => false,
       'disable_emojis' => false,
       'remove_embeds' => false,
@@ -332,6 +350,8 @@ class Settings
           // Preserve grid awareness settings
           'use_grid_awareness' => $current_settings['use_grid_awareness'] ?? true,
           'electricity_maps_api_key' => $current_settings['electricity_maps_api_key'] ?? '',
+          'grid_awareness_zone' => $current_settings['grid_awareness_zone'] ?? 'NL',
+          'grid_awareness_cache_minutes' => $current_settings['grid_awareness_cache_minutes'] ?? 15,
         ]);
 
       case 'super':
@@ -340,6 +360,8 @@ class Settings
           'dequeue_non_sustainable' => true,
           'use_grid_awareness' => $current_settings['use_grid_awareness'] ?? true,
           'electricity_maps_api_key' => $current_settings['electricity_maps_api_key'] ?? '',
+          'grid_awareness_zone' => $current_settings['grid_awareness_zone'] ?? 'NL',
+          'grid_awareness_cache_minutes' => $current_settings['grid_awareness_cache_minutes'] ?? 15,
           'disable_rss_feed' => true,
           'disable_emojis' => true,
           'remove_embeds' => true,
@@ -554,6 +576,15 @@ class Settings
     // Sanitize string settings
     if (isset($settings['electricity_maps_api_key'])) {
       $sanitized['electricity_maps_api_key'] = sanitize_text_field($settings['electricity_maps_api_key']);
+    }
+
+    if (isset($settings['grid_awareness_zone'])) {
+      $sanitized['grid_awareness_zone'] = preg_replace('/[^A-Za-z0-9\-]/', '', $settings['grid_awareness_zone']);
+    }
+
+    if (isset($settings['grid_awareness_cache_minutes'])) {
+      $minutes = (int) $settings['grid_awareness_cache_minutes'];
+      $sanitized['grid_awareness_cache_minutes'] = max(5, min(60, $minutes));
     }
 
     // Sanitize boolean settings
