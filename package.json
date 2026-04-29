@@ -21,9 +21,7 @@
 		"esbuild": "^0.25.8",
 		"sass": "^1.89.2"
 	},
-	"dependencies": {
-		"@greenweb/grid-aware-websites": "^1.0.0"
-	},
+	"dependencies": {},
 	"engines": {
 		"bun": ">=1.0.0"
 	},
