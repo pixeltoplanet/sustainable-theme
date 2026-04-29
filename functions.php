@@ -23,6 +23,7 @@ include_once get_template_directory() . '/includes/class-lazy-loading.php';
 include_once get_template_directory() . '/includes/class-image-sizes.php';
 include_once get_template_directory() . '/includes/class-grid-awareness.php';
 include_once get_template_directory() . '/includes/class-block-patterns.php';
+include_once get_template_directory() . '/includes/class-query-exclude-current.php';
 
 // Initialize the classes
 new SustainableTheme\Settings();
@@ -56,6 +57,27 @@ function sustainable_theme_enqueue_editor_styles()
   add_editor_style('build/editor-styles.css');
 }
 add_action('after_setup_theme', 'sustainable_theme_enqueue_editor_styles');
+
+/**
+ * Block editor: extend core Query loop with "exclude current post" controls.
+ */
+function sustainable_theme_enqueue_query_block_script(): void
+{
+  $asset_path = SUSTAINABLE_THEME_DIR . '/build/query-block.asset.php';
+  if (!is_readable($asset_path)) {
+    return;
+  }
+  $asset = include $asset_path;
+  wp_register_script(
+    'sustainable-theme-query-block',
+    SUSTAINABLE_THEME_URL . '/build/query-block.js',
+    is_array($asset) ? ($asset['dependencies'] ?? []) : [],
+    is_array($asset) ? (string) ($asset['version'] ?? SUSTAINABLE_THEME_VERSION) : SUSTAINABLE_THEME_VERSION,
+    true
+  );
+  wp_enqueue_script('sustainable-theme-query-block');
+}
+add_action('enqueue_block_editor_assets', 'sustainable_theme_enqueue_query_block_script');
 
 /**
  * Get URL for a theme placeholder image.

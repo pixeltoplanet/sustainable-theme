@@ -5,6 +5,11 @@ module.exports = {
 	...defaultConfig,
 	entry: {
 		admin: path.resolve(process.cwd(), "src", "admin.js"),
+		"query-block": path.resolve(
+			process.cwd(),
+			"src",
+			"query-block.js",
+		),
 		frontend: path.resolve(process.cwd(), "src", "frontend.js"),
 		"frontend-styles": path.resolve(
 			process.cwd(),
