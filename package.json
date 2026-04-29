@@ -1,31 +1,31 @@
 {
-  "name": "the-sustainable-theme",
-  "version": "1.0.0",
-  "description": "A sustainable WordPress block theme designed for environmental consciousness",
-  "scripts": {
-    "build": "wp-scripts build",
-    "dev": "wp-scripts start",
-    "format": "wp-scripts format",
-    "lint:css": "wp-scripts lint-style",
-    "lint:js": "wp-scripts lint-js",
-    "packages-update": "wp-scripts packages-update",
-    "zip": "zip -r \"/Users/danny/Local Sites/pixeltoplanet/app/public/wp-content/themes/sustainable-theme/sustainable-theme.zip\" . -x 'node_modules/*' 'src/*' '.git/*' '*.zip'",
-    "release": "bun run build && bun run zip"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^2.1.2",
-    "@types/node": "^24.1.0",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "@wordpress/scripts": "^30.20.0",
-    "esbuild": "^0.25.8",
-    "sass": "^1.89.2"
-  },
-  "dependencies": {
-    "@greenweb/grid-aware-websites": "^1.0.0"
-  },
-  "engines": {
-    "bun": ">=1.0.0"
-  },
-  "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748"
+	"name": "the-sustainable-theme",
+	"version": "0.0.11",
+	"description": "A sustainable WordPress block theme designed for environmental consciousness",
+	"scripts": {
+		"build": "wp-scripts build",
+		"dev": "wp-scripts start",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"packages-update": "wp-scripts packages-update",
+		"zip": "zip -r \"/Users/danny/Local Sites/pixeltoplanet/app/public/wp-content/themes/sustainable-theme/sustainable-theme.zip\" . -x 'node_modules/*' 'src/*' '.git/*' '*.zip'",
+		"release": "bun run build && bun run zip"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.1.2",
+		"@types/node": "^24.1.0",
+		"@types/react": "^19.1.8",
+		"@types/react-dom": "^19.1.6",
+		"@wordpress/scripts": "^30.20.0",
+		"esbuild": "^0.25.8",
+		"sass": "^1.89.2"
+	},
+	"dependencies": {
+		"@greenweb/grid-aware-websites": "^1.0.0"
+	},
+	"engines": {
+		"bun": ">=1.0.0"
+	},
+	"packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748"
 }
