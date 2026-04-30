@@ -42,6 +42,56 @@ function initGridAwareness(): void {
     });
   }
 
+  // Placeholder "Load image" buttons
+  document.addEventListener("click", (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>(
+      "[data-grid-load-img]",
+    );
+    if (!btn) return;
+
+    const placeholder = btn.closest<HTMLElement>(".grid-aware-placeholder");
+    if (!placeholder) return;
+
+    const encoded = placeholder.dataset.originalImg;
+    if (!encoded) return;
+
+    try {
+      const imgHtml = atob(encoded);
+      placeholder.insertAdjacentHTML("afterend", imgHtml);
+      placeholder.remove();
+    } catch {
+      placeholder.remove();
+    }
+  });
+
+  // Blurred images: click to load the full-resolution version
+  document.addEventListener("click", (e) => {
+    const img = (e.target as HTMLElement).closest<HTMLImageElement>(
+      "img.grid-aware-blurred",
+    );
+    if (!img || img.classList.contains("grid-aware-blurred--loaded")) return;
+
+    const fullSrc = img.dataset.fullSrc;
+    if (!fullSrc) return;
+
+    const fullSrcset = img.dataset.fullSrcset;
+    const fullSizes = img.dataset.fullSizes;
+
+    if (fullSrcset) {
+      img.srcset = fullSrcset;
+      delete img.dataset.fullSrcset;
+    }
+    if (fullSizes) {
+      img.sizes = fullSizes;
+      delete img.dataset.fullSizes;
+    }
+
+    img.src = fullSrc;
+    delete img.dataset.fullSrc;
+    img.classList.remove("grid-aware-blurred");
+    img.classList.add("grid-aware-blurred--loaded");
+  });
+
   // Periodic refresh from REST endpoint (updates the bar text + body class
   // without a full page reload, useful for long-lived tabs).
   const settings = window.sustainableGridSettings;

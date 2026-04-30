@@ -64,9 +64,16 @@ class GridAwareness
     add_filter('body_class', [$this, 'add_body_classes']);
     add_action('wp_body_open', [$this, 'render_top_bar']);
     add_action('wp_enqueue_scripts', [$this, 'enqueue_assets']);
+    add_action('wp_enqueue_scripts', [$this, 'dequeue_fonts_on_high'], 99);
     add_action('wp_head', [$this, 'add_meta']);
     add_action('rest_api_init', [$this, 'register_rest_routes']);
     add_action('updated_option', [$this, 'on_settings_update'], 10, 3);
+
+    $image_mode = $this->settings['grid_awareness_image_mode'] ?? 'low-res';
+    if ($image_mode !== 'none') {
+      add_filter('wp_content_img_tag', [$this, 'filter_content_img_tag'], 10, 3);
+      add_filter('wp_get_attachment_image_attributes', [$this, 'filter_attachment_image_attrs'], 10, 3);
+    }
   }
 
   // ──────────────────────────────────────────────────────────────
@@ -213,6 +220,18 @@ class GridAwareness
         return current_user_can('manage_options');
       },
     ]);
+
+    register_rest_route('sustainable-theme/v1', '/regenerate-blur', [
+      'methods'             => 'POST',
+      'callback'            => [$this, 'rest_regenerate_blur'],
+      'permission_callback' => function () {
+        return current_user_can('manage_options');
+      },
+      'args' => [
+        'offset' => ['type' => 'integer', 'default' => 0],
+        'batch'  => ['type' => 'integer', 'default' => 10],
+      ],
+    ]);
   }
 
   public function rest_get_status(): \WP_REST_Response
@@ -259,6 +278,64 @@ class GridAwareness
     ], 200);
   }
 
+  /**
+   * Regenerate blurred variants for existing images in batches.
+   * Returns progress so the frontend can call repeatedly until done.
+   */
+  public function rest_regenerate_blur(\WP_REST_Request $request): \WP_REST_Response
+  {
+    $offset = max(0, (int) $request->get_param('offset'));
+    $batch  = min(25, max(1, (int) $request->get_param('batch')));
+
+    $query = new \WP_Query([
+      'post_type'      => 'attachment',
+      'post_mime_type' => ['image/jpeg', 'image/png', 'image/webp'],
+      'post_status'    => 'inherit',
+      'posts_per_page' => $batch,
+      'offset'         => $offset,
+      'fields'         => 'ids',
+      'no_found_rows'  => false,
+    ]);
+
+    $total     = (int) $query->found_posts;
+    $processed = 0;
+    $skipped   = 0;
+    $image_sizes = new Image_Sizes();
+
+    foreach ($query->posts as $attachment_id) {
+      $metadata = wp_get_attachment_metadata($attachment_id);
+      if (!is_array($metadata)) {
+        $skipped++;
+        continue;
+      }
+
+      if (!empty($metadata['sizes']['sustainable_blurred'])) {
+        $skipped++;
+        continue;
+      }
+
+      $updated = $image_sizes->generate_blurred_variant($metadata, $attachment_id);
+      if (!empty($updated['sizes']['sustainable_blurred'])) {
+        wp_update_attachment_metadata($attachment_id, $updated);
+        $processed++;
+      } else {
+        $skipped++;
+      }
+    }
+
+    $next_offset = $offset + $batch;
+    $done = $next_offset >= $total;
+
+    return new \WP_REST_Response([
+      'success'   => true,
+      'processed' => $processed,
+      'skipped'   => $skipped,
+      'total'     => $total,
+      'offset'    => $next_offset,
+      'done'      => $done,
+    ], 200);
+  }
+
   public function on_settings_update(string $option, $old, $new): void
   {
     if ($option !== 'sustainable_theme_settings') {
@@ -288,6 +365,20 @@ class GridAwareness
   {
     if ($this->grid_data !== null) {
       return $this->grid_data;
+    }
+
+    // ?grid_level=low|medium|high overrides for testing
+    if (!is_admin() && isset($_GET['grid_level'])) {
+      $override = sanitize_key($_GET['grid_level']);
+      if (in_array($override, ['low', 'medium', 'high'], true)) {
+        $zone = $this->settings['grid_awareness_zone'] ?? 'NL';
+        $this->grid_data = [
+          'level'    => $override,
+          'zone'     => $zone,
+          'datetime' => null,
+        ];
+        return $this->grid_data;
+      }
     }
 
     $zone      = $this->settings['grid_awareness_zone'] ?? 'NL';
@@ -457,6 +548,222 @@ class GridAwareness
       'zone'     => $zone,
       'datetime' => null,
     ];
+  }
+
+  // ──────────────────────────────────────────────────────────────
+  // Grid-aware image adaptation
+  // ──────────────────────────────────────────────────────────────
+
+  private static array $sizes_cap = [
+    'low'    => 0,
+    'medium' => 768,
+    'high'   => 480,
+  ];
+
+  /**
+   * Filter image tags in post content based on grid intensity and image mode.
+   * Hooks into wp_content_img_tag (WordPress 6.0+).
+   */
+  public function filter_content_img_tag(string $image, string $context, int $attachment_id): string
+  {
+    $level = $this->get_grid_data()['level'];
+    if ($level === 'low') {
+      return $image;
+    }
+
+    $mode = $this->settings['grid_awareness_image_mode'] ?? 'low-res';
+
+    if ($mode === 'placeholder' && $level === 'high') {
+      return $this->build_placeholder($image, $attachment_id);
+    }
+
+    if ($mode === 'blurred' && $attachment_id > 0) {
+      return $this->swap_to_blurred($image, $attachment_id);
+    }
+
+    $cap = self::$sizes_cap[$level] ?? 0;
+    if ($cap > 0) {
+      return $this->cap_sizes_attr($image, $cap);
+    }
+
+    return $image;
+  }
+
+  /**
+   * Filter attachment image attributes (covers featured images, galleries).
+   *
+   * For blurred mode: swaps src to the blurred variant and replaces srcset
+   * with only the blurred URL (keeping the attribute present prevents
+   * WordPress from re-adding the full srcset later).
+   */
+  public function filter_attachment_image_attrs(array $attr, \WP_Post $attachment, $size): array
+  {
+    $level = $this->get_grid_data()['level'];
+    if ($level === 'low') {
+      return $attr;
+    }
+
+    $mode = $this->settings['grid_awareness_image_mode'] ?? 'low-res';
+
+    if ($mode === 'blurred') {
+      $blurred_url = Image_Sizes::get_blurred_url($attachment->ID);
+      if ($blurred_url) {
+        $attr['data-full-src'] = $attr['src'] ?? '';
+        $attr['data-full-srcset'] = $attr['srcset'] ?? '';
+        $attr['data-full-sizes'] = $attr['sizes'] ?? '';
+        $attr['src'] = $blurred_url;
+        $attr['srcset'] = $blurred_url . ' ' . Image_Sizes::BLURRED_WIDTH . 'w';
+        $attr['sizes'] = '100vw';
+        $attr['class'] = trim(($attr['class'] ?? '') . ' grid-aware-blurred');
+        return $attr;
+      }
+    }
+
+    if ($mode === 'placeholder' && $level === 'high') {
+      $attr['data-grid-placeholder'] = '1';
+      $attr['class'] = trim(($attr['class'] ?? '') . ' grid-aware-placeholder-target');
+    }
+
+    $cap = self::$sizes_cap[$level] ?? 0;
+    if ($cap > 0 && isset($attr['sizes'])) {
+      $attr['sizes'] = "(max-width: {$cap}px) 100vw, {$cap}px";
+    }
+
+    return $attr;
+  }
+
+  /**
+   * Rewrite the sizes attribute on an <img> tag to cap the max display width.
+   */
+  private function cap_sizes_attr(string $image, int $cap): string
+  {
+    $new_sizes = "(max-width: {$cap}px) 100vw, {$cap}px";
+
+    if (preg_match('/\bsizes\s*=\s*"[^"]*"/i', $image)) {
+      return preg_replace('/\bsizes\s*=\s*"[^"]*"/i', 'sizes="' . $new_sizes . '"', $image);
+    }
+
+    if (preg_match('/\bsizes\s*=\s*\'[^\']*\'/i', $image)) {
+      return preg_replace("/\bsizes\s*=\s*'[^']*'/i", "sizes='" . $new_sizes . "'", $image);
+    }
+
+    return str_replace('<img', '<img sizes="' . $new_sizes . '"', $image);
+  }
+
+  /**
+   * Swap the image src/srcset to the blurred variant if available.
+   * Falls back to sizes capping if no blurred variant exists.
+   */
+  private function swap_to_blurred(string $image, int $attachment_id): string
+  {
+    // Already processed by filter_attachment_image_attrs
+    if (str_contains($image, 'data-full-srcset="')) {
+      return $image;
+    }
+
+    $blurred_url = Image_Sizes::get_blurred_url($attachment_id);
+    if (!$blurred_url) {
+      $level = $this->get_grid_data()['level'];
+      $cap = self::$sizes_cap[$level] ?? 0;
+      return $cap > 0 ? $this->cap_sizes_attr($image, $cap) : $image;
+    }
+
+    $blurred_srcset = esc_url($blurred_url) . ' ' . Image_Sizes::BLURRED_WIDTH . 'w';
+    $result = $image;
+
+    // Use negative lookbehind to match only standalone attributes, not data-full-* variants
+    $src_pattern    = '/(?<![\w-])src\s*=\s*"([^"]+)"/i';
+    $srcset_pattern = '/(?<![\w-])srcset\s*=\s*"([^"]*)"/i';
+    $sizes_pattern  = '/(?<![\w-])sizes\s*=\s*"([^"]*)"/i';
+
+    // Store original src
+    if (preg_match($src_pattern, $result, $m)) {
+      $result = str_replace('<img', '<img data-full-src="' . esc_attr($m[1]) . '"', $result);
+    }
+
+    // Replace srcset with blurred-only srcset, store original in data attribute
+    if (preg_match($srcset_pattern, $result, $m)) {
+      $result = str_replace($m[0], 'data-full-srcset="' . esc_attr($m[1]) . '" srcset="' . $blurred_srcset . '"', $result);
+    }
+
+    // Replace sizes, store original in data attribute
+    if (preg_match($sizes_pattern, $result, $m)) {
+      $result = str_replace($m[0], 'data-full-sizes="' . esc_attr($m[1]) . '" sizes="100vw"', $result);
+    }
+
+    // Set src to the blurred variant
+    $result = preg_replace($src_pattern, 'src="' . esc_url($blurred_url) . '"', $result);
+
+    // Add CSS class (avoid duplication)
+    if (preg_match('/\bclass\s*=\s*"([^"]*)"/i', $result, $m)) {
+      $classes = $m[1];
+      if (!str_contains($classes, 'grid-aware-blurred')) {
+        $result = str_replace($m[0], 'class="' . $classes . ' grid-aware-blurred"', $result);
+      }
+    } else {
+      $result = str_replace('<img', '<img class="grid-aware-blurred"', $result);
+    }
+
+    return $result;
+  }
+
+  /**
+   * Replace an <img> tag with a lightweight placeholder.
+   */
+  private function build_placeholder(string $image, int $attachment_id): string
+  {
+    $alt = '';
+    if (preg_match('/\balt\s*=\s*"([^"]*)"/i', $image, $m)) {
+      $alt = $m[1];
+    }
+
+    $encoded = base64_encode($image);
+    $label   = esc_html($alt ?: __('Image', 'sustainable-theme'));
+    $btn     = esc_html__('Load image', 'sustainable-theme');
+
+    return '<div class="grid-aware-placeholder" data-original-img="' . esc_attr($encoded) . '">'
+      . '<span class="grid-aware-placeholder__alt">' . $label . '</span>'
+      . '<button type="button" class="grid-aware-placeholder__btn" data-grid-load-img>'
+      . $btn
+      . '</button>'
+      . '</div>';
+  }
+
+  // ──────────────────────────────────────────────────────────────
+  // Grid-aware font adaptation (theme-controlled)
+  // ──────────────────────────────────────────────────────────────
+
+  /**
+   * Dequeue custom web fonts on high intensity to save bandwidth.
+   * Font CSS override is handled in grid-aware.scss via body class.
+   */
+  public function dequeue_fonts_on_high(): void
+  {
+    if (is_admin()) {
+      return;
+    }
+
+    $level = $this->get_grid_data()['level'];
+    if ($level !== 'high') {
+      return;
+    }
+
+    global $wp_styles;
+    if (empty($wp_styles->registered)) {
+      return;
+    }
+
+    $font_patterns = ['font', 'typekit', 'google-fonts', 'dm-sans'];
+
+    foreach ($wp_styles->registered as $handle => $style) {
+      $src = $style->src ?? '';
+      foreach ($font_patterns as $pattern) {
+        if (stripos($handle, $pattern) !== false || stripos($src, $pattern) !== false) {
+          wp_dequeue_style($handle);
+          break;
+        }
+      }
+    }
   }
 
   // ──────────────────────────────────────────────────────────────

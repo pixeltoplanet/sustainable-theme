@@ -141,6 +141,7 @@
   .grid-aware-bar__dot {
     background-color: #22c55e;
   }
+
   .grid-aware-bar__toggle-track {
     background-color: #22c55e;
   }
@@ -151,6 +152,7 @@
   .grid-aware-bar__dot {
     background-color: #f59e0b;
   }
+
   .grid-aware-bar__toggle-track {
     background-color: #f59e0b;
   }
@@ -161,6 +163,7 @@
   .grid-aware-bar__dot {
     background-color: #ef4444;
   }
+
   .grid-aware-bar__toggle-track {
     background-color: #ef4444;
   }
@@ -184,5 +187,84 @@
 @media (max-width: 480px) {
   .grid-aware-bar__zone span {
     display: none;
+  }
+}
+
+/* ── Blurred image mode ── */
+
+.grid-aware-blurred {
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    filter: none;
+  }
+
+  &.grid-aware-blurred--loaded {
+    filter: none;
+    cursor: default;
+  }
+}
+
+/* ── Image placeholder (placeholder mode, high intensity) ── */
+
+.grid-aware-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 120px;
+  padding: 24px;
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.grid-aware-placeholder__alt {
+  font-size: 14px;
+  color: #6b7280;
+  font-style: italic;
+  max-width: 40ch;
+}
+
+.grid-aware-placeholder__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+
+  &:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+  }
+}
+
+/* ── High-intensity theme-controlled adaptations ── */
+
+body.grid-intensity-high {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif !important;
+
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  // Skip decorative background images on common wrapper elements
+  [class*="hero"],
+  [class*="banner"],
+  [class*="decorative"],
+  [class*="bg-image"] {
+    background-image: none !important;
   }
 }

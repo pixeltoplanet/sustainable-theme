@@ -75,6 +75,15 @@ class Settings
               ],
 
               /**
+               * Grid awareness image behavior on medium/high intensity grids
+               */
+              'grid_awareness_image_mode' => [
+                'type' => 'string',
+                'enum' => ['none', 'low-res', 'blurred', 'placeholder'],
+                'default' => 'low-res'
+              ],
+
+              /**
                * RSS & FEEDS - Removes RSS feed links and redirects feed URLs
                * @link https://developer.wordpress.org/reference/functions/feed_links/
                * @link https://developer.wordpress.org/reference/functions/feed_links_extra/
@@ -282,6 +291,7 @@ class Settings
       'electricity_maps_api_key' => '',
       'grid_awareness_zone' => 'NL',
       'grid_awareness_cache_minutes' => 15,
+      'grid_awareness_image_mode' => 'low-res',
       'disable_rss_feed' => false,
       'disable_emojis' => false,
       'remove_embeds' => false,
@@ -352,6 +362,7 @@ class Settings
           'electricity_maps_api_key' => $current_settings['electricity_maps_api_key'] ?? '',
           'grid_awareness_zone' => $current_settings['grid_awareness_zone'] ?? 'NL',
           'grid_awareness_cache_minutes' => $current_settings['grid_awareness_cache_minutes'] ?? 15,
+          'grid_awareness_image_mode' => $current_settings['grid_awareness_image_mode'] ?? 'low-res',
         ]);
 
       case 'super':
@@ -362,6 +373,7 @@ class Settings
           'electricity_maps_api_key' => $current_settings['electricity_maps_api_key'] ?? '',
           'grid_awareness_zone' => $current_settings['grid_awareness_zone'] ?? 'NL',
           'grid_awareness_cache_minutes' => $current_settings['grid_awareness_cache_minutes'] ?? 15,
+          'grid_awareness_image_mode' => $current_settings['grid_awareness_image_mode'] ?? 'low-res',
           'disable_rss_feed' => true,
           'disable_emojis' => true,
           'remove_embeds' => true,
@@ -585,6 +597,13 @@ class Settings
     if (isset($settings['grid_awareness_cache_minutes'])) {
       $minutes = (int) $settings['grid_awareness_cache_minutes'];
       $sanitized['grid_awareness_cache_minutes'] = max(5, min(60, $minutes));
+    }
+
+    if (isset($settings['grid_awareness_image_mode'])) {
+      $sanitized['grid_awareness_image_mode'] = in_array(
+        $settings['grid_awareness_image_mode'],
+        ['none', 'low-res', 'blurred', 'placeholder']
+      ) ? $settings['grid_awareness_image_mode'] : 'low-res';
     }
 
     // Sanitize boolean settings

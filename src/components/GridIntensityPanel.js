@@ -6,6 +6,7 @@ import {
 	TextControl,
 	RangeControl,
 	Button,
+	ButtonGroup,
 	Notice,
 } from "@wordpress/components";
 import Text from "./Text";
@@ -45,11 +46,15 @@ export default function GridIntensityPanel({
 	onZoneChange,
 	cacheMinutes,
 	onCacheMinutesChange,
+	imageMode,
+	onImageModeChange,
 }) {
 	const [gridStatus, setGridStatus] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [testResult, setTestResult] = useState(null);
 	const [isTesting, setIsTesting] = useState(false);
+	const [blurProgress, setBlurProgress] = useState(null);
+	const [isRegenerating, setIsRegenerating] = useState(false);
 
 	useEffect(() => {
 		if (!isEnabled) {
@@ -109,6 +114,47 @@ export default function GridIntensityPanel({
 		setIsTesting(false);
 
 		setTimeout(() => setTestResult(null), 5000);
+	};
+
+	const handleRegenerateBlur = async () => {
+		setIsRegenerating(true);
+		setBlurProgress({ processed: 0, total: 0, done: false });
+
+		let offset = 0;
+		let totalProcessed = 0;
+
+		while (true) {
+			try {
+				const response = await fetch(
+					"/wp-json/sustainable-theme/v1/regenerate-blur",
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"X-WP-Nonce": window.wpApiSettings?.nonce || "",
+						},
+						body: JSON.stringify({ offset, batch: 10 }),
+					},
+				);
+
+				const data = await response.json();
+				if (!data.success) break;
+
+				totalProcessed += data.processed;
+				setBlurProgress({
+					processed: totalProcessed,
+					total: data.total,
+					done: data.done,
+				});
+
+				if (data.done) break;
+				offset = data.offset;
+			} catch {
+				break;
+			}
+		}
+
+		setIsRegenerating(false);
 	};
 
 	const zoneName =
@@ -245,6 +291,125 @@ export default function GridIntensityPanel({
 							"sustainable-theme",
 						)}
 					/>
+
+					<Heading level={4}>
+						{__("Image Behavior", "sustainable-theme")}
+					</Heading>
+
+					<div>
+						<p
+							style={{
+								fontSize: "13px",
+								color: "#374151",
+								marginBottom: "10px",
+							}}
+						>
+							{__(
+								"How images adapt when the grid intensity is medium or high.",
+								"sustainable-theme",
+							)}
+						</p>
+						<ButtonGroup style={{ display: "flex", gap: "0" }}>
+							{[
+								{
+									value: "none",
+									label: __("None", "sustainable-theme"),
+								},
+								{
+									value: "low-res",
+									label: __("Low-res", "sustainable-theme"),
+								},
+								{
+									value: "blurred",
+									label: __("Blurred", "sustainable-theme"),
+								},
+								{
+									value: "placeholder",
+									label: __("Placeholder", "sustainable-theme"),
+								},
+							].map((opt) => (
+								<Button
+									key={opt.value}
+									variant={
+										(imageMode || "low-res") === opt.value
+											? "primary"
+											: "secondary"
+									}
+									onClick={() => onImageModeChange(opt.value)}
+									__next40pxDefaultSize
+								>
+									{opt.label}
+								</Button>
+							))}
+						</ButtonGroup>
+						<p
+							style={{
+								fontSize: "12px",
+								color: "#757575",
+								marginTop: "8px",
+							}}
+						>
+							{(imageMode || "low-res") === "none" &&
+								__(
+									"Images are served at full resolution regardless of grid intensity.",
+									"sustainable-theme",
+								)}
+							{(imageMode || "low-res") === "low-res" &&
+								__(
+									"Images are served at reduced resolution on medium/high intensity grids, saving bandwidth.",
+									"sustainable-theme",
+								)}
+							{(imageMode || "low-res") === "blurred" &&
+								__(
+									"Images are replaced with a small, blurred version on medium/high intensity. Click to load the full image. Blurred versions are generated on upload.",
+									"sustainable-theme",
+								)}
+							{(imageMode || "low-res") === "placeholder" &&
+								__(
+									"On high intensity, images are replaced with lightweight placeholders. Visitors can load them individually.",
+									"sustainable-theme",
+								)}
+						</p>
+					</div>
+
+					{(imageMode === "blurred" || imageMode === "placeholder") && (
+						<div style={{ marginTop: "4px" }}>
+							<Button
+								isSecondary
+								__next40pxDefaultSize
+								onClick={handleRegenerateBlur}
+								isBusy={isRegenerating}
+								disabled={isRegenerating}
+							>
+								{isRegenerating
+									? __("Generating...", "sustainable-theme")
+									: __("Generate blurred images", "sustainable-theme")}
+							</Button>
+							<p
+								style={{
+									fontSize: "12px",
+									color: "#757575",
+									marginTop: "6px",
+								}}
+							>
+								{__(
+									"Creates blurred variants for existing images. New uploads are processed automatically.",
+									"sustainable-theme",
+								)}
+							</p>
+							{blurProgress && (
+								<Notice
+									status={blurProgress.done ? "success" : "info"}
+									isDismissible={false}
+									style={{ marginTop: "8px" }}
+								>
+									{blurProgress.done
+										? `${blurProgress.processed} blurred image${blurProgress.processed !== 1 ? "s" : ""} generated (${blurProgress.total} total images).`
+										: `Processing... ${blurProgress.processed} generated so far.`}
+								</Notice>
+							)}
+						</div>
+					)}
 
 					{apiKey && (
 						<div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
