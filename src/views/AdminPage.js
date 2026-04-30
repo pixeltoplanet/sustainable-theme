@@ -27,6 +27,7 @@ export default function AdminPage() {
 		electricity_maps_api_key: "",
 		grid_awareness_zone: "NL",
 		grid_awareness_cache_minutes: 15,
+		grid_awareness_image_mode: "low-res",
 		disable_rss_feed: false,
 		disable_emojis: false,
 		remove_embeds: false,
@@ -63,6 +64,9 @@ export default function AdminPage() {
 	const [isCleaningDb, setIsCleaningDb] = useState(false);
 	const [cleanupMessage, setCleanupMessage] = useState("");
 	const [cleanupStatus, setCleanupStatus] = useState(""); // 'success' or 'error'
+	const [isGeneratingBlur, setIsGeneratingBlur] = useState(false);
+	const [blurMessage, setBlurMessage] = useState("");
+	const [blurStatus, setBlurStatus] = useState("");
 	const [originalSettings, setOriginalSettings] = useState(null);
 
 	// Load settings on component mount
@@ -221,6 +225,68 @@ export default function AdminPage() {
 		}
 	};
 
+	const handleGenerateBlurImages = async () => {
+		setIsGeneratingBlur(true);
+		setBlurMessage("");
+		setBlurStatus("");
+
+		try {
+			const response = await fetch(
+				"/wp-json/sustainable-theme/v1/images/generate-blurred",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						"X-WP-Nonce": window.wpApiSettings?.nonce || "",
+					},
+				},
+			);
+
+			const data = await response.json();
+
+			setTimeout(() => {
+				setIsGeneratingBlur(false);
+
+				if (response.ok && data.success) {
+					setBlurMessage(data.message);
+					setBlurStatus("success");
+				} else {
+					setBlurMessage(
+						data.message ||
+							__(
+								"Failed to generate blurred images.",
+								"sustainable-theme",
+							),
+					);
+					setBlurStatus("error");
+				}
+
+				setTimeout(() => {
+					setBlurMessage("");
+					setBlurStatus("");
+				}, 6000);
+			}, 1000);
+		} catch (error) {
+			console.error("Failed to generate blurred images:", error);
+
+			setTimeout(() => {
+				setIsGeneratingBlur(false);
+				setBlurMessage(
+					__(
+						"An error occurred while generating blurred images.",
+						"sustainable-theme",
+					),
+				);
+				setBlurStatus("error");
+
+				setTimeout(() => {
+					setBlurMessage("");
+					setBlurStatus("");
+				}, 6000);
+			}, 1000);
+		}
+	};
+
 	const handleModeChange = (mode) => {
 		// Get the predefined settings for this mode
 		const modeSettings = getModeSettings(mode);
@@ -252,6 +318,7 @@ export default function AdminPage() {
 			electricity_maps_api_key: "",
 			grid_awareness_zone: "NL",
 			grid_awareness_cache_minutes: 15,
+			grid_awareness_image_mode: "low-res",
 			disable_rss_feed: false,
 			disable_emojis: false,
 			remove_embeds: false,
@@ -292,6 +359,7 @@ export default function AdminPage() {
 					electricity_maps_api_key: settings.electricity_maps_api_key || "",
 					grid_awareness_zone: settings.grid_awareness_zone || "NL",
 					grid_awareness_cache_minutes: settings.grid_awareness_cache_minutes || 15,
+					grid_awareness_image_mode: settings.grid_awareness_image_mode || "low-res",
 					disable_emojis: true,
 					remove_embeds: true,
 					remove_header_metadata: true,
@@ -318,6 +386,7 @@ export default function AdminPage() {
 					electricity_maps_api_key: settings.electricity_maps_api_key || "",
 					grid_awareness_zone: settings.grid_awareness_zone || "NL",
 					grid_awareness_cache_minutes: settings.grid_awareness_cache_minutes || 15,
+					grid_awareness_image_mode: settings.grid_awareness_image_mode || "low-res",
 					disable_rss_feed: true,
 					disable_emojis: true,
 					remove_embeds: true,
@@ -945,6 +1014,10 @@ export default function AdminPage() {
 						onCacheMinutesChange={(value) =>
 							handleSettingChange("grid_awareness_cache_minutes", value)
 						}
+						imageMode={settings.grid_awareness_image_mode}
+						onImageModeChange={(value) =>
+							handleSettingChange("grid_awareness_image_mode", value)
+						}
 					/>
 					<Spacer margin={4} />
 					<Button
@@ -1060,6 +1133,60 @@ export default function AdminPage() {
 							{isCleaningDb
 								? __("Cleaning up...", "sustainable-theme")
 								: __("Clean up database", "sustainable-theme")}
+						</Button>
+					</PanelBody>
+				</Panel>
+
+				<Spacer margin={12} />
+
+				<Panel
+					header={__("Image tools", "sustainable-theme")}
+					className="sustainable-theme-panel"
+				>
+					<PanelBody
+						title={__(
+							"Generate blurred image placeholders",
+							"sustainable-theme",
+						)}
+						initialOpen={false}
+					>
+						{blurMessage && (
+							<>
+								<Notice status={blurStatus} isDismissible={false}>
+									{blurMessage}
+								</Notice>
+								<Spacer margin={4} />
+							</>
+						)}
+						<Text style={{ marginBottom: "16px" }}>
+							{__(
+								"Generate blurred placeholder images for all existing media library images that don't have one yet. These are used as low-bandwidth placeholders when the grid carbon intensity is high.",
+								"sustainable-theme",
+							)}
+						</Text>
+						<Text
+							style={{
+								fontSize: "12px",
+								color: "#666",
+								marginBottom: "16px",
+							}}
+						>
+							{__(
+								"New uploads generate blur placeholders automatically. Use this button to backfill images that were uploaded before this feature was enabled.",
+								"sustainable-theme",
+							)}
+						</Text>
+						<Button
+							isSecondary
+							__next40pxDefaultSize
+							onClick={handleGenerateBlurImages}
+							isBusy={isGeneratingBlur}
+							disabled={isGeneratingBlur}
+							style={{ alignSelf: "start" }}
+						>
+							{isGeneratingBlur
+								? __("Generating...", "sustainable-theme")
+								: __("Generate blur placeholders", "sustainable-theme")}
 						</Button>
 					</PanelBody>
 				</Panel>
