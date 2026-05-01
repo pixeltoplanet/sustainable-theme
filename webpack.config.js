@@ -1,17 +1,18 @@
-const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
-const path = require( 'node:path' );
+const defaultConfig = require('@wordpress/scripts/config/webpack.config');
+const path = require('node:path');
 
 module.exports = {
 	...defaultConfig,
 	entry: {
-		admin: path.resolve( process.cwd(), 'src', 'admin.js' ),
-		'query-block': path.resolve( process.cwd(), 'src', 'query-block.js' ),
+		admin: path.resolve(process.cwd(), 'src', 'admin.js'),
+		'query-block': path.resolve(process.cwd(), 'src', 'query-block.js'),
 		'excerpt-block': path.resolve(
 			process.cwd(),
 			'src',
 			'excerpt-block.js'
 		),
-		frontend: path.resolve( process.cwd(), 'src', 'frontend.js' ),
+		'video-block': path.resolve(process.cwd(), 'src', 'video-block.js'),
+		frontend: path.resolve(process.cwd(), 'src', 'frontend.js'),
 		'frontend-styles': path.resolve(
 			process.cwd(),
 			'src',
@@ -32,7 +33,7 @@ module.exports = {
 		),
 	},
 	output: {
-		path: path.resolve( process.cwd(), 'build' ),
+		path: path.resolve(process.cwd(), 'build'),
 		filename: '[name].js',
 	},
 };

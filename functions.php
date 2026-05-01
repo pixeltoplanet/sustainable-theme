@@ -25,6 +25,7 @@ include_once get_template_directory() . '/includes/class-grid-awareness.php';
 include_once get_template_directory() . '/includes/class-block-patterns.php';
 include_once get_template_directory() . '/includes/class-query-exclude-current.php';
 include_once get_template_directory() . '/includes/class-excerpt-hide-readmore.php';
+include_once get_template_directory() . '/includes/class-video-block.php';
 
 // Initialize the classes
 new SustainableTheme\Settings();
@@ -100,6 +101,27 @@ function sustainable_theme_enqueue_excerpt_block_script(): void
   wp_enqueue_script('sustainable-theme-excerpt-block');
 }
 add_action('enqueue_block_editor_assets', 'sustainable_theme_enqueue_excerpt_block_script');
+
+/**
+ * Block editor: extend core Video with disabled autoplay controls.
+ */
+function sustainable_theme_enqueue_video_block_script(): void
+{
+  $asset_path = SUSTAINABLE_THEME_DIR . '/build/video-block.asset.php';
+  if (!is_readable($asset_path)) {
+    return;
+  }
+  $asset = include $asset_path;
+  wp_register_script(
+    'sustainable-theme-video-block',
+    SUSTAINABLE_THEME_URL . '/build/video-block.js',
+    is_array($asset) ? ($asset['dependencies'] ?? []) : [],
+    is_array($asset) ? (string) ($asset['version'] ?? SUSTAINABLE_THEME_VERSION) : SUSTAINABLE_THEME_VERSION,
+    true
+  );
+  wp_enqueue_script('sustainable-theme-video-block');
+}
+add_action('enqueue_block_editor_assets', 'sustainable_theme_enqueue_video_block_script');
 
 /**
  * Get URL for a theme placeholder image.
