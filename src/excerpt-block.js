@@ -8,7 +8,7 @@ import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-const HIDE_READ_MORE_KEY = 'sustainableHideReadMore';
+const HIDE_READ_MORE_KEY = 'sustainable_excerpt_hide_readmore';
 
 const withSustainableExcerptHideReadMore = createHigherOrderComponent(
 	( BlockEdit ) => ( props ) => {

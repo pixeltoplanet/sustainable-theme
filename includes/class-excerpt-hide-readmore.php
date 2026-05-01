@@ -1,8 +1,9 @@
 <?php
+
 /**
  * Extends the core Post Excerpt block with a "Hide Read More" toggle.
  *
- * The custom attribute `sustainableHideReadMore` is stored directly on the
+ * The custom attribute `sustainable_excerpt_hide_readmore` is stored directly on the
  * block and, when true, causes the read-more link to be stripped from the
  * front-end render output.
  *
@@ -16,7 +17,7 @@ if (!defined('ABSPATH')) {
 /**
  * Attribute key used by both the JS editor control and this PHP filter.
  */
-const SUSTAINABLE_EXCERPT_HIDE_READ_MORE_KEY = 'sustainableHideReadMore';
+const SUSTAINABLE_EXCERPT_HIDE_READ_MORE_KEY = 'sustainable_excerpt_hide_readmore';
 
 /**
  * Register the custom boolean attribute on the `core/post-excerpt` block.
