@@ -1,74 +1,126 @@
 /**
- * Inspects core Video block to disable the autoplay toggle for sustainability.
+ * Sustainably neutralises the autoplay feature of the core Video block.
+ *
+ * Behaviour is gated by the `disable_video_autoplay` theme setting,
+ * exposed to this bundle via an inline script as
+ * `window.sustainableTheme.disableVideoAutoplay`. When the setting is
+ * off, this module registers nothing and core behaviour is preserved.
+ *
+ * When the setting is on, we use only public, supported APIs:
+ *  1. `blocks.registerBlockType` — set the `autoplay` attribute default to
+ *     `false` so newly inserted videos never start with autoplay enabled.
+ *  2. `editor.BlockEdit` — wrap the block's edit component to:
+ *       a. Force `autoplay` back to `false` if it ever becomes truthy
+ *          (e.g. imported content), keeping editor + saved markup honest.
+ *       b. Intercept `setAttributes` so the inspector's Autoplay toggle
+ *          is a true no-op (also blocks the `muted` / `playsInline`
+ *          side-effects core's handler bundles into the same patch).
+ *       c. Render a Notice in InspectorAdvancedControls explaining why
+ *          autoplay is disabled and where to change the setting.
+ *
+ * The frontend is additionally protected by `class-video-block.php`,
+ * which strips any stray `autoplay` attribute via `WP_HTML_Tag_Processor`,
+ * also gated by the same setting.
+ *
+ * Note: we deliberately do NOT visually disable the toggle via DOM
+ * manipulation — observing the editor DOM has an ongoing CPU/energy cost
+ * which conflicts with the theme's sustainability goals. The Notice plus
+ * the `setAttributes` interceptor give the same UX outcome at zero cost.
  */
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import { useEffect } from '@wordpress/element';
+import { InspectorAdvancedControls } from '@wordpress/block-editor';
+import { Notice } from '@wordpress/components';
+import { Fragment, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-const withVideoAutoplayDisabled = createHigherOrderComponent(
-	( BlockEdit ) => ( props ) => {
-		if ( props.name !== 'core/video' ) {
-			return <BlockEdit { ...props } />;
-		}
+const isEnabled =
+	typeof window !== 'undefined' &&
+	window.sustainableTheme?.disableVideoAutoplay === true;
 
-		const { attributes, setAttributes, isSelected } = props;
-
-		// Force autoplay to false if it somehow gets enabled
-		useEffect( () => {
-			if ( attributes.autoplay ) {
-				setAttributes( { autoplay: false } );
+if ( isEnabled ) {
+	addFilter(
+		'blocks.registerBlockType',
+		'sustainable-theme/video-autoplay-default',
+		( settings, name ) => {
+			if ( name !== 'core/video' || ! settings.attributes?.autoplay ) {
+				return settings;
 			}
-		}, [ attributes.autoplay, setAttributes ] );
-
-		// A fast, lightweight check to hide the Autoplay toggle in the sidebar.
-		// Uses WP core translation for 'Autoplay' so it works robustly in any language,
-		// addressing the reviewer feedback without breaking the block's internal state.
-		useEffect( () => {
-			if ( ! isSelected ) {
-				return;
-			}
-
-			// We use a short timeout because InspectorControls are rendered
-			// via a portal and may not be immediately in the DOM.
-			const timeoutId = setTimeout( () => {
-				const labels = document.querySelectorAll(
-					'.components-toggle-control__label'
-				);
-				const targetLabelText = __( 'Autoplay', 'default' );
-
-				for ( const label of labels ) {
-					if ( label.textContent === targetLabelText ) {
-						const wrapper = label.closest( '.components-base-control' );
-						if ( wrapper && wrapper.style.display !== 'none' ) {
-							wrapper.style.display = 'none';
-						}
-					}
-				}
-			}, 50 );
-
-			return () => clearTimeout( timeoutId );
-		}, [ isSelected ] );
-
-		// Clone props to force autoplay to false for the initial render.
-		// useEffect runs AFTER the first render. If we don't force it here,
-		// the <video autoplay> tag mounts, the browser starts playing it, and 
-		// removing the attribute via useEffect later won't stop the playback.
-		const customProps = { ...props };
-		if ( customProps.attributes.autoplay ) {
-			customProps.attributes = {
-				...customProps.attributes,
-				autoplay: false
+			return {
+				...settings,
+				attributes: {
+					...settings.attributes,
+					autoplay: {
+						...settings.attributes.autoplay,
+						default: false,
+					},
+				},
 			};
 		}
+	);
 
-		return <BlockEdit { ...customProps } />;
-	},
-	'withVideoAutoplayDisabled'
-);
+	const withAutoplayDisabled = createHigherOrderComponent(
+		( BlockEdit ) => ( props ) => {
+			if ( props.name !== 'core/video' ) {
+				return <BlockEdit { ...props } />;
+			}
 
-addFilter(
-	'editor.BlockEdit',
-	'sustainable-theme/video-disable-autoplay',
-	withVideoAutoplayDisabled
-);
+			const { attributes, setAttributes, isSelected } = props;
+
+			useEffect( () => {
+				if ( attributes.autoplay ) {
+					setAttributes( { autoplay: false } );
+				}
+			}, [ attributes.autoplay, setAttributes ] );
+
+			// Core's autoplay toggle dispatches a single setAttributes
+			// call that also flips `muted` and `playsInline`. Drop any
+			// patch that touches `autoplay` so clicking the toggle is a
+			// true no-op; unrelated edits to muted / playsInline still
+			// pass through untouched.
+			const interceptedSetAttributes = ( patch ) => {
+				if (
+					patch &&
+					Object.prototype.hasOwnProperty.call( patch, 'autoplay' )
+				) {
+					return;
+				}
+				setAttributes( patch );
+			};
+
+			const safeProps = {
+				...props,
+				setAttributes: interceptedSetAttributes,
+				attributes: attributes.autoplay
+					? { ...attributes, autoplay: false }
+					: attributes,
+			};
+
+			return (
+				<Fragment>
+					<BlockEdit { ...safeProps } />
+					{ isSelected && (
+						<InspectorAdvancedControls>
+							<Notice
+								status="info"
+								isDismissible={ false }
+							>
+								{ __(
+									'Autoplay is disabled by this theme to save bandwidth and improve accessibility. You can change this in Theme Settings → Sustainability.',
+									'sustainable-theme'
+								) }
+							</Notice>
+						</InspectorAdvancedControls>
+					) }
+				</Fragment>
+			);
+		},
+		'withAutoplayDisabled'
+	);
+
+	addFilter(
+		'editor.BlockEdit',
+		'sustainable-theme/video-disable-autoplay',
+		withAutoplayDisabled
+	);
+}

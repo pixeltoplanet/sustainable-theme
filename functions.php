@@ -119,6 +119,21 @@ function sustainable_theme_enqueue_video_block_script(): void
     is_array($asset) ? (string) ($asset['version'] ?? SUSTAINABLE_THEME_VERSION) : SUSTAINABLE_THEME_VERSION,
     true
   );
+
+  // Expose theme settings the editor bundle needs. Inline (vs. an extra
+  // REST fetch) keeps editor boot fast and is the lightest path.
+  $settings = get_option('sustainable_theme_settings', []);
+  $disable_autoplay = is_array($settings) && array_key_exists('disable_video_autoplay', $settings)
+    ? (bool) $settings['disable_video_autoplay']
+    : true; // Match class-settings.php default.
+
+  wp_add_inline_script(
+    'sustainable-theme-video-block',
+    'window.sustainableTheme = window.sustainableTheme || {};'
+      . ' window.sustainableTheme.disableVideoAutoplay = ' . ($disable_autoplay ? 'true' : 'false') . ';',
+    'before'
+  );
+
   wp_enqueue_script('sustainable-theme-video-block');
 }
 add_action('enqueue_block_editor_assets', 'sustainable_theme_enqueue_video_block_script');
