@@ -246,6 +246,13 @@ class Settings
                */
               'remove_default_image_sizes' => ['type' => 'boolean', 'default' => false],
 
+              /**
+               * VIDEO AUTOPLAY - Disables autoplay on core/video blocks to save bandwidth
+               * and improve accessibility. Defaults to true (autoplay disabled) so a fresh
+               * install / reset is sustainable by default.
+               * @link https://developer.wordpress.org/reference/hooks/render_block/
+               */
+              'disable_video_autoplay' => ['type' => 'boolean', 'default' => true],
 
             ],
           ],
@@ -294,6 +301,9 @@ class Settings
       'enable_image_optimization' => false,
       'max_image_size' => 'full',
       'remove_default_image_sizes' => false,
+      // Block-editor sustainability defaults (intentionally true: a reset
+      // should leave the site in a sustainable state).
+      'disable_video_autoplay' => true,
     ];
   }
 
@@ -329,6 +339,8 @@ class Settings
           'enable_image_optimization' => true,
           'max_image_size' => 'full',
           'remove_default_image_sizes' => false,
+          // Base mode block-editor sustainability
+          'disable_video_autoplay' => true,
           // Preserve grid awareness settings
           'use_grid_awareness' => $current_settings['use_grid_awareness'] ?? true,
           'electricity_maps_api_key' => $current_settings['electricity_maps_api_key'] ?? '',
@@ -370,6 +382,8 @@ class Settings
           'enable_image_optimization' => true,
           'max_image_size' => 'full',
           'remove_default_image_sizes' => true,
+          // Super mode block-editor sustainability
+          'disable_video_autoplay' => true,
         ]);
 
       case 'custom':
@@ -584,6 +598,7 @@ class Settings
       'enable_lazy_loading',
       'enable_image_optimization',
       'remove_default_image_sizes',
+      'disable_video_autoplay',
     ];
 
     foreach ($boolean_settings as $setting) {
