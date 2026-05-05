@@ -172,3 +172,89 @@ body {
     }
   }
 }
+
+/*
+ * Responsive behavior for the extra Columns variations registered in
+ * class-columns-variations.php (4 / 5 / 6 columns).
+ *
+ * Breakpoints (sized to match the rest of the theme):
+ *   ≥1200px : full N columns side-by-side (default)
+ *    782px – 1199px : laptop / small desktop  (4 → 2, 5/6 → 3)
+ *    600px –  781px : tablet portrait         (4/5/6 → 2)
+ *    ≤599px : phone — single column (also covered by core stack rule)
+ *
+ * Specificity note: the inline `style="flex-basis:25%"` that the column
+ * block emits, plus core's `:not(.is-not-stacked-on-mobile)` !important
+ * rule below 782px, both need overriding — hence the !important here.
+ */
+.wp-block-columns.has-4-columns,
+.wp-block-columns.has-5-columns,
+.wp-block-columns.has-6-columns {
+  @media (max-width: 1199px) {
+    flex-wrap: wrap !important;
+  }
+}
+
+/* 4-column layouts: 4 → 2 → 1 */
+.wp-block-columns.has-4-columns {
+  @media (min-width: 782px) and (max-width: 1199px) {
+    > .wp-block-column {
+      flex-basis: calc(50% - var(--wp--style--block-gap, 1.5rem) / 2) !important;
+      flex-grow: 0;
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 781px) {
+    flex-direction: row !important;
+
+    > .wp-block-column {
+      flex-basis: calc(50% - var(--wp--style--block-gap, 1rem) / 2) !important;
+      flex-grow: 0;
+    }
+  }
+}
+
+/* 5-column layouts: 5 → 3 → 2 → 1 */
+.wp-block-columns.has-5-columns {
+  @media (min-width: 1025px) and (max-width: 1199px) {
+    > .wp-block-column {
+      flex-basis: calc(33.333% - var(--wp--style--block-gap, 1.5rem) * 2 / 3) !important;
+      flex-grow: 0;
+    }
+  }
+
+  @media (min-width: 782px) and (max-width: 1024px) {
+    > .wp-block-column {
+      flex-basis: calc(33.333% - var(--wp--style--block-gap, 1.5rem) * 2 / 3) !important;
+      flex-grow: 0;
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 781px) {
+    flex-direction: row !important;
+
+    > .wp-block-column {
+      flex-basis: calc(50% - var(--wp--style--block-gap, 1rem) / 2) !important;
+      flex-grow: 0;
+    }
+  }
+}
+
+/* 6-column layouts: 6 → 3 → 2 → 1 (same as 5-column past laptop). */
+.wp-block-columns.has-6-columns {
+  @media (min-width: 782px) and (max-width: 1199px) {
+    > .wp-block-column {
+      flex-basis: calc(33.333% - var(--wp--style--block-gap, 1.5rem) * 2 / 3) !important;
+      flex-grow: 0;
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 781px) {
+    flex-direction: row !important;
+
+    > .wp-block-column {
+      flex-basis: calc(50% - var(--wp--style--block-gap, 1rem) / 2) !important;
+      flex-grow: 0;
+    }
+  }
+}

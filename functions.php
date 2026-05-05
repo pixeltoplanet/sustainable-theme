@@ -23,6 +23,7 @@ include_once get_template_directory() . '/includes/class-lazy-loading.php';
 include_once get_template_directory() . '/includes/class-image-sizes.php';
 include_once get_template_directory() . '/includes/class-grid-awareness.php';
 include_once get_template_directory() . '/includes/class-block-patterns.php';
+include_once get_template_directory() . '/includes/class-columns-variations.php';
 include_once get_template_directory() . '/includes/class-query-exclude-current.php';
 include_once get_template_directory() . '/includes/class-excerpt-hide-readmore.php';
 
@@ -35,6 +36,7 @@ new SustainableTheme\LazyLoading();
 new SustainableTheme\Image_Sizes();
 new SustainableTheme\GridAwareness();
 new SustainableTheme\BlockPatterns();
+new SustainableTheme\ColumnsVariations();
 
 /**
  * Enqueue main frontend styles
