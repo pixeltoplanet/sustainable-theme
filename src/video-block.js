@@ -50,7 +50,19 @@ const withVideoAutoplayDisabled = createHigherOrderComponent(
 			return () => clearTimeout( timeoutId );
 		}, [ isSelected ] );
 
-		return <BlockEdit { ...props } />;
+		// Clone props to force autoplay to false for the initial render.
+		// useEffect runs AFTER the first render. If we don't force it here,
+		// the <video autoplay> tag mounts, the browser starts playing it, and 
+		// removing the attribute via useEffect later won't stop the playback.
+		const customProps = { ...props };
+		if ( customProps.attributes.autoplay ) {
+			customProps.attributes = {
+				...customProps.attributes,
+				autoplay: false
+			};
+		}
+
+		return <BlockEdit { ...customProps } />;
 	},
 	'withVideoAutoplayDisabled'
 );
