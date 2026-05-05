@@ -2,9 +2,8 @@
 /**
  * Extends the core Video block to enforce sustainable settings.
  *
- * Removes the autoplay attribute from the block schema (disabling the
- * editor toggle) and strips it from front-end output using the WP
- * HTML API for safety.
+ * Forces autoplay to be removed from the frontend output to save data
+ * and improve accessibility.
  *
  * @package SustainableTheme
  */
@@ -12,29 +11,6 @@
 if (!defined('ABSPATH')) {
   exit;
 }
-
-/**
- * Remove the `autoplay` attribute from the core/video block schema.
- *
- * With the attribute unregistered, WordPress:
- * - Will not render the Autoplay toggle in the block sidebar
- * - Will silently ignore any stored `autoplay` value in existing blocks
- *
- * @param array<string,mixed> $args Block-type args.
- * @param string              $name Block name.
- * @return array<string,mixed>
- */
-function sustainable_theme_video_unregister_autoplay_attribute(array $args, string $name): array
-{
-  if ('core/video' !== $name) {
-    return $args;
-  }
-
-  unset($args['attributes']['autoplay']);
-
-  return $args;
-}
-add_filter('register_block_type_args', 'sustainable_theme_video_unregister_autoplay_attribute', 11, 2);
 
 /**
  * Strip the `autoplay` attribute from the rendered `core/video` HTML
