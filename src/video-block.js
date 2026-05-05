@@ -1,9 +1,14 @@
 /**
- * Inspects core Video block to disable the autoplay toggle for sustainability.
+ * Extends core Video block to enforce autoplay=false for sustainability.
+ *
+ * The heavy lifting is done server-side by unregistering the autoplay
+ * attribute from the block schema (see class-video-block.php). This JS
+ * acts as a belt-and-suspenders safety net: if a user ever manages to
+ * set autoplay=true via the Code Editor, we silently reset it.
  */
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import { Fragment } from '@wordpress/element';
+import { useEffect } from '@wordpress/element';
 
 const withVideoAutoplayDisabled = createHigherOrderComponent(
 	( BlockEdit ) => ( props ) => {
@@ -13,38 +18,15 @@ const withVideoAutoplayDisabled = createHigherOrderComponent(
 
 		const { attributes, setAttributes } = props;
 
-		// Force autoplay to false if it somehow gets enabled
-		if ( attributes.autoplay ) {
-			setTimeout( () => {
+		// Safety net: if autoplay is ever true (e.g. set via Code Editor),
+		// reset it. useEffect avoids the render-loop risk of setTimeout.
+		useEffect( () => {
+			if ( attributes.autoplay ) {
 				setAttributes( { autoplay: false } );
-			}, 0 );
-		}
-
-		// A fast, lightweight check to hide the Autoplay toggle in the sidebar.
-		// Since we can't reliably inject CSS to target a specific label text without :has(),
-		// we use JS to find the label and hide its parent control container.
-		setTimeout( () => {
-			const labels = document.querySelectorAll(
-				'.components-toggle-control__label'
-			);
-			for ( const label of labels ) {
-				if (
-					label.textContent === 'Autoplay' ||
-					label.textContent === 'Automatisch afspelen'
-				) {
-					const wrapper = label.closest( '.components-base-control' );
-					if ( wrapper && wrapper.style.display !== 'none' ) {
-						wrapper.style.display = 'none';
-					}
-				}
 			}
-		}, 50 );
+		}, [ attributes.autoplay, setAttributes ] );
 
-		return (
-			<Fragment>
-				<BlockEdit { ...props } />
-			</Fragment>
-		);
+		return <BlockEdit { ...props } />;
 	},
 	'withVideoAutoplayDisabled'
 );
