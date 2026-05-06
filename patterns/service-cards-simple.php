@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Title: Content features grid
- * Slug: sustainable-theme/content-features-simple
- * Categories: sustainable-theme,sustainable-theme/content
- * Description: A content section with a grid of features or benefits.
- * Keywords: content, features, grid, benefits
+ * Title: Service cards simple
+ * Slug: sustainable-theme/service-cards-simple
+ * Categories: sustainable-theme,sustainable-theme/services
+ * Description: A simple grid of service cards with a title, description, and button.
+ * Keywords: services, cards, simple, grid, title, description, button
  * Inserter: true
  */
 

@@ -14,6 +14,18 @@ class BlockPatterns
     add_action('init', [$this, 'register_block_pattern_categories']);
     // Clear pattern file cache so new files in /patterns are discovered (WordPress caches the list).
     add_action('init', [$this, 'maybe_clear_pattern_cache'], 5);
+    // Disable WordPress core and remote (Pattern Directory) patterns so only theme patterns are offered.
+    add_action('after_setup_theme', [$this, 'disable_core_patterns']);
+    add_filter('should_load_remote_block_patterns', '__return_false');
+  }
+
+  /**
+   * Remove core block patterns bundled with WordPress. The theme provides its
+   * own curated patterns in /patterns and does not rely on core defaults.
+   */
+  public function disable_core_patterns(): void
+  {
+    remove_theme_support('core-block-patterns');
   }
 
   /**
@@ -35,41 +47,49 @@ class BlockPatterns
    */
   public function register_block_pattern_categories(): void
   {
-    register_block_pattern_category('sustainable-theme', [
-      'label'       => __('Sustainable Theme', 'sustainable-theme'),
-      'description' => __('Patterns for the Sustainable Theme.', 'sustainable-theme'),
+    register_block_pattern_category('sustainable-theme/pages', [
+      'label'       => __('Pages', 'sustainable-theme'),
+      'description' => __('Full-page patterns for Sustainable Theme.', 'sustainable-theme'),
     ]);
     register_block_pattern_category('sustainable-theme/content', [
-      'label'       => __('Sustainable Theme / Content', 'sustainable-theme'),
+      'label'       => __('Content', 'sustainable-theme'),
       'description' => __('Content patterns for Sustainable Theme.', 'sustainable-theme'),
     ]);
     register_block_pattern_category('sustainable-theme/portfolio', [
-      'label'       => __('Sustainable Theme / Portfolio', 'sustainable-theme'),
+      'label'       => __('Portfolio', 'sustainable-theme'),
       'description' => __('Portfolio patterns for Sustainable Theme.', 'sustainable-theme'),
     ]);
     register_block_pattern_category('sustainable-theme/posts', [
-      'label'       => __('Sustainable Theme / Posts', 'sustainable-theme'),
+      'label'       => __('Posts', 'sustainable-theme'),
       'description' => __('Posts patterns for Sustainable Theme.', 'sustainable-theme'),
     ]);
     register_block_pattern_category('sustainable-theme/hero', [
-      'label'       => __('Sustainable Theme / Hero', 'sustainable-theme'),
+      'label'       => __('Hero', 'sustainable-theme'),
       'description' => __('Hero patterns for Sustainable Theme.', 'sustainable-theme'),
     ]);
     register_block_pattern_category('sustainable-theme/header', [
-      'label'       => __('Sustainable Theme / Header', 'sustainable-theme'),
+      'label'       => __('Header', 'sustainable-theme'),
       'description' => __('Header patterns for Sustainable Theme.', 'sustainable-theme'),
     ]);
     register_block_pattern_category('sustainable-theme/footer', [
-      'label'       => __('Sustainable Theme / Footer', 'sustainable-theme'),
+      'label'       => __('Footer', 'sustainable-theme'),
       'description' => __('Footer patterns for Sustainable Theme.', 'sustainable-theme'),
     ]);
     register_block_pattern_category('sustainable-theme/gallery', [
-      'label'       => __('Sustainable Theme / Gallery', 'sustainable-theme'),
+      'label'       => __('Gallery', 'sustainable-theme'),
       'description' => __('Gallery and image layout patterns.', 'sustainable-theme'),
     ]);
     register_block_pattern_category('sustainable-theme/cta', [
-      'label'       => __('Sustainable Theme / CTA', 'sustainable-theme'),
+      'label'       => __('CTA', 'sustainable-theme'),
       'description' => __('Call to action patterns.', 'sustainable-theme'),
+    ]);
+    register_block_pattern_category('sustainable-theme/services', [
+      'label'       => __('Services & features', 'sustainable-theme'),
+      'description' => __('Services and features patterns.', 'sustainable-theme'),
+    ]);
+    register_block_pattern_category('sustainable-theme/single-post', [
+      'label'       => __('Single post', 'sustainable-theme'),
+      'description' => __('Single post patterns.', 'sustainable-theme'),
     ]);
   }
 }

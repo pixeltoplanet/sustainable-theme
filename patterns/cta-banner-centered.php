@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Title: Content call to action
- * Slug: sustainable-theme/content-cta
- * Categories: sustainable-theme,sustainable-theme/content
- * Description: A content section with a prominent call to action.
- * Keywords: content, cta, call to action, banner
+ * Title: CTA banner centered
+ * Slug: sustainable-theme/cta-banner-centered
+ * Categories: sustainable-theme,sustainable-theme/cta
+ * Description: A centered CTA banner with a bold title and a paragraph.
+ * Keywords: cta, banner, centered, bold, title, paragraph
  * Inserter: true
  */
 
@@ -19,7 +19,7 @@
     <!-- /wp:heading -->
 
     <!-- wp:paragraph {"align":"center","style":{"spacing":{"margin":{"top":"var:preset|spacing|fluid-small","bottom":"var:preset|spacing|fluid-medium"}}},"fontSize":"lg"} -->
-    <p class="has-text-align-center has-lg-font-size" style="margin-top:var(--wp--preset--spacing--fluid-small);margin-bottom:var(--wp--preset--spacing--fluid-small)">Let's create something meaningful together. Get in touch and we'll take it from there.</p>
+    <p class="has-text-align-center has-lg-font-size" style="margin-top:var(--wp--preset--spacing--fluid-small);margin-bottom:var(--wp--preset--spacing--fluid-medium)">Let's create something meaningful together. Get in touch and we'll take it from there.</p>
     <!-- /wp:paragraph -->
 
     <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->

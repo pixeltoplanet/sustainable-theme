@@ -56,8 +56,7 @@
 		"layout": {
 			"contentSize": "900px",
 			"wideSize": "1300px",
-			"allowEditing": false,
-			"allowCustomContentAndWideSize": false
+			"allowCustomContentAndWideSize": true
 		},
 		"custom": {
 			"spacingScale": 1,
@@ -195,7 +194,7 @@
 					"slug": "xxl",
 					"fluid": {
 						"min": "2.5rem",
-						"max": "4rem"
+						"max": "3.7rem"
 					}
 				},
 				{
@@ -242,7 +241,7 @@
 				"left": "var:preset|spacing|fluid-small",
 				"right": "var:preset|spacing|fluid-small"
 			},
-			"blockGap": "0"
+			"blockGap": "0px"
 		},
 		"typography": {
 			"fontFamily": "var:preset|font-family|dm-sans",
@@ -286,12 +285,12 @@
 			},
 			"core/columns": {
 				"spacing": {
-					"blockGap": "var:preset|spacing|between-2-cols"
+					"blockGap": "var:preset|spacing|fluid-small"
 				}
 			},
 			"core/buttons": {
 				"spacing": {
-					"blockGap": "var:preset|spacing|2xl"
+					"blockGap": "var:preset|spacing|fluid-x-small"
 				}
 			},
 			"core/code": {
@@ -763,6 +762,16 @@
 			"area": "footer",
 			"name": "footer",
 			"title": "Footer"
+		},
+		{
+			"area": "uncategorized",
+			"name": "single-post-hero",
+			"title": "Single post hero"
+		},
+		{
+			"area": "uncategorized",
+			"name": "single-post-related",
+			"title": "Single post related"
 		}
 	],
 	"customTemplates": [
