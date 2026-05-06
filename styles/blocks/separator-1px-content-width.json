@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/wp/6.7/theme.json",
+	"version": 3,
+	"title": "1px content width",
+	"slug": "separator-1px-content-width",
+	"blockTypes": ["core/separator"],
+	"styles": {
+		"border": {
+      "color": "currentColor",
+      "style": "solid",
+      "width": "0 0 1px 0"
+    },
+		"css": "width: 100%; max-width: var(--wp--style--global--content-size);"
+	}
+}
