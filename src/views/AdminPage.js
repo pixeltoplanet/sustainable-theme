@@ -54,6 +54,9 @@ export default function AdminPage() {
 		// Image optimization settings
 		enable_image_optimization: false,
 		remove_default_image_sizes: false,
+		// Block-editor sustainability defaults (defaulted true so a fresh
+		// install / reset stays sustainable; matches PHP defaults).
+		disable_video_autoplay: true,
 	});
 	const [isSaving, setIsSaving] = useState(false);
 	const [saveMessage, setSaveMessage] = useState("");
@@ -277,6 +280,8 @@ export default function AdminPage() {
 			// Image optimization settings
 			enable_image_optimization: false,
 			remove_default_image_sizes: false,
+			// Block-editor sustainability defaults (defaulted true).
+			disable_video_autoplay: true,
 		};
 
 		switch (mode) {
@@ -302,6 +307,8 @@ export default function AdminPage() {
 					// Base mode image optimization
 					enable_image_optimization: true,
 					remove_default_image_sizes: false,
+					// Base mode block-editor sustainability
+					disable_video_autoplay: true,
 				};
 			case "super":
 				return {
@@ -339,6 +346,8 @@ export default function AdminPage() {
 					// Super mode image optimization
 					enable_image_optimization: true,
 					remove_default_image_sizes: true,
+					// Super mode block-editor sustainability
+					disable_video_autoplay: true,
 				};
 			case "custom":
 				// Keep current settings when switching to custom mode
@@ -754,6 +763,22 @@ export default function AdminPage() {
 									}
 									help={__(
 										"Replaces external Gravatar requests with lightweight, privacy-friendly SVG placeholders.",
+										"sustainable-theme",
+									)}
+								/>
+
+								<ToggleControl
+									label={__(
+										"Disable Video Autoplay - Saves bandwidth",
+										"sustainable-theme",
+									)}
+									checked={settings.disable_video_autoplay}
+									disabled={settings.sustainability_mode !== "custom"}
+									onChange={(value) =>
+										handleSettingChange("disable_video_autoplay", value)
+									}
+									help={__(
+										"Strips the autoplay attribute from core Video blocks on the frontend and prevents authors from enabling it in the editor. Autoplay videos can use a lot of mobile data and create accessibility issues.",
 										"sustainable-theme",
 									)}
 								/>
