@@ -13,13 +13,13 @@
 		"release": "bun run build && bun run zip"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.1.2",
-		"@types/node": "^24.1.0",
-		"@types/react": "^19.1.8",
-		"@types/react-dom": "^19.1.6",
+		"@biomejs/biome": "^2.4.14",
+		"@types/node": "^24.12.2",
+		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3",
 		"@wordpress/scripts": "^32.1.0",
-		"esbuild": "^0.25.8",
-		"sass": "^1.89.2"
+		"esbuild": "^0.25.12",
+		"sass": "^1.99.0"
 	},
 	"dependencies": {
 		"@greenweb/grid-aware-websites": "^1.0.0"
