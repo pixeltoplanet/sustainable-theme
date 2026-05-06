@@ -1,12 +1,12 @@
 {
 	"$schema": "https://schemas.wp.org/wp/6.7/theme.json",
 	"version": 3,
-	"title": "4px wide",
-	"slug": "separator-4px-wide",
+	"title": "4px full",
+	"slug": "separator-4px-full",
 	"blockTypes": ["core/separator"],
 	"styles": {
 		"border": {
-      "color": "currentColor",
+      "color": "foreground",
       "style": "solid",
       "width": "0 0 4px 0"
     }

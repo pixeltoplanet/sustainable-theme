@@ -1,15 +1,15 @@
 {
 	"$schema": "https://schemas.wp.org/wp/6.7/theme.json",
 	"version": 3,
-	"title": "4px narrow",
-	"slug": "separator-4px-narrow",
+	"title": "2px narrow",
+	"slug": "separator-2px-narrow",
 	"blockTypes": ["core/separator"],
 	"styles": {
 		"border": {
-      "color": "currentColor",
+      "color": "foreground",
       "style": "solid",
-      "width": "0 0 4px 0"
+      "width": "0 0 2px 0"
     },
-		"css": "max-width: 80px;"
+		"css": "margin-left: 0px; max-width: 200px;"
 	}
 }
