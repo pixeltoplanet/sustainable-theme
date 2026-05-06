@@ -762,6 +762,16 @@
 			"area": "footer",
 			"name": "footer",
 			"title": "Footer"
+		},
+		{
+			"area": "uncategorized",
+			"name": "single-post-hero",
+			"title": "Single post hero"
+		},
+		{
+			"area": "uncategorized",
+			"name": "single-post-related",
+			"title": "Single post related"
 		}
 	],
 	"customTemplates": [
