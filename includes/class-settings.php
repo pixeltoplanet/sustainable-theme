@@ -4,10 +4,18 @@ namespace SustainableTheme;
 
 class Settings
 {
+  private PluginManager $plugin_manager;
+  private FilesystemManager $filesystem_manager;
+  private RestApiManager $rest_api_manager;
+
   public function __construct()
   {
+    $this->plugin_manager = new PluginManager();
+    $this->filesystem_manager = new FilesystemManager();
+    $this->rest_api_manager = new RestApiManager($this, $this->plugin_manager, $this->filesystem_manager);
+
     add_action('admin_init', [$this, 'register_settings']);
-    add_action('rest_api_init', [$this, 'register_rest_routes']);
+    add_action('rest_api_init', [$this->rest_api_manager, 'register_routes']);
   }
 
   /**
@@ -394,53 +402,6 @@ class Settings
       default:
         return $base_settings;
     }
-  }
-
-  /**
-   * Register REST API routes
-   */
-  public function register_rest_routes(): void
-  {
-    register_rest_route('sustainable-theme/v1', '/settings', [
-      [
-        'methods' => 'GET',
-        'callback' => [$this, 'get_settings'],
-        'permission_callback' => [$this, 'check_permissions'],
-      ],
-      [
-        'methods' => 'POST',
-        'callback' => [$this, 'update_settings'],
-        'permission_callback' => [$this, 'check_permissions'],
-        'args' => [
-          'settings' => [
-            'required' => true,
-            'type' => 'object',
-            'sanitize_callback' => [$this, 'sanitize_settings'],
-          ],
-        ],
-      ],
-    ]);
-
-    // Route to update settings based on sustainability mode
-    register_rest_route('sustainable-theme/v1', '/settings/mode/(?P<mode>[\w]+)', [
-      'methods' => 'POST',
-      'callback' => [$this, 'update_by_mode'],
-      'permission_callback' => [$this, 'check_permissions'],
-      'args' => [
-        'mode' => [
-          'required' => true,
-          'type' => 'string',
-          'enum' => ['base', 'super', 'custom'],
-        ],
-      ],
-    ]);
-
-    // Route to reset settings to defaults
-    register_rest_route('sustainable-theme/v1', '/settings/reset', [
-      'methods' => 'POST',
-      'callback' => [$this, 'reset_settings'],
-      'permission_callback' => [$this, 'check_permissions'],
-    ]);
   }
 
   /**

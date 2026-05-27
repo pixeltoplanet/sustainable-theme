@@ -5,6 +5,13 @@ module.exports = {
 	...defaultConfig,
 	entry: {
 		admin: path.resolve(process.cwd(), 'src', 'admin.js'),
+		'design-admin': path.resolve(process.cwd(), 'src', 'design-admin.js'),
+		'sustainability-admin': path.resolve(
+			process.cwd(),
+			'src',
+			'sustainability-admin.js'
+		),
+		settings: path.resolve(process.cwd(), 'src', 'settings.js'),
 		'query-block': path.resolve(process.cwd(), 'src', 'query-block.js'),
 		'excerpt-block': path.resolve(
 			process.cwd(),

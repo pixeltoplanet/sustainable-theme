@@ -7,10 +7,13 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Sustainability Optimizer
+ * Sustainability Optimizer Class
  * 
- * Comprehensive WordPress optimization for sustainability and performance.
- * Implements various techniques to reduce carbon footprint and improve efficiency.
+ * Comprehensive WordPress optimization system designed to reduce environmental
+ * impact while maintaining optimal performance.
+ * 
+ * @package SustainableTheme
+ * @since 1.0.0
  */
 class SustainabilityOptimizer
 {
@@ -18,11 +21,74 @@ class SustainabilityOptimizer
 
   public function __construct()
   {
-    $this->settings = get_option('sustainable_theme_settings', []);
+    // Load settings immediately
+    $this->load_settings();
 
-    add_action('init', [$this, 'init_optimizations']);
+    // Also reload on after_setup_theme to ensure fresh settings
+    add_action('after_setup_theme', [$this, 'load_settings'], 1);
+
+    // Run optimizations that need to happen before WordPress registers actions
+    add_action('after_setup_theme', [$this, 'early_optimizations'], 5);
+
+    // Run main optimizations on init
+    add_action('init', [$this, 'init_optimizations'], 10);
+
+    // Frontend optimizations
     add_action('wp_enqueue_scripts', [$this, 'frontend_optimizations'], 100);
+
+    // Admin optimizations
     add_action('admin_init', [$this, 'admin_optimizations']);
+  }
+
+
+  /**
+   * Check if we're in a block editor context (site editor or post/page editor)
+   * 
+   * @return bool True if in block editor, false otherwise
+   */
+  private function is_block_editor(): bool
+  {
+    global $pagenow;
+    $editor_pages = ['site-editor.php', 'post.php', 'post-new.php'];
+    return in_array($pagenow, $editor_pages, true) || (function_exists('get_current_screen') && get_current_screen() && get_current_screen()->is_block_editor());
+  }
+
+  /**
+   * Early optimizations that need to run before WordPress registers actions
+   */
+  public function early_optimizations(): void
+  {
+    // Don't apply optimizations on block editor pages - they need all their scripts/styles
+    if ($this->is_block_editor()) {
+      return;
+    }
+
+    // Reload settings to ensure we have the latest
+    $this->load_settings();
+    // Disable emojis early (before WordPress registers them)
+    if (!empty($this->settings['disable_emojis'])) {
+      $this->disable_emojis();
+    }
+
+    // Remove jQuery migrate early (before scripts are registered)
+    if (!empty($this->settings['remove_jquery_migrate'])) {
+      add_action('wp_default_scripts', [$this, 'remove_jquery_migrate'], 100);
+    }
+
+    // Disable heartbeat early (but NOT on site editor - it needs heartbeat)
+    if (!empty($this->settings['disable_heartbeat'])) {
+      add_action('wp_enqueue_scripts', [$this, 'disable_heartbeat'], 1);
+      add_action('admin_enqueue_scripts', [$this, 'disable_heartbeat_safely'], 1);
+      add_action('login_enqueue_scripts', [$this, 'disable_heartbeat'], 1);
+    }
+  }
+
+  /**
+   * Load settings (called on init to ensure they're fresh)
+   */
+  public function load_settings(): void
+  {
+    $this->settings = get_option('sustainable_theme_settings', []);
   }
 
   /**
@@ -30,16 +96,42 @@ class SustainabilityOptimizer
    */
   public function init_optimizations(): void
   {
-    // Remove shortlinks
-    if (!empty($this->settings['remove_shortlinks'])) {
+    // Don't apply optimizations on block editor pages - they need all their scripts/styles
+    if ($this->is_block_editor()) {
+      return;
+    }
+    // Remove REST API output links
+    if (!empty($this->settings['remove_rest_output'])) {
+      remove_action('wp_head', 'rest_output_link_wp_head', 10);
+      remove_action('xmlrpc_rsd_apis', 'rest_output_rsd');
+      remove_action('wp_head', 'wp_oembed_add_discovery_links');
+    }
+
+    // Disable XML-RPC
+    if (!empty($this->settings['disable_xmlrpc'])) {
+      add_filter('xmlrpc_enabled', '__return_false');
+      add_filter('wp_headers', [$this, 'remove_xmlrpc_header']);
+      add_filter('bloginfo_url', [$this, 'remove_xmlrpc_pingback_url'], 10, 2);
+    }
+
+    // Disable self pingbacks
+    if (!empty($this->settings['disable_self_pingbacks'])) {
+      add_filter('pre_ping', [$this, 'disable_self_pingbacks'], 10, 3);
+    }
+
+    // Remove header metadata (RSD, WLW manifest, etc.)
+    if (!empty($this->settings['remove_header_metadata'])) {
+      remove_action('wp_head', 'rsd_link');
+      remove_action('wp_head', 'wlwmanifest_link');
+      remove_action('wp_head', 'wp_generator');
       remove_action('wp_head', 'wp_shortlink_wp_head');
       remove_action('template_redirect', 'wp_shortlink_header', 11);
     }
 
-    // Disable heartbeat
-    if (!empty($this->settings['disable_heartbeat'])) {
-      add_action('wp_enqueue_scripts', [$this, 'disable_heartbeat']);
-      add_action('admin_enqueue_scripts', [$this, 'disable_heartbeat']);
+    // Remove shortlinks (if not already removed by remove_header_metadata)
+    if (!empty($this->settings['remove_shortlinks']) && empty($this->settings['remove_header_metadata'])) {
+      remove_action('wp_head', 'wp_shortlink_wp_head');
+      remove_action('template_redirect', 'wp_shortlink_header', 11);
     }
 
     // Reduce heartbeat frequency
@@ -56,6 +148,8 @@ class SustainabilityOptimizer
     if (!empty($this->settings['remove_query_strings'])) {
       add_filter('script_loader_src', [$this, 'remove_query_strings'], 15, 1);
       add_filter('style_loader_src', [$this, 'remove_query_strings'], 15, 1);
+      add_filter('script_loader_tag', [$this, 'remove_query_strings_from_tag'], 10, 3);
+      add_filter('style_loader_tag', [$this, 'remove_query_strings_from_tag'], 10, 3);
     }
 
     // Disable comments system-wide
@@ -69,12 +163,6 @@ class SustainabilityOptimizer
       add_filter('the_generator', '__return_empty_string');
     }
 
-    // Disable file editing
-    if (!empty($this->settings['disable_file_editing'])) {
-      if (!defined('DISALLOW_FILE_EDIT')) {
-        define('DISALLOW_FILE_EDIT', true);
-      }
-    }
 
     // Remove capital_P_dangit
     if (!empty($this->settings['remove_capital_p_dangit'])) {
@@ -88,11 +176,6 @@ class SustainabilityOptimizer
       $this->disable_automatic_updates();
     }
 
-    // Remove theme editor (but allow theme installation)
-    if (!empty($this->settings['remove_theme_editor'])) {
-      // Remove theme editor menu item
-      add_action('admin_menu', [$this, 'remove_theme_editor_menu']);
-    }
 
     // Disable RSS feeds
     if (!empty($this->settings['disable_rss_feed'])) {
@@ -110,14 +193,23 @@ class SustainabilityOptimizer
    */
   public function frontend_optimizations(): void
   {
+    // Don't apply optimizations on block editor pages - they need all their scripts/styles
+    if ($this->is_block_editor()) {
+      return;
+    }
+
+    // Remove DNS prefetch (works on both frontend and admin)
+    if (!empty($this->settings['remove_dns_prefetch'])) {
+      remove_action('wp_head', 'wp_resource_hints', 2);
+    }
+
     if (is_admin()) {
       return;
     }
 
-
-    // Remove DNS prefetch
-    if (!empty($this->settings['remove_dns_prefetch'])) {
-      remove_action('wp_head', 'wp_resource_hints', 2);
+    // Dequeue non-sustainable scripts/styles
+    if (!empty($this->settings['dequeue_non_sustainable'])) {
+      $this->dequeue_non_sustainable();
     }
 
     // Disable Dashicons on frontend
@@ -138,7 +230,103 @@ class SustainabilityOptimizer
    */
   public function admin_optimizations(): void
   {
+    // Don't apply optimizations on block editor pages - they need all their scripts/styles
+    if ($this->is_block_editor()) {
+      return;
+    }
+
     // Reserved for future admin-specific optimizations
+  }
+
+  /**
+   * Disable emojis
+   */
+  private function disable_emojis(): void
+  {
+    remove_action('wp_head', 'print_emoji_detection_script', 7);
+    remove_action('admin_print_scripts', 'print_emoji_detection_script');
+    remove_action('wp_print_styles', 'print_emoji_styles');
+    remove_action('admin_print_styles', 'print_emoji_styles');
+    remove_filter('the_content_feed', 'wp_staticize_emoji');
+    remove_filter('comment_text_rss', 'wp_staticize_emoji');
+    remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
+    add_filter('tiny_mce_plugins', [$this, 'disable_emojis_tinymce']);
+    add_filter('wp_resource_hints', [$this, 'disable_emojis_dns_prefetch'], 10, 2);
+  }
+
+  /**
+   * Remove emoji support from TinyMCE
+   */
+  public function disable_emojis_tinymce($plugins): array
+  {
+    if (is_array($plugins)) {
+      return array_diff($plugins, ['wpemoji']);
+    }
+    return [];
+  }
+
+  /**
+   * Remove emoji DNS prefetch
+   */
+  public function disable_emojis_dns_prefetch($urls, $relation_type): array
+  {
+    if ('dns-prefetch' === $relation_type) {
+      $emoji_svg_url = apply_filters('emoji_svg_url', 'https://s.w.org/images/core/emoji/');
+      foreach ($urls as $key => $url) {
+        if (strpos($url, $emoji_svg_url) !== false) {
+          unset($urls[$key]);
+        }
+      }
+    }
+    return $urls;
+  }
+
+  /**
+   * Remove XML-RPC header
+   */
+  public function remove_xmlrpc_header($headers): array
+  {
+    unset($headers['X-Pingback']);
+    return $headers;
+  }
+
+  /**
+   * Remove XML-RPC pingback URL
+   */
+  public function remove_xmlrpc_pingback_url($output, $show): string
+  {
+    if ('pingback_url' === $show) {
+      $output = '';
+    }
+    return $output;
+  }
+
+  /**
+   * Disable self pingbacks
+   */
+  public function disable_self_pingbacks($links, $post, $already_pinged): array
+  {
+    $home = get_option('home');
+    foreach ($links as $l => $link) {
+      if (0 === strpos($link, $home)) {
+        unset($links[$l]);
+      }
+    }
+    return $links;
+  }
+
+  /**
+   * Remove jQuery migrate
+   */
+  public function remove_jquery_migrate($scripts): void
+  {
+    if (!is_admin() && isset($scripts->registered['jquery'])) {
+      $script = $scripts->registered['jquery'];
+      if ($script->deps) {
+        $script->deps = array_diff($script->deps, ['jquery-migrate']);
+      }
+    }
+    $scripts->remove('jquery-migrate');
   }
 
   /**
@@ -146,6 +334,18 @@ class SustainabilityOptimizer
    */
   public function disable_heartbeat(): void
   {
+    wp_deregister_script('heartbeat');
+  }
+
+  /**
+   * Disable heartbeat safely (excludes block editor pages)
+   */
+  public function disable_heartbeat_safely(): void
+  {
+    // Don't disable heartbeat on block editor pages - they need it to function
+    if ($this->is_block_editor()) {
+      return;
+    }
     wp_deregister_script('heartbeat');
   }
 
@@ -165,6 +365,17 @@ class SustainabilityOptimizer
   {
     $limit = (int) $this->settings['limit_post_revisions'];
     return $limit > 0 ? $limit : $num;
+  }
+
+  /**
+   * Remove query strings from script/style tags
+   */
+  public function remove_query_strings_from_tag($tag, $handle, $src): string
+  {
+    if (strpos($tag, '?ver=') !== false) {
+      $tag = preg_replace('/\?ver=[^"\']+/', '', $tag);
+    }
+    return $tag;
   }
 
   /**
@@ -400,15 +611,26 @@ class SustainabilityOptimizer
     $this->settings = $new_settings;
   }
 
-  /**
-   * Remove theme editor menu item (but keep theme installation)
-   */
-  public function remove_theme_editor_menu(): void
-  {
-    // Remove theme editor submenu from Appearance menu
-    remove_submenu_page('themes.php', 'theme-editor.php');
 
-    // Also remove plugin editor if it exists
-    remove_submenu_page('plugins.php', 'plugin-editor.php');
+
+  /**
+   * Dequeue non-sustainable scripts and styles
+   */
+  private function dequeue_non_sustainable(): void
+  {
+    // Remove wp-embed script (already handled by remove_embeds, but ensure it's gone)
+    wp_deregister_script('wp-embed');
+    wp_dequeue_script('wp-embed');
+
+    // Remove block library styles if not using blocks heavily
+    // Note: Only remove if not needed - be careful with this
+    // wp_dequeue_style('wp-block-library');
+    // wp_dequeue_style('wp-block-library-theme');
+
+    // Remove comment-reply script if comments are disabled
+    if (!empty($this->settings['disable_comments'])) {
+      wp_deregister_script('comment-reply');
+      wp_dequeue_script('comment-reply');
+    }
   }
 }
