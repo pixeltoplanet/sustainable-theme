@@ -150,15 +150,22 @@ add_action('enqueue_block_editor_assets', 'sustainable_theme_enqueue_video_block
  * Get URL for a theme placeholder image.
  * Use for patterns that need consistent placeholder images without media library dependencies.
  *
- * @param string $slug Image slug. Maps to: hero → coming-soon-bg-image.webp, square/square-1 → flower-meadow-square.webp
+ * @param string $slug Image slug. Maps to theme assets in assets/images/.
  * @return string Full URL to the image.
  */
 function sustainable_theme_placeholder_image(string $slug = 'hero'): string
 {
   $images = [
-    'hero' => 'coming-soon-bg-image.webp',
-    'square' => 'flower-meadow-square.webp',
-    'square-1' => 'flower-meadow-square.webp',
+    'hero'         => 'coming-soon-bg-image.webp',
+    'hero-boxed'   => 'hero-podcast.webp',
+    'square'       => 'flower-meadow-square.webp',
+    'square-1'     => 'flower-meadow-square.webp',
+    'portfolio-1'  => 'grid-flower-1.webp',
+    'portfolio-2'  => 'grid-flower-2.webp',
+    'portfolio-3'  => 'botany-flowers.webp',
+    'portfolio-4'  => 'delphinium-flowers.webp',
+    'portfolio-5'  => 'northern-buttercups-flowers.webp',
+    'portfolio-6'  => 'book-image.webp',
   ];
   $filename = $images[$slug] ?? 'coming-soon-bg-image.webp';
   return get_theme_file_uri("assets/images/{$filename}");

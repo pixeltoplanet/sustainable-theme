@@ -5,7 +5,6 @@ module.exports = {
 	...defaultConfig,
 	entry: {
 		admin: path.resolve(process.cwd(), 'src', 'admin.js'),
-		'design-admin': path.resolve(process.cwd(), 'src', 'design-admin.js'),
 		'sustainability-admin': path.resolve(
 			process.cwd(),
 			'src',

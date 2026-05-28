@@ -91,5 +91,9 @@ class BlockPatterns
       'label'       => __('Single post', 'sustainable-theme'),
       'description' => __('Single post patterns.', 'sustainable-theme'),
     ]);
+    register_block_pattern_category('sustainable-theme/new', [
+      'label'       => __('NEW', 'sustainable-theme'),
+      'description' => __('New patterns pending review and testing.', 'sustainable-theme'),
+    ]);
   }
 }

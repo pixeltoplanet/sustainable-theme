@@ -320,7 +320,11 @@ class SustainabilityOptimizer
    */
   public function remove_jquery_migrate($scripts): void
   {
-    if (!is_admin() && isset($scripts->registered['jquery'])) {
+    if (is_admin()) {
+      return;
+    }
+
+    if (isset($scripts->registered['jquery'])) {
       $script = $scripts->registered['jquery'];
       if ($script->deps) {
         $script->deps = array_diff($script->deps, ['jquery-migrate']);

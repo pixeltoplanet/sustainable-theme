@@ -218,7 +218,7 @@
 					"fontFace": [
 						{
 							"src": [
-								"file:./assets/fonts/dm-sans/DMSans-VariableFont_wght.woff2"
+								"file:./assets/fonts/dm-sans/DMSans-VariableFont_opsz,wght.ttf"
 							],
 							"fontWeight": "200 800",
 							"fontStyle": "normal",

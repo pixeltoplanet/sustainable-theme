@@ -41,16 +41,6 @@ class AdminMenu
       [$this, 'render_settings_page']
     );
 
-    // Design submenu
-    add_submenu_page(
-      'sustainable-theme',
-      __('Design', 'sustainable'),
-      __('Design', 'sustainable'),
-      'manage_options',
-      'sustainable-theme-design',
-      [$this, 'render_design_page']
-    );
-
     // Sustainability submenu
     add_submenu_page(
       'sustainable-theme',
@@ -94,11 +84,6 @@ class AdminMenu
     echo '<div id="sustainable-theme-page-root"></div>';
   }
 
-  public function render_design_page(): void
-  {
-    echo '<div id="sustainable-theme-design-page-root"></div>';
-  }
-
   public function render_sustainability_page(): void
   {
     echo '<div id="sustainable-theme-sustainability-page-root"></div>';
@@ -118,7 +103,6 @@ class AdminMenu
       $is_our_page = in_array($screen->id, [
         'toplevel_page_sustainable-theme',
         'sustainable-theme_page_sustainable-theme-settings',
-        'sustainable-theme_page_sustainable-theme-design',
         'sustainable-theme_page_sustainable-theme-sustainability'
       ], true);
     }
@@ -128,7 +112,6 @@ class AdminMenu
       $is_our_page = in_array($page, [
         'sustainable-theme',
         'sustainable-theme-settings',
-        'sustainable-theme-design',
         'sustainable-theme-sustainability'
       ], true);
     }
@@ -203,8 +186,6 @@ class AdminMenu
           return 'admin';
         case 'sustainable-theme_page_sustainable-theme-settings':
           return 'settings';
-        case 'sustainable-theme_page_sustainable-theme-design':
-          return 'design-admin';
         case 'sustainable-theme_page_sustainable-theme-sustainability':
           return 'sustainability-admin';
       }
@@ -214,8 +195,6 @@ class AdminMenu
     switch ($page) {
       case 'sustainable-theme-settings':
         return 'settings';
-      case 'sustainable-theme-design':
-        return 'design-admin';
       case 'sustainable-theme-sustainability':
         return 'sustainability-admin';
       default:
