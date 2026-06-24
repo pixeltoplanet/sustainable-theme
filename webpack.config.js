@@ -10,6 +10,7 @@ module.exports = {
 			'src',
 			'sustainability-admin.js'
 		),
+		'design-admin': path.resolve(process.cwd(), 'src', 'design-admin.js'),
 		settings: path.resolve(process.cwd(), 'src', 'settings.js'),
 		'query-block': path.resolve(process.cwd(), 'src', 'query-block.js'),
 		'excerpt-block': path.resolve(

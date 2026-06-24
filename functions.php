@@ -29,6 +29,7 @@ include_once get_template_directory() . '/includes/class-logger.php';
 include_once get_template_directory() . '/includes/class-settings-validator.php';
 include_once get_template_directory() . '/includes/class-security-manager.php';
 include_once get_template_directory() . '/includes/class-sustainability-tester.php';
+include_once get_template_directory() . '/includes/class-design-settings.php';
 include_once get_template_directory() . '/includes/class-block-patterns.php';
 include_once get_template_directory() . '/includes/class-query-exclude-current.php';
 include_once get_template_directory() . '/includes/class-excerpt-hide-readmore.php';
@@ -43,6 +44,7 @@ new SustainableTheme\LazyLoading();
 new SustainableTheme\Image_Sizes();
 new SustainableTheme\GridAwareness();
 new SustainableTheme\BlockPatterns();
+new SustainableTheme\DesignSettings();
 new SustainableTheme\SecurityManager();
 
 /**

@@ -51,6 +51,16 @@ class AdminMenu
       [$this, 'render_sustainability_page']
     );
 
+    // Design submenu
+    add_submenu_page(
+      'sustainable-theme',
+      __('Design Settings', 'sustainable-theme'),
+      __('Design', 'sustainable-theme'),
+      'manage_options',
+      'sustainable-theme-design',
+      [$this, 'render_design_page']
+    );
+
     if (!$plugin_menu_exists) {
       remove_submenu_page('sustainable-theme', 'sustainable-theme');
     }
@@ -94,6 +104,11 @@ class AdminMenu
     echo '<div id="sustainable-theme-settings-page-root"></div>';
   }
 
+  public function render_design_page(): void
+  {
+    echo '<div id="sustainable-theme-design-page-root"></div>';
+  }
+
   public function enqueue_react_assets(): void
   {
     $screen = get_current_screen();
@@ -103,7 +118,8 @@ class AdminMenu
       $is_our_page = in_array($screen->id, [
         'toplevel_page_sustainable-theme',
         'sustainable-theme_page_sustainable-theme-settings',
-        'sustainable-theme_page_sustainable-theme-sustainability'
+        'sustainable-theme_page_sustainable-theme-sustainability',
+        'sustainable-theme_page_sustainable-theme-design'
       ], true);
     }
 
@@ -112,7 +128,8 @@ class AdminMenu
       $is_our_page = in_array($page, [
         'sustainable-theme',
         'sustainable-theme-settings',
-        'sustainable-theme-sustainability'
+        'sustainable-theme-sustainability',
+        'sustainable-theme-design'
       ], true);
     }
 
@@ -188,6 +205,8 @@ class AdminMenu
           return 'settings';
         case 'sustainable-theme_page_sustainable-theme-sustainability':
           return 'sustainability-admin';
+        case 'sustainable-theme_page_sustainable-theme-design':
+          return 'design-admin';
       }
     }
 
@@ -197,6 +216,8 @@ class AdminMenu
         return 'settings';
       case 'sustainable-theme-sustainability':
         return 'sustainability-admin';
+      case 'sustainable-theme-design':
+        return 'design-admin';
       default:
         return 'admin';
     }
