@@ -2,6 +2,8 @@
 
 This guide provides comprehensive information for developers who want to extend, customize, or contribute to the Sustainable Theme.
 
+See also the [documentation index](./README.md).
+
 ## Architecture Overview
 
 ### Core Components
