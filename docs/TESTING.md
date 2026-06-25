@@ -4,9 +4,11 @@ This document provides a comprehensive guide for testing all sustainability sett
 
 ## ⚠️ Important Note
 
-**Not all settings are currently implemented!** Some settings are defined in the UI but may not have backend implementations yet. The automated tester will identify which settings are properly implemented.
+Most sustainability settings are implemented. Use the automated tester in **Sustainable Theme → Sustainability** to verify behavior on your site. See [Implementation Status](./IMPLEMENTATION_STATUS.md) for the current checklist.
 
-### Settings That May Need Implementation
+Previously, some settings were marked as missing implementations. That list is kept in [Implementation Status](./IMPLEMENTATION_STATUS.md) for reference.
+
+### Settings that may need verification on your install
 - `dequeue_non_sustainable` - May need implementation
 - `remove_header_metadata` - Partially implemented (only generator removed)
 - `remove_rest_output` - May need implementation  
