@@ -1,0 +1,10 @@
+/* Footer columns - stack on mobile */
+.sustainable-theme-footer-columns .wp-block-columns {
+  @media (max-width: 781px) {
+    flex-direction: column;
+
+    .wp-block-column {
+      flex-basis: 100% !important;
+    }
+  }
+}

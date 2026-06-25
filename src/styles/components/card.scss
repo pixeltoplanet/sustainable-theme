@@ -1,0 +1,10 @@
+.sustainable-theme-cards {
+  & img {
+    width: 100%;
+  }
+}
+
+/* Opt-in radius utilities (hardcoded block styles still win). */
+.sustainable-rounded-card {
+  border-radius: var(--rounded-card);
+}
