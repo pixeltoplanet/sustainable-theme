@@ -12,6 +12,7 @@ Documentation for **The Sustainable Theme** — a WordPress block theme with bui
 | [API Reference](./API.md) | REST API endpoints and PHP class reference |
 | [Testing Guide](./TESTING.md) | Manual and automated testing for sustainability settings |
 | [Testing Quick Start](./TESTING_QUICK_START.md) | Fast path to run settings tests from the admin or browser |
+| [Updates & Debugging](./UPDATES.md) | Theme update flow, GitHub API checks, and troubleshooting |
 
 ## Admin areas
 

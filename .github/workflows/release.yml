@@ -94,7 +94,6 @@ jobs:
             --exclude='.github' \
             --exclude='node_modules' \
             --exclude='src' \
-            --exclude='vendor' \
             --exclude='.vscode' \
             --exclude='.cursor' \
             --exclude='.docs' \
