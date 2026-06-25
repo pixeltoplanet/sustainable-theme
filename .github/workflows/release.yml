@@ -1,0 +1,119 @@
+name: Release Theme
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+  # Manual fallback
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Version bump type"
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: |
+      (github.event_name == 'workflow_dispatch') ||
+      (github.event.pull_request.merged == true &&
+       (contains(github.event.pull_request.labels.*.name, 'feat') ||
+        contains(github.event.pull_request.labels.*.name, 'fix') ||
+        contains(github.event.pull_request.labels.*.name, 'bug') ||
+        contains(github.event.pull_request.labels.*.name, 'chore') ||
+        contains(github.event.pull_request.labels.*.name, 'style') ||
+        contains(github.event.pull_request.labels.*.name, 'breaking')))
+    steps:
+      - name: Determine bump type
+        id: bump
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "type=${{ inputs.bump }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ contains(github.event.pull_request.labels.*.name, 'breaking') }}" = "true" ]; then
+            echo "type=major" >> "$GITHUB_OUTPUT"
+          elif [ "${{ contains(github.event.pull_request.labels.*.name, 'feat') }}" = "true" ]; then
+            echo "type=minor" >> "$GITHUB_OUTPUT"
+          else
+            echo "type=patch" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Setup Node (for wp-scripts)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install PHP dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Install Node dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Bump version
+        id: version
+        run: |
+          bun scripts/version-bump.mjs ${{ steps.bump.outputs.type }}
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Commit version bump
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json style.css functions.php
+          git commit -m "release: ${{ steps.version.outputs.version }}"
+          git tag "v${{ steps.version.outputs.version }}"
+          git push origin main --tags
+
+      - name: Build theme assets
+        run: bun run build
+
+      - name: Build release zip
+        run: |
+          mkdir -p /tmp/sustainable-theme
+          rsync -a \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='node_modules' \
+            --exclude='src' \
+            --exclude='scripts' \
+            --exclude='.gitignore' \
+            --exclude='.cursorrules' \
+            --exclude='_cursor' \
+            --exclude='package.json' \
+            --exclude='package-lock.json' \
+            --exclude='bun.lockb' \
+            --exclude='composer.json' \
+            --exclude='composer.lock' \
+            --exclude='webpack.config.js' \
+            --exclude='biome.json' \
+            --exclude='tsconfig.json' \
+            --exclude='*.zip' \
+            --exclude='SUSTAINABILITY_FEATURES.md' \
+            ./ /tmp/sustainable-theme/
+          cd /tmp && zip -r sustainable-theme.zip sustainable-theme/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          generate_release_notes: true
+          files: /tmp/sustainable-theme.zip

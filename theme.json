@@ -60,6 +60,11 @@
 		},
 		"custom": {
 			"spacingScale": 1,
+			"rounded": {
+				"card": "15px",
+				"image": "15px",
+				"button": "4px"
+			},
 			"size": {
 				"px": "1px",
 				"0-5": "0.125rem",
@@ -218,7 +223,7 @@
 					"fontFace": [
 						{
 							"src": [
-								"file:./assets/fonts/dm-sans/DMSans-VariableFont_wght.woff2"
+								"file:./assets/fonts/dm-sans/DMSans-VariableFont_opsz,wght.ttf"
 							],
 							"fontWeight": "200 800",
 							"fontStyle": "normal",
@@ -653,7 +658,8 @@
 					"text": "var:preset|color|background",
 					"border": {
 						"color": "var:preset|color|secondary",
-						"width": "1px"
+						"width": "1px",
+						"radius": "var(--rounded-button)"
 					}
 				},
 				":focus": {

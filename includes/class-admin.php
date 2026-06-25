@@ -20,7 +20,6 @@ class AdminMenu
     $plugin_menu_exists = $this->check_plugin_menu_exists();
 
     if (!$plugin_menu_exists) {
-      // Create main menu if plugin doesn't exist
       add_menu_page(
         __('Sustainable theme', 'sustainable'),
         'Sustainable theme',
@@ -32,25 +31,41 @@ class AdminMenu
       );
     }
 
-    // Always add theme settings submenu
+    // Theme settings submenu
     add_submenu_page(
       'sustainable-theme',
       __('Theme Settings', 'sustainable'),
       __('Theme Settings', 'sustainable'),
       'manage_options',
       'sustainable-theme-settings',
-      [$this, 'render_admin_page']
+      [$this, 'render_settings_page']
     );
 
-    // Remove the default "Carbonfooter" submenu item if we created the main menu
+    // Sustainability submenu
+    add_submenu_page(
+      'sustainable-theme',
+      __('Sustainability', 'sustainable'),
+      __('Sustainability', 'sustainable'),
+      'manage_options',
+      'sustainable-theme-sustainability',
+      [$this, 'render_sustainability_page']
+    );
+
+    // Design submenu
+    add_submenu_page(
+      'sustainable-theme',
+      __('Design Settings', 'sustainable-theme'),
+      __('Design', 'sustainable-theme'),
+      'manage_options',
+      'sustainable-theme-design',
+      [$this, 'render_design_page']
+    );
+
     if (!$plugin_menu_exists) {
       remove_submenu_page('sustainable-theme', 'sustainable-theme');
     }
   }
 
-  /**
-   * Check if the sustainable theme plugin menu exists
-   */
   private function check_plugin_menu_exists(): bool
   {
     global $menu;
@@ -79,31 +94,65 @@ class AdminMenu
     echo '<div id="sustainable-theme-page-root"></div>';
   }
 
+  public function render_sustainability_page(): void
+  {
+    echo '<div id="sustainable-theme-sustainability-page-root"></div>';
+  }
+
+  public function render_settings_page(): void
+  {
+    echo '<div id="sustainable-theme-settings-page-root"></div>';
+  }
+
+  public function render_design_page(): void
+  {
+    echo '<div id="sustainable-theme-design-page-root"></div>';
+  }
+
   public function enqueue_react_assets(): void
   {
-    // Only load on our admin pages
     $screen = get_current_screen();
-    if (!$screen || ($screen->id !== 'toplevel_page_sustainable-theme' && $screen->id !== 'sustainable-theme_page_sustainable-theme-settings')) {
+
+    $is_our_page = false;
+    if ($screen) {
+      $is_our_page = in_array($screen->id, [
+        'toplevel_page_sustainable-theme',
+        'sustainable-theme_page_sustainable-theme-settings',
+        'sustainable-theme_page_sustainable-theme-sustainability',
+        'sustainable-theme_page_sustainable-theme-design'
+      ], true);
+    }
+
+    if (!$is_our_page && isset($_GET['page'])) {
+      $page = sanitize_text_field($_GET['page']);
+      $is_our_page = in_array($page, [
+        'sustainable-theme',
+        'sustainable-theme-settings',
+        'sustainable-theme-sustainability',
+        'sustainable-theme-design'
+      ], true);
+    }
+
+    if (!$is_our_page) {
       return;
     }
 
-    // Always enqueue WordPress Components styles
     wp_enqueue_style('wp-components');
 
-    $asset_file_path = SUSTAINABLE_THEME_DIR . '/build/admin.asset.php';
+    $script_name = $this->get_script_name_for_page($screen);
+    $asset_file_path = SUSTAINABLE_THEME_DIR . "/build/{$script_name}.asset.php";
 
     if (file_exists($asset_file_path)) {
       $asset_data = include $asset_file_path;
 
       wp_enqueue_script(
         'sustainable-theme-admin',
-        SUSTAINABLE_THEME_URL . '/build/admin.js',
+        SUSTAINABLE_THEME_URL . "/build/{$script_name}.js",
         $asset_data['dependencies'],
         $asset_data['version'],
         true
       );
 
-      // Enqueue CSS if it exists
       if (file_exists(SUSTAINABLE_THEME_DIR . '/build/admin.css')) {
         wp_enqueue_style(
           'sustainable-theme-admin',
@@ -113,16 +162,14 @@ class AdminMenu
         );
       }
     } else {
-      // Fallback for development mode
       wp_enqueue_script(
         'sustainable-theme-admin',
-        SUSTAINABLE_THEME_URL . '/build/admin.js',
+        SUSTAINABLE_THEME_URL . "/build/{$script_name}.js",
         ['wp-element', 'wp-components', 'wp-i18n', 'wp-api-fetch'],
         SUSTAINABLE_THEME_VERSION,
         true
       );
 
-      // Fallback CSS
       if (file_exists(SUSTAINABLE_THEME_DIR . '/build/admin.css')) {
         wp_enqueue_style(
           'sustainable-theme-admin',
@@ -133,25 +180,53 @@ class AdminMenu
       }
     }
 
-    // Localize script with nonce and REST API data
+    $rest_url = rest_url();
+    if (is_ssl() ||
+        (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ||
+        (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')) {
+      $rest_url = str_replace('http://', 'https://', $rest_url);
+    }
+
     wp_localize_script('sustainable-theme-admin', 'wpApiSettings', [
       'nonce' => wp_create_nonce('wp_rest'),
-      'root' => esc_url_raw(rest_url()),
+      'root' => esc_url_raw($rest_url),
     ]);
 
-    // Enqueue grid awareness script for admin
     $this->enqueue_grid_awareness_for_admin();
   }
 
-  /**
-   * Enqueue grid awareness script for admin pages
-   */
+  private function get_script_name_for_page(?\WP_Screen $screen): string
+  {
+    if ($screen) {
+      switch ($screen->id) {
+        case 'toplevel_page_sustainable-theme':
+          return 'admin';
+        case 'sustainable-theme_page_sustainable-theme-settings':
+          return 'settings';
+        case 'sustainable-theme_page_sustainable-theme-sustainability':
+          return 'sustainability-admin';
+        case 'sustainable-theme_page_sustainable-theme-design':
+          return 'design-admin';
+      }
+    }
+
+    $page = isset($_GET['page']) ? sanitize_text_field($_GET['page']) : '';
+    switch ($page) {
+      case 'sustainable-theme-settings':
+        return 'settings';
+      case 'sustainable-theme-sustainability':
+        return 'sustainability-admin';
+      case 'sustainable-theme-design':
+        return 'design-admin';
+      default:
+        return 'admin';
+    }
+  }
+
   private function enqueue_grid_awareness_for_admin(): void
   {
-    // Get theme settings
     $settings = get_option('sustainable_theme_settings', []);
 
-    // Enqueue the frontend script (which contains grid awareness)
     wp_enqueue_script(
       'sustainable-grid-awareness-admin',
       SUSTAINABLE_THEME_URL . '/build/frontend.js',
@@ -160,7 +235,6 @@ class AdminMenu
       true
     );
 
-    // Localize script with settings
     wp_localize_script('sustainable-grid-awareness-admin', 'sustainableGridSettings', [
       'enabled' => $settings['use_grid_awareness'] ?? false,
       'apiUrl' => rest_url('sustainable-theme/v1/grid-status'),

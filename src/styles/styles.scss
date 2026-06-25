@@ -170,3 +170,18 @@ main {
     width: 100%;
   }
 }
+
+/* Opt-in radius utilities (hardcoded block styles still win). */
+.sustainable-rounded-card {
+  border-radius: var(--rounded-card);
+}
+
+.sustainable-rounded-image,
+.sustainable-rounded-image img {
+  border-radius: var(--rounded-image);
+}
+
+.wp-block-cover.sustainable-theme-hero-cover-boxed:not(.alignfull) {
+  border-radius: var(--rounded-card);
+  overflow: hidden;
+}

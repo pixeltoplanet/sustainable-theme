@@ -174,3 +174,8 @@
     }
   }
 }
+
+.wp-block-cover.sustainable-theme-hero-cover-boxed:not(.alignfull) {
+  border-radius: var(--rounded-card);
+  overflow: hidden;
+}

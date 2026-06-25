@@ -1,0 +1,24 @@
+name: Require Release Label
+
+on:
+  pull_request:
+    types: [opened, labeled, unlabeled, synchronize]
+    branches: [main]
+
+jobs:
+  check-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify release label
+        run: |
+          LABELS='${{ toJSON(github.event.pull_request.labels.*.name) }}'
+
+          for label in feat fix bug chore style breaking; do
+            if echo "$LABELS" | grep -q "\"$label\""; then
+              echo "✓ Found label: $label"
+              exit 0
+            fi
+          done
+
+          echo "::error::Missing release label. Add one of: feat, fix, bug, chore, style, breaking"
+          exit 1
