@@ -11,7 +11,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 A sustainable WordPress block theme with built-in performance tooling, design tokens, and a rich pattern library.
 
 == Description ==
-
+**The first true sustainable theme for WordPress.**
 The Sustainable Theme is a modern full-site editing block theme for creative and content-focused websites. It pairs clean typography and flexible layouts with built-in tools to reduce page weight, server load, and unnecessary WordPress overhead.
 
 **Highlights**
@@ -33,7 +33,6 @@ Detailed guides are included in the theme's `docs/` folder and on GitHub:
 * REST API reference
 * Testing guides
 
-Theme website: https://pixeltoplanet.earth/the-sustainable-theme
 Repository: https://github.com/pixeltoplanet/sustainable-theme
 
 == Installation ==
