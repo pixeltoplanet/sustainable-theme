@@ -30,6 +30,7 @@ jobs:
         contains(github.event.pull_request.labels.*.name, 'fix') ||
         contains(github.event.pull_request.labels.*.name, 'bug') ||
         contains(github.event.pull_request.labels.*.name, 'chore') ||
+        contains(github.event.pull_request.labels.*.name, 'documentation') ||
         contains(github.event.pull_request.labels.*.name, 'style') ||
         contains(github.event.pull_request.labels.*.name, 'breaking')))
     steps:
@@ -93,6 +94,10 @@ jobs:
             --exclude='.github' \
             --exclude='node_modules' \
             --exclude='src' \
+            --exclude='vendor' \
+            --exclude='.vscode' \
+            --exclude='.cursor' \
+            --exclude='.docs' \
             --exclude='scripts' \
             --exclude='.gitignore' \
             --exclude='.cursorrules' \
@@ -106,7 +111,6 @@ jobs:
             --exclude='biome.json' \
             --exclude='tsconfig.json' \
             --exclude='*.zip' \
-            --exclude='SUSTAINABILITY_FEATURES.md' \
             ./ /tmp/sustainable-theme/
           cd /tmp && zip -r sustainable-theme.zip sustainable-theme/
 
