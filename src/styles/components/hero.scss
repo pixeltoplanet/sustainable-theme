@@ -1,0 +1,19 @@
+/* Hero asymmetric & CTA split - stack columns on mobile */
+@media (max-width: 781px) {
+
+  .sustainable-theme-hero-asymmetric .wp-block-column,
+  .sustainable-theme-cta-split .wp-block-column {
+    flex-basis: 100% !important;
+  }
+
+  .sustainable-theme-hero-asymmetric .wp-block-column:last-child,
+  .sustainable-theme-cta-split .wp-block-column:last-child {
+    min-height: 40vh;
+  }
+}
+
+
+.wp-block-cover.sustainable-theme-hero-cover-boxed:not(.alignfull) {
+  border-radius: var(--rounded-card);
+  overflow: hidden;
+}

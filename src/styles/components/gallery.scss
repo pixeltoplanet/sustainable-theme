@@ -1,0 +1,40 @@
+/* Gallery masonry - CSS columns */
+.sustainable-theme-masonry-gallery {
+  column-count: 3;
+  column-gap: var(--wp--preset--spacing--fluid-small, 1rem);
+
+  .wp-block-image,
+  figure {
+    break-inside: avoid;
+    margin-bottom: var(--wp--preset--spacing--fluid-small);
+    page-break-inside: avoid;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  @media (min-width: 600px) and (max-width: 960px) {
+    column-count: 2;
+  }
+
+  @media (max-width: 599px) {
+    column-count: 1;
+  }
+}
+
+/* Gallery featured - thumbnails scroll on small screens */
+.sustainable-theme-gallery-featured .wp-block-group {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+
+  @media (max-width: 600px) {
+    .wp-block-image {
+      flex: 0 0 100px;
+      min-width: 100px;
+    }
+  }
+}

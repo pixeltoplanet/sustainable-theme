@@ -1,0 +1,7 @@
+.wp-block-image,
+.sustainable-theme-posts-masonry .wp-block-post-featured-image img,
+.sustainable-rounded-image,
+.sustainable-rounded-image img {
+  overflow: hidden;
+  border-radius: var(--rounded-image);
+}
