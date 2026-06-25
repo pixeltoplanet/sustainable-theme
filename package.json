@@ -1,6 +1,6 @@
 {
 	"name": "the-sustainable-theme",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "A sustainable WordPress block theme designed for environmental consciousness",
 	"scripts": {
 		"build": "wp-scripts build",
