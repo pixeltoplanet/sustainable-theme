@@ -10,7 +10,7 @@
  */
 
 ?>
-<!-- wp:pattern {"slug":"sustainable-theme/hero-home-02"} /-->
+<!-- wp:pattern {"slug":"sustainable-theme/hero-cover-centered"} /-->
 
 <!-- wp:pattern {"slug":"sustainable-theme/stats-3-columns-home-02"} /-->
 
