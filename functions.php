@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define theme constants
-define('SUSTAINABLE_THEME_VERSION', '1.0.0');
+define('SUSTAINABLE_THEME_VERSION', '0.1.0');
 define('SUSTAINABLE_THEME_DIR', get_template_directory());
 define('SUSTAINABLE_THEME_URL', get_template_directory_uri());
 
@@ -34,6 +34,7 @@ include_once get_template_directory() . '/includes/class-block-patterns.php';
 include_once get_template_directory() . '/includes/class-query-exclude-current.php';
 include_once get_template_directory() . '/includes/class-excerpt-hide-readmore.php';
 include_once get_template_directory() . '/includes/class-video-block.php';
+include_once get_template_directory() . '/includes/class-update-checker.php';
 
 // Initialize the classes
 new SustainableTheme\Settings();
@@ -46,6 +47,7 @@ new SustainableTheme\GridAwareness();
 new SustainableTheme\BlockPatterns();
 new SustainableTheme\DesignSettings();
 new SustainableTheme\SecurityManager();
+new SustainableTheme\UpdateChecker();
 
 /**
  * Enqueue main frontend styles

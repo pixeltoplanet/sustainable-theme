@@ -9,8 +9,10 @@
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
-		"zip": "zip -r \"/Users/danny/Local Sites/pixeltoplanet/app/public/wp-content/themes/sustainable-theme/sustainable-theme.zip\" . -x 'node_modules/*' 'src/*' '.git/*' '*.zip'",
-		"release": "bun run build && bun run zip"
+		"version:patch": "bun scripts/version-bump.mjs patch",
+		"version:minor": "bun scripts/version-bump.mjs minor",
+		"version:major": "bun scripts/version-bump.mjs major",
+		"version:set": "bun scripts/version-bump.mjs"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.14",
