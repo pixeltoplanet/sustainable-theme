@@ -464,7 +464,16 @@ export default function SettingsPage() {
 				</Panel>
 
 				{notices.length > 0 && (
-					<div style={{ position: "fixed", bottom: "20px", left: "50%", transform: "translateX(-50%)", zIndex: 9999 }}>
+					<div
+						style={{
+							position: "fixed",
+							bottom: "40px",
+							right: "20px",
+							zIndex: 100000,
+							minWidth: "350px",
+							maxWidth: "500px",
+						}}
+					>
 						<SnackbarList
 							notices={notices.map(n => ({
 								id: n.id,
