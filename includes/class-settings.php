@@ -324,6 +324,20 @@ class Settings
   }
 
   /**
+   * Preserve grid awareness values only when an API key is configured.
+   */
+  private function preserve_grid_awareness_settings(array $current_settings): array
+  {
+    $api_key = $current_settings['electricity_maps_api_key'] ?? '';
+    $enabled = !empty($current_settings['use_grid_awareness']) && !empty($api_key);
+
+    return [
+      'use_grid_awareness' => $enabled,
+      'electricity_maps_api_key' => $api_key,
+    ];
+  }
+
+  /**
    * Apply preset mode values when stored settings use base or super mode.
    */
   public function resolve_settings(array $settings): array
@@ -332,12 +346,12 @@ class Settings
     $mode = $settings['sustainability_mode'] ?? 'base';
 
     if (!in_array($mode, ['base', 'super'], true)) {
-      return $settings;
+      return SettingsValidator::normalizeDependencies($settings);
     }
 
     $mode_settings = $this->get_mode_settings($mode, $settings);
 
-    return array_merge($settings, $mode_settings);
+    return SettingsValidator::normalizeDependencies(array_merge($settings, $mode_settings));
   }
 
   /**
@@ -353,7 +367,7 @@ class Settings
 
     switch ($mode) {
       case 'base':
-        return array_merge($base_settings, [
+        $settings = array_merge($base_settings, [
           'sustainability_mode' => 'base',
           'disable_emojis' => true,
           'remove_embeds' => true,
@@ -377,17 +391,16 @@ class Settings
           'remove_default_image_sizes' => false,
           // Base mode block-editor sustainability
           'disable_video_autoplay' => true,
-          // Preserve grid awareness settings
-          'use_grid_awareness' => $current_settings['use_grid_awareness'] ?? true,
-          'electricity_maps_api_key' => $current_settings['electricity_maps_api_key'] ?? '',
+          // Preserve grid awareness settings when configured
+          ...$this->preserve_grid_awareness_settings($current_settings),
         ]);
+        break;
 
       case 'super':
-        return array_merge($base_settings, [
+        $settings = array_merge($base_settings, [
           'sustainability_mode' => 'super',
           'dequeue_non_sustainable' => true,
-          'use_grid_awareness' => $current_settings['use_grid_awareness'] ?? true,
-          'electricity_maps_api_key' => $current_settings['electricity_maps_api_key'] ?? '',
+          ...$this->preserve_grid_awareness_settings($current_settings),
           'disable_rss_feed' => true,
           'disable_emojis' => true,
           'remove_embeds' => true,
@@ -406,7 +419,7 @@ class Settings
           'remove_dns_prefetch' => true,
           'disable_dashicons_frontend' => true,
           'disable_file_editing' => true,
-          'reduce_heartbeat_frequency' => true,
+          'reduce_heartbeat_frequency' => false,
           'disable_gravatar' => true,
           'remove_capital_p_dangit' => true,
           'disable_automatic_updates' => true,
@@ -421,13 +434,17 @@ class Settings
           // Super mode block-editor sustainability
           'disable_video_autoplay' => true,
         ]);
+        break;
 
       case 'custom':
-        return array_merge($base_settings, $current_settings, ['sustainability_mode' => 'custom']);
+        $settings = array_merge($base_settings, $current_settings, ['sustainability_mode' => 'custom']);
+        break;
 
       default:
-        return $base_settings;
+        $settings = $base_settings;
     }
+
+    return SettingsValidator::normalizeDependencies($settings);
   }
 
   /**
@@ -603,7 +620,7 @@ class Settings
     }
 
     // Merge with defaults to ensure all settings are present
-    return array_merge($defaults, $sanitized);
+    return SettingsValidator::normalizeDependencies(array_merge($defaults, $sanitized));
   }
 
   /**

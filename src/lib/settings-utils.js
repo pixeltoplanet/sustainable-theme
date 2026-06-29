@@ -49,6 +49,33 @@ const getSchemaDefaults = () => ({
 	disable_video_autoplay: true,
 });
 
+const preserveGridAwarenessSettings = (currentSettings = {}) => {
+	const apiKey = currentSettings.electricity_maps_api_key || "";
+	const enabled = Boolean(currentSettings.use_grid_awareness && apiKey);
+
+	return {
+		use_grid_awareness: enabled,
+		electricity_maps_api_key: apiKey,
+	};
+};
+
+/**
+ * Normalize settings so dependent toggles stay consistent.
+ */
+export const normalizeSettings = (settings = {}) => {
+	const normalized = { ...settings };
+
+	if (normalized.use_grid_awareness && !normalized.electricity_maps_api_key) {
+		normalized.use_grid_awareness = false;
+	}
+
+	if (normalized.disable_heartbeat && normalized.reduce_heartbeat_frequency) {
+		normalized.reduce_heartbeat_frequency = false;
+	}
+
+	return normalized;
+};
+
 /**
  * Get settings configuration for a specific sustainability mode
  * @param {string} mode - The sustainability mode ('base', 'super', 'custom')
@@ -63,11 +90,10 @@ export const getModeSettings = (mode, currentSettings = {}) => {
 
 	switch (mode) {
 		case "base":
-			return {
+			return normalizeSettings({
 				...baseSettings,
 				sustainability_mode: "base",
-				use_grid_awareness: currentSettings.use_grid_awareness ?? true,
-				electricity_maps_api_key: currentSettings.electricity_maps_api_key || "",
+				...preserveGridAwarenessSettings(currentSettings),
 				disable_emojis: true,
 				remove_embeds: true,
 				remove_header_metadata: true,
@@ -85,14 +111,13 @@ export const getModeSettings = (mode, currentSettings = {}) => {
 				max_image_size: "full",
 				remove_default_image_sizes: false,
 				disable_video_autoplay: true,
-			};
+			});
 		case "super":
-			return {
+			return normalizeSettings({
 				...baseSettings,
 				sustainability_mode: "super",
 				dequeue_non_sustainable: true,
-				use_grid_awareness: currentSettings.use_grid_awareness ?? true,
-				electricity_maps_api_key: currentSettings.electricity_maps_api_key || "",
+				...preserveGridAwarenessSettings(currentSettings),
 				disable_rss_feed: true,
 				disable_emojis: true,
 				remove_embeds: true,
@@ -110,7 +135,7 @@ export const getModeSettings = (mode, currentSettings = {}) => {
 				remove_dns_prefetch: true,
 				disable_dashicons_frontend: true,
 				disable_file_editing: true,
-				reduce_heartbeat_frequency: true,
+				reduce_heartbeat_frequency: false,
 				disable_gravatar: true,
 				remove_capital_p_dangit: true,
 				disable_automatic_updates: true,
@@ -121,13 +146,13 @@ export const getModeSettings = (mode, currentSettings = {}) => {
 				max_image_size: "full",
 				remove_default_image_sizes: true,
 				disable_video_autoplay: true,
-			};
+			});
 		case "custom":
 			// Keep current settings when switching to custom mode
-			return {
+			return normalizeSettings({
 				...currentSettings,
 				sustainability_mode: "custom",
-			};
+			});
 		default:
 			return baseSettings;
 	}

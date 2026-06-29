@@ -130,22 +130,23 @@ class SecurityManager
       return $old_value;
     }
 
-    // Validate settings
+    $value = SettingsValidator::normalizeDependencies($value);
+
     $errors = SettingsValidator::validateSettings($value);
     if (!empty($errors)) {
-      Logger::error('Settings validation failed', [
+      Logger::warning('Settings validation issues after normalization', [
         'errors' => $errors,
         'user_id' => get_current_user_id()
       ]);
-
-      // Return sanitized version instead of rejecting
-      $value = SettingsValidator::sanitizeSettings($value);
     }
 
-    // Log settings change
+    $changed_fields = is_array($old_value)
+      ? array_keys(array_diff_assoc($value, $old_value))
+      : array_keys($value);
+
     Logger::info('Settings updated', [
       'user_id' => get_current_user_id(),
-      'changed_fields' => array_keys(array_diff_assoc($value, $old_value)),
+      'changed_fields' => $changed_fields,
       'ip_address' => self::get_client_ip()
     ]);
 
