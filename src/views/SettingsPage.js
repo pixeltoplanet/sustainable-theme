@@ -467,7 +467,7 @@ export default function SettingsPage() {
 					<div
 						style={{
 							position: "fixed",
-							bottom: "60px",
+							bottom: "70px",
 							right: "40px",
 							zIndex: 100000,
 							minWidth: "400px",
