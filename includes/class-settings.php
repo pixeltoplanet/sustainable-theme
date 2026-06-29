@@ -270,9 +270,9 @@ class Settings
   }
 
   /**
-   * Get default settings based on sustainability mode
+   * Schema defaults for all settings (all optimizations off).
    */
-  public function get_default_settings(): array
+  private function get_schema_defaults(): array
   {
     return [
       'sustainability_mode' => 'base',
@@ -316,12 +316,40 @@ class Settings
   }
 
   /**
+   * Get default settings (Just sustainable / base mode preset).
+   */
+  public function get_default_settings(): array
+  {
+    return $this->get_mode_settings('base');
+  }
+
+  /**
+   * Apply preset mode values when stored settings use base or super mode.
+   */
+  public function resolve_settings(array $settings): array
+  {
+    $settings = array_merge($this->get_schema_defaults(), $settings);
+    $mode = $settings['sustainability_mode'] ?? 'base';
+
+    if (!in_array($mode, ['base', 'super'], true)) {
+      return $settings;
+    }
+
+    $mode_settings = $this->get_mode_settings($mode, $settings);
+
+    return array_merge($settings, $mode_settings);
+  }
+
+  /**
    * Get settings for a specific sustainability mode
    */
-  public function get_mode_settings(string $mode): array
+  public function get_mode_settings(string $mode, array $current_settings = []): array
   {
-    $base_settings = $this->get_default_settings();
-    $current_settings = get_option('sustainable_theme_settings', []);
+    $base_settings = $this->get_schema_defaults();
+
+    if (empty($current_settings)) {
+      $current_settings = get_option('sustainable_theme_settings', []);
+    }
 
     switch ($mode) {
       case 'base':
@@ -395,8 +423,6 @@ class Settings
         ]);
 
       case 'custom':
-        // For custom mode, return current settings
-        $current_settings = get_option('sustainable_theme_settings', $base_settings);
         return array_merge($base_settings, $current_settings, ['sustainability_mode' => 'custom']);
 
       default:
@@ -409,7 +435,15 @@ class Settings
    */
   public function get_settings(): \WP_REST_Response
   {
-    $settings = get_option('sustainable_theme_settings', $this->get_default_settings());
+    $stored = get_option('sustainable_theme_settings', false);
+
+    if ($stored === false) {
+      $settings = $this->get_default_settings();
+      update_option('sustainable_theme_settings', $settings);
+    } else {
+      $settings = $this->resolve_settings($stored);
+    }
+
     return new \WP_REST_Response($settings, 200);
   }
 
@@ -429,20 +463,13 @@ class Settings
       }
 
       $sanitized_settings = $this->sanitize_settings($new_settings);
-      $updated = update_option('sustainable_theme_settings', $sanitized_settings);
+      update_option('sustainable_theme_settings', $sanitized_settings);
 
-      if ($updated !== false) {
-        return new \WP_REST_Response([
-          'success' => true,
-          'settings' => $sanitized_settings,
-          'message' => 'Settings updated successfully'
-        ], 200);
-      } else {
-        return new \WP_REST_Response([
-          'success' => false,
-          'message' => 'Failed to update settings - no changes made'
-        ], 500);
-      }
+      return new \WP_REST_Response([
+        'success' => true,
+        'settings' => $sanitized_settings,
+        'message' => 'Settings updated successfully'
+      ], 200);
     } catch (\Exception $e) {
       error_log('Settings update error: ' . $e->getMessage());
       return new \WP_REST_Response([
@@ -459,23 +486,17 @@ class Settings
   {
     try {
       $mode = $request->get_param('mode');
-      $mode_settings = $this->get_mode_settings($mode);
+      $current_settings = get_option('sustainable_theme_settings', []);
+      $mode_settings = $this->get_mode_settings($mode, is_array($current_settings) ? $current_settings : []);
 
-      $updated = update_option('sustainable_theme_settings', $mode_settings);
+      update_option('sustainable_theme_settings', $mode_settings);
 
-      if ($updated !== false) {
-        return new \WP_REST_Response([
-          'success' => true,
-          'settings' => $mode_settings,
-          'mode' => $mode,
-          'message' => "Settings updated to {$mode} mode"
-        ], 200);
-      } else {
-        return new \WP_REST_Response([
-          'success' => false,
-          'message' => 'Failed to update settings - no changes made'
-        ], 500);
-      }
+      return new \WP_REST_Response([
+        'success' => true,
+        'settings' => $mode_settings,
+        'mode' => $mode,
+        'message' => "Settings updated to {$mode} mode"
+      ], 200);
     } catch (\Exception $e) {
       error_log('Mode update error: ' . $e->getMessage());
       return new \WP_REST_Response([
@@ -491,20 +512,13 @@ class Settings
   public function reset_settings(\WP_REST_Request $request): \WP_REST_Response
   {
     $default_settings = $this->get_default_settings();
-    $updated = update_option('sustainable_theme_settings', $default_settings);
+    update_option('sustainable_theme_settings', $default_settings);
 
-    if ($updated) {
-      return new \WP_REST_Response([
-        'success' => true,
-        'settings' => $default_settings,
-        'message' => 'Settings reset to defaults successfully'
-      ], 200);
-    } else {
-      return new \WP_REST_Response([
-        'success' => false,
-        'message' => 'Failed to reset settings'
-      ], 500);
-    }
+    return new \WP_REST_Response([
+      'success' => true,
+      'settings' => $default_settings,
+      'message' => 'Settings reset to defaults successfully'
+    ], 200);
   }
 
   /**
@@ -513,7 +527,7 @@ class Settings
   public function sanitize_settings(array $settings): array
   {
     $sanitized = [];
-    $defaults = $this->get_default_settings();
+    $defaults = $this->get_schema_defaults();
 
     // Start with defaults to ensure all settings are present
     $sanitized = $defaults;
@@ -605,7 +619,13 @@ class Settings
    */
   public function get_current_settings(): array
   {
-    return get_option('sustainable_theme_settings', $this->get_default_settings());
+    $stored = get_option('sustainable_theme_settings', false);
+
+    if ($stored === false) {
+      return $this->get_default_settings();
+    }
+
+    return $this->resolve_settings($stored);
   }
 
   /**

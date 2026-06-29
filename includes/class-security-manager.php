@@ -84,7 +84,7 @@ class SecurityManager
    * @param int $user_id User ID (optional)
    * @return bool True if within limits, false if rate limited
    */
-  public static function checkRateLimit(string $action, int $user_id = null): bool
+  public static function checkRateLimit(string $action, ?int $user_id = null): bool
   {
     if (!isset(self::$rate_limits[$action])) {
       return true; // No limit defined
