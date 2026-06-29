@@ -54,6 +54,45 @@ class SustainabilityOptimizer
   }
 
   /**
+   * Whether heartbeat can be safely removed in the current request.
+   *
+   * Logged-in users, wp-admin, login, and the block editor rely on heartbeat
+   * for wp-auth-check and editing workflows.
+   */
+  private function should_disable_heartbeat(): bool
+  {
+    if (empty($this->settings['disable_heartbeat'])) {
+      return false;
+    }
+
+    if ($this->is_block_editor() || is_admin() || is_user_logged_in()) {
+      return false;
+    }
+
+    global $pagenow;
+
+    return !isset($pagenow) || $pagenow !== 'wp-login.php';
+  }
+
+  /**
+   * Whether Dashicons can be safely removed on the frontend.
+   *
+   * The admin bar depends on Dashicons when a logged-in user views the site.
+   */
+  private function should_disable_dashicons_frontend(): bool
+  {
+    if (empty($this->settings['disable_dashicons_frontend'])) {
+      return false;
+    }
+
+    if (is_admin()) {
+      return false;
+    }
+
+    return !(is_user_logged_in() && is_admin_bar_showing());
+  }
+
+  /**
    * Early optimizations that need to run before WordPress registers actions
    */
   public function early_optimizations(): void
@@ -75,11 +114,9 @@ class SustainabilityOptimizer
       add_action('wp_default_scripts', [$this, 'remove_jquery_migrate'], 100);
     }
 
-    // Disable heartbeat early (but NOT on site editor - it needs heartbeat)
+    // Disable heartbeat for anonymous frontend requests only.
     if (!empty($this->settings['disable_heartbeat'])) {
       add_action('wp_enqueue_scripts', [$this, 'disable_heartbeat'], 1);
-      add_action('admin_enqueue_scripts', [$this, 'disable_heartbeat_safely'], 1);
-      add_action('login_enqueue_scripts', [$this, 'disable_heartbeat'], 1);
     }
   }
 
@@ -212,8 +249,8 @@ class SustainabilityOptimizer
       $this->dequeue_non_sustainable();
     }
 
-    // Disable Dashicons on frontend
-    if (!empty($this->settings['disable_dashicons_frontend'])) {
+    // Disable Dashicons on frontend for visitors without the admin bar.
+    if ($this->should_disable_dashicons_frontend()) {
       wp_dequeue_style('dashicons');
       wp_deregister_style('dashicons');
     }
@@ -334,22 +371,14 @@ class SustainabilityOptimizer
   }
 
   /**
-   * Disable heartbeat
+   * Disable heartbeat for anonymous frontend visitors.
    */
   public function disable_heartbeat(): void
   {
-    wp_deregister_script('heartbeat');
-  }
-
-  /**
-   * Disable heartbeat safely (excludes block editor pages)
-   */
-  public function disable_heartbeat_safely(): void
-  {
-    // Don't disable heartbeat on block editor pages - they need it to function
-    if ($this->is_block_editor()) {
+    if (!$this->should_disable_heartbeat()) {
       return;
     }
+
     wp_deregister_script('heartbeat');
   }
 

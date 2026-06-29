@@ -318,13 +318,12 @@ class SustainabilityTester
   {
     $enabled = !empty($this->settings['disable_heartbeat']);
 
-    // Check if action is registered to disable heartbeat
+    // Check if action is registered to disable heartbeat on the frontend.
     $has_action_wp = has_action('wp_enqueue_scripts', 'disable_heartbeat') !== false;
-    $has_action_admin = has_action('admin_enqueue_scripts', 'disable_heartbeat') !== false;
     // Also check for instance method
     global $wp_filter;
     $has_action_instance = false;
-    foreach (['wp_enqueue_scripts', 'admin_enqueue_scripts', 'login_enqueue_scripts'] as $hook) {
+    foreach (['wp_enqueue_scripts'] as $hook) {
       if (isset($wp_filter[$hook])) {
         foreach ($wp_filter[$hook]->callbacks as $priority => $callbacks) {
           foreach ($callbacks as $callback) {
@@ -341,14 +340,14 @@ class SustainabilityTester
       }
     }
 
-    $action_registered = $has_action_wp || $has_action_admin || $has_action_instance;
+    $action_registered = $has_action_wp || $has_action_instance;
 
     $this->test_results['disable_heartbeat'] = [
       'enabled' => $enabled,
       'action_registered' => $action_registered,
       'status' => $enabled && $action_registered ? 'pass' : ($enabled ? 'partial' : 'not_tested'),
       'message' => $enabled
-        ? ($action_registered ? 'Heartbeat disable action registered' : 'Setting enabled but action not registered')
+        ? ($action_registered ? 'Heartbeat disable action registered for anonymous frontend requests' : 'Setting enabled but action not registered')
         : 'Setting not enabled'
     ];
   }
@@ -469,7 +468,7 @@ class SustainabilityTester
       'action_registered' => $action_registered,
       'status' => $enabled && $action_registered ? 'pass' : ($enabled ? 'partial' : 'not_tested'),
       'message' => $enabled
-        ? ($action_registered ? 'Dashicons removal active on frontend' : 'Setting enabled but action not registered')
+        ? ($action_registered ? 'Dashicons removal active for frontend visitors without the admin bar' : 'Setting enabled but action not registered')
         : 'Setting not enabled'
     ];
   }
