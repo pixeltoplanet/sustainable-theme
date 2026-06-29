@@ -467,11 +467,12 @@ export default function SettingsPage() {
 					<div
 						style={{
 							position: "fixed",
-							bottom: "40px",
-							right: "20px",
+							bottom: "60px",
+							right: "40px",
 							zIndex: 100000,
-							minWidth: "350px",
-							maxWidth: "500px",
+							minWidth: "400px",
+							maxWidth: "540px",
+							fontSize: "14px",
 						}}
 					>
 						<SnackbarList
