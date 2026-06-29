@@ -1,6 +1,6 @@
 import { __ } from "@wordpress/i18n";
-import { useEffect, useState } from "@wordpress/element";
-import { Button, Notice, Panel, PanelBody, Spinner } from "@wordpress/components";
+import { useEffect, useState, useCallback } from "@wordpress/element";
+import { Button, Notice, Panel, PanelBody, Spinner, SnackbarList } from "@wordpress/components";
 import apiFetch from "@wordpress/api-fetch";
 
 // Set up apiFetch with proper authentication
@@ -13,11 +13,51 @@ import PageTitle from "../components/PageTitle";
 import PageHeader from "../components/PageHeader";
 import Text from "../components/Text";
 
+const STATUS_STYLES = {
+	active: {
+		border: "1px solid #28a745",
+		backgroundColor: "#f0f8f0",
+		borderLeft: "4px solid #28a745",
+	},
+	installed: {
+		border: "1px solid #e6a817",
+		backgroundColor: "#fefcf3",
+		borderLeft: "4px solid #e6a817",
+	},
+	notInstalled: {
+		border: "1px solid #ddd",
+		backgroundColor: "#fff",
+		borderLeft: "4px solid #ddd",
+	},
+};
+
 export default function SettingsPage() {
 	const [recommendedPlugins, setRecommendedPlugins] = useState([]);
 	const [activePlugins, setActivePlugins] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [installingPlugins, setInstallingPlugins] = useState(new Set());
+	const [pluginActions, setPluginActions] = useState({});
+	const [notices, setNotices] = useState([]);
+	const [pluginErrors, setPluginErrors] = useState({});
+
+	const addNotice = useCallback((message, type = "success") => {
+		const id = `notice-${Date.now()}`;
+		setNotices(prev => [...prev, { id, content: message, type }]);
+		setTimeout(() => {
+			setNotices(prev => prev.filter(n => n.id !== id));
+		}, 4000);
+	}, []);
+
+	const setPluginError = useCallback((slug, message) => {
+		setPluginErrors(prev => ({ ...prev, [slug]: message }));
+		setTimeout(() => {
+			setPluginErrors(prev => {
+				const next = { ...prev };
+				delete next[slug];
+				return next;
+			});
+		}, 5000);
+	}, []);
 
 	// Load recommended plugins on component mount
 	useEffect(() => {
@@ -61,13 +101,10 @@ export default function SettingsPage() {
 	}, []);
 
 	const handleInstallPlugin = async (pluginSlug) => {
-		console.log("Installing plugin:", pluginSlug);
-		console.log("Nonce:", window.wpApiSettings?.nonce);
-		
 		setInstallingPlugins(prev => new Set(prev).add(pluginSlug));
+		setPluginActions(prev => ({ ...prev, [pluginSlug]: "installing" }));
 
 		try {
-			// Try the safer AJAX method first
 			const response = await fetch("/wp-json/sustainable-theme/v1/install-plugin-ajax", {
 				method: "POST",
 				headers: {
@@ -77,14 +114,10 @@ export default function SettingsPage() {
 				body: JSON.stringify({ plugin_slug: pluginSlug }),
 			});
 
-			console.log("Install response status:", response.status);
 			const data = await response.json();
-			console.log("Install response data:", data);
 
 			if (data.success) {
-				// Update the plugin status based on the action
 				if (data.action === 'installed') {
-					// Plugin was installed but not activated - update status to show "Activate" button
 					setRecommendedPlugins(prev => 
 						prev.map(plugin => 
 							plugin.slug === pluginSlug 
@@ -92,27 +125,21 @@ export default function SettingsPage() {
 								: plugin
 						)
 					);
+					const pluginName = recommendedPlugins.find(p => p.slug === pluginSlug)?.name || pluginSlug;
+					addNotice(__(`${pluginName} installed successfully. Click "Activate" to enable it.`, "sustainable-theme"));
 				} else if (data.action === 'activated' || data.action === 'installed_and_activated') {
-					// Plugin was activated - move to active plugins
 					setRecommendedPlugins(prev => {
 						const pluginToMove = prev.find(plugin => plugin.slug === pluginSlug);
 						if (pluginToMove) {
-							// Remove from recommended plugins
 							const updatedRecommended = prev.filter(plugin => plugin.slug !== pluginSlug);
-							// Add to active plugins
 							setActivePlugins(prevActive => [...prevActive, { ...pluginToMove, is_active: true }]);
+							addNotice(__(`${pluginToMove.name} is now active!`, "sustainable-theme"));
 							return updatedRecommended;
 						}
 						return prev;
 					});
 				}
-				console.log("Plugin operation successful:", data.message);
 			} else if (data.action === 'manual_install_required') {
-				// Show manual installation option
-				console.log("Manual install required - Full response:", data);
-				console.log("Plugin name:", data.plugin_name);
-				console.log("Plugin description:", data.plugin_description);
-				
 				const shouldInstall = confirm(
 					`Automatic installation is not available for ${data.plugin_name}.\n\n` +
 					`Would you like to open the WordPress plugin installation page?\n\n` +
@@ -123,7 +150,6 @@ export default function SettingsPage() {
 					window.open(data.plugin_url, '_blank');
 				}
 			} else if (data.action === 'filesystem_credentials_required') {
-				// Show filesystem credentials option
 				const shouldProvideCredentials = confirm(
 					`Filesystem access is required for automatic installation.\n\n` +
 					`Would you like to provide FTP/SSH credentials?\n\n` +
@@ -134,28 +160,27 @@ export default function SettingsPage() {
 					window.open(data.credentials_url, '_blank');
 				}
 			} else {
-				console.error("Failed to install plugin:", data.message);
-				// Show user-friendly error message
-				alert(`Failed to install plugin: ${data.message}`);
+				setPluginError(pluginSlug, data.message || __("Installation failed", "sustainable-theme"));
 			}
 		} catch (error) {
-			console.error("Failed to install plugin:", error);
-			// Show user-friendly error message
-			alert(`Failed to install plugin: ${error.message}`);
+			setPluginError(pluginSlug, error.message || __("Network error during installation", "sustainable-theme"));
 		} finally {
 			setInstallingPlugins(prev => {
 				const newSet = new Set(prev);
 				newSet.delete(pluginSlug);
 				return newSet;
 			});
+			setPluginActions(prev => {
+				const next = { ...prev };
+				delete next[pluginSlug];
+				return next;
+			});
 		}
 	};
 
 	const handleActivatePlugin = async (pluginSlug) => {
-		console.log("Activating plugin:", pluginSlug);
-		console.log("Nonce:", window.wpApiSettings?.nonce);
-		
 		setInstallingPlugins(prev => new Set(prev).add(pluginSlug));
+		setPluginActions(prev => ({ ...prev, [pluginSlug]: "activating" }));
 
 		try {
 			const response = await fetch("/wp-json/sustainable-theme/v1/activate-plugin", {
@@ -167,59 +192,82 @@ export default function SettingsPage() {
 				body: JSON.stringify({ plugin_slug: pluginSlug }),
 			});
 
-			console.log("Activate response status:", response.status);
 			const data = await response.json();
-			console.log("Activate response data:", data);
 
 			if (data.success) {
-				// Move the plugin from recommended to active plugins
 				setRecommendedPlugins(prev => {
 					const pluginToMove = prev.find(plugin => plugin.slug === pluginSlug);
 					if (pluginToMove) {
-						// Remove from recommended plugins
 						const updatedRecommended = prev.filter(plugin => plugin.slug !== pluginSlug);
-						// Add to active plugins
 						setActivePlugins(prevActive => [...prevActive, { ...pluginToMove, is_active: true }]);
+						addNotice(__(`${pluginToMove.name} activated successfully!`, "sustainable-theme"));
 						return updatedRecommended;
 					}
 					return prev;
 				});
-				console.log("Plugin activated successfully:", data.message);
 			} else {
-				console.error("Failed to activate plugin:", data.message);
-				// Show user-friendly error message
-				alert(`Failed to activate plugin: ${data.message}`);
+				setPluginError(pluginSlug, data.message || __("Activation failed", "sustainable-theme"));
 			}
 		} catch (error) {
-			console.error("Failed to activate plugin:", error);
+			setPluginError(pluginSlug, error.message || __("Network error during activation", "sustainable-theme"));
 		} finally {
 			setInstallingPlugins(prev => {
 				const newSet = new Set(prev);
 				newSet.delete(pluginSlug);
 				return newSet;
 			});
+			setPluginActions(prev => {
+				const next = { ...prev };
+				delete next[pluginSlug];
+				return next;
+			});
 		}
 	};
 
 	const getPluginStatus = (plugin) => {
 		if (plugin.is_active) {
-			return { text: __("Active", "sustainable-theme"), variant: "secondary", disabled: true };
+			return {
+				text: __("Active", "sustainable-theme"),
+				variant: "secondary",
+				disabled: true,
+				badge: __("Active", "sustainable-theme"),
+				badgeColor: "#28a745",
+				style: STATUS_STYLES.active,
+			};
 		} else if (plugin.is_installed) {
-			return { text: __("Activate", "sustainable-theme"), variant: "primary", disabled: false };
+			return {
+				text: __("Activate", "sustainable-theme"),
+				variant: "primary",
+				disabled: false,
+				badge: __("Installed — not activated", "sustainable-theme"),
+				badgeColor: "#b45309",
+				style: STATUS_STYLES.installed,
+			};
 		} else {
-			return { text: __("Install", "sustainable-theme"), variant: "primary", disabled: false };
+			return {
+				text: __("Install", "sustainable-theme"),
+				variant: "primary",
+				disabled: false,
+				badge: __("Not installed", "sustainable-theme"),
+				badgeColor: "#6b7280",
+				style: STATUS_STYLES.notInstalled,
+			};
 		}
+	};
+
+	const getSpinnerText = (pluginSlug) => {
+		const action = pluginActions[pluginSlug];
+		if (action === "installing") return __("Installing…", "sustainable-theme");
+		if (action === "activating") return __("Activating…", "sustainable-theme");
+		return __("Processing…", "sustainable-theme");
 	};
 
 	const handlePluginAction = (plugin) => {
 		if (plugin.is_active) {
-			// Plugin is already active, no action needed
 			return;
 		} else if (plugin.is_installed) {
-			// Plugin is installed but not active, activate it
 			handleActivatePlugin(plugin.slug);
 		} else {
-			// Plugin is not installed, install it
 			handleInstallPlugin(plugin.slug);
 		}
 	};
@@ -262,21 +310,33 @@ export default function SettingsPage() {
 												justifyContent: "space-between",
 												alignItems: "center",
 												padding: "16px",
-												border: "1px solid #28a745",
 												borderRadius: "4px",
-												backgroundColor: "#f0f8f0",
+												...STATUS_STYLES.active,
 											}}
 										>
 											<div style={{ flex: 1 }}>
-												<h4 style={{ margin: "0 0 8px 0", fontSize: "16px" }}>
-													{plugin.name}
-												</h4>
+												<div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
+													<h4 style={{ margin: 0, fontSize: "16px" }}>
+														{plugin.name}
+													</h4>
+													<span
+														style={{
+															fontSize: "11px",
+															fontWeight: 500,
+															color: "#28a745",
+															backgroundColor: "#28a74514",
+															border: "1px solid #28a74533",
+															padding: "2px 8px",
+															borderRadius: "12px",
+															whiteSpace: "nowrap",
+														}}
+													>
+														✓ {__("Active", "sustainable-theme")}
+													</span>
+												</div>
 												<p style={{ margin: "0", color: "#666", fontSize: "14px" }}>
 													{plugin.description}
 												</p>
-												<Text style={{ fontSize: "12px", color: "#28a745", marginTop: "4px" }}>
-													✓ {__("Plugin is active and working", "sustainable-theme")}
-												</Text>
 											</div>
 											<div style={{ marginLeft: "16px" }}>
 												<Button
@@ -302,11 +362,16 @@ export default function SettingsPage() {
 							<div style={{ display: "flex", justifyContent: "center", padding: "20px" }}>
 								<Spinner />
 							</div>
+						) : recommendedPlugins.length === 0 ? (
+							<Text style={{ color: "#666", fontStyle: "italic" }}>
+								{__("All recommended plugins are active!", "sustainable-theme")}
+							</Text>
 						) : (
 							<div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
 								{recommendedPlugins.map((plugin) => {
 									const status = getPluginStatus(plugin);
 									const isInstalling = installingPlugins.has(plugin.slug);
+									const error = pluginErrors[plugin.slug];
 									
 									return (
 										<div
@@ -316,39 +381,54 @@ export default function SettingsPage() {
 												justifyContent: "space-between",
 												alignItems: "center",
 												padding: "16px",
-												border: "1px solid #ddd",
 												borderRadius: "4px",
-												backgroundColor: plugin.is_active ? "#f0f8f0" : "#fff",
+												...status.style,
 											}}
 										>
 											<div style={{ flex: 1 }}>
-												<h4 style={{ margin: "0 0 8px 0", fontSize: "16px" }}>
-													{plugin.name}
-												</h4>
+												<div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
+													<h4 style={{ margin: 0, fontSize: "16px" }}>
+														{plugin.name}
+													</h4>
+													<span
+														style={{
+															fontSize: "11px",
+															fontWeight: 500,
+															color: status.badgeColor,
+															backgroundColor: `${status.badgeColor}14`,
+															border: `1px solid ${status.badgeColor}33`,
+															padding: "2px 8px",
+															borderRadius: "12px",
+															whiteSpace: "nowrap",
+														}}
+													>
+														{status.badge}
+													</span>
+												</div>
 												<p style={{ margin: "0", color: "#666", fontSize: "14px" }}>
 													{plugin.description}
 												</p>
-												{plugin.is_active && (
-													<Text style={{ fontSize: "12px", color: "#28a745", marginTop: "4px" }}>
-														✓ {__("Plugin is active and working", "sustainable-theme")}
+												{error && (
+													<Text style={{ fontSize: "12px", color: "#dc2626", marginTop: "8px" }}>
+														⚠ {error}
 													</Text>
 												)}
 											</div>
 											<div style={{ marginLeft: "16px" }}>
-											<Button
-												variant={status.variant}
-												disabled={status.disabled || isInstalling}
-												onClick={() => handlePluginAction(plugin)}
-												__next40pxDefaultSize
-											>
-												{isInstalling ? (
-													<>
-														<Spinner style={{ marginRight: "8px" }} />
-														{__("Processing...", "sustainable-theme")}
-													</>
-												) : (
-													status.text
-												)}
+												<Button
+													variant={status.variant}
+													disabled={status.disabled || isInstalling}
+													onClick={() => handlePluginAction(plugin)}
+													__next40pxDefaultSize
+												>
+													{isInstalling ? (
+														<>
+															<Spinner style={{ marginRight: "8px" }} />
+															{getSpinnerText(plugin.slug)}
+														</>
+													) : (
+														status.text
+													)}
 												</Button>
 											</div>
 										</div>
@@ -382,6 +462,29 @@ export default function SettingsPage() {
 						</div>
 					</PanelBody>
 				</Panel>
+
+				{notices.length > 0 && (
+					<div
+						style={{
+							position: "fixed",
+							bottom: "70px",
+							right: "40px",
+							zIndex: 100000,
+							minWidth: "400px",
+							maxWidth: "540px",
+							fontSize: "14px",
+						}}
+					>
+						<SnackbarList
+							notices={notices.map(n => ({
+								id: n.id,
+								content: n.content,
+								status: n.type,
+							}))}
+							onRemove={(id) => setNotices(prev => prev.filter(n => n.id !== id))}
+						/>
+					</div>
+				)}
 			</PageBody>
 		</PageWrapper>
 	);
