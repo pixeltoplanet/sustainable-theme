@@ -157,6 +157,25 @@ class SettingsValidator
   }
 
   /**
+   * Normalize settings so dependent toggles stay consistent.
+   *
+   * @param array $settings Settings array
+   * @return array Normalized settings array
+   */
+  public static function normalizeDependencies(array $settings): array
+  {
+    if (!empty($settings['use_grid_awareness']) && empty($settings['electricity_maps_api_key'])) {
+      $settings['use_grid_awareness'] = false;
+    }
+
+    if (!empty($settings['disable_heartbeat']) && !empty($settings['reduce_heartbeat_frequency'])) {
+      $settings['reduce_heartbeat_frequency'] = false;
+    }
+
+    return $settings;
+  }
+
+  /**
    * Validate setting dependencies
    * 
    * @param array $settings Settings array
