@@ -365,11 +365,7 @@ class RestApiManager
   public function get_settings(): \WP_REST_Response
   {
     $response = $this->settings->get_settings();
-    // Extract the data from WP_REST_Response object
-    $settings_data = $response->get_data();
-    // Ensure all settings are present with defaults
-    $defaults = $this->settings->get_default_settings();
-    $settings_data = array_merge($defaults, $settings_data);
+    $settings_data = $this->settings->resolve_settings($response->get_data());
     return $this->format_response($settings_data);
   }
 
