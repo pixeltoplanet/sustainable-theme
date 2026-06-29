@@ -151,6 +151,38 @@ function sustainable_theme_enqueue_video_block_script(): void
 add_action('enqueue_block_editor_assets', 'sustainable_theme_enqueue_video_block_script');
 
 /**
+ * Block editor: page template chooser modal for new pages.
+ */
+function sustainable_theme_enqueue_page_template_modal(): void
+{
+  $screen = get_current_screen();
+  if (!$screen || $screen->post_type !== 'page') {
+    return;
+  }
+
+  $asset_path = SUSTAINABLE_THEME_DIR . '/build/page-template-modal.asset.php';
+  if (!is_readable($asset_path)) {
+    return;
+  }
+  $asset = include $asset_path;
+  wp_register_script(
+    'sustainable-theme-page-template-modal',
+    SUSTAINABLE_THEME_URL . '/build/page-template-modal.js',
+    is_array($asset) ? ($asset['dependencies'] ?? []) : [],
+    is_array($asset) ? (string) ($asset['version'] ?? SUSTAINABLE_THEME_VERSION) : SUSTAINABLE_THEME_VERSION,
+    true
+  );
+  wp_enqueue_style(
+    'sustainable-theme-page-template-modal',
+    SUSTAINABLE_THEME_URL . '/build/page-template-modal.css',
+    [],
+    is_array($asset) ? (string) ($asset['version'] ?? SUSTAINABLE_THEME_VERSION) : SUSTAINABLE_THEME_VERSION
+  );
+  wp_enqueue_script('sustainable-theme-page-template-modal');
+}
+add_action('enqueue_block_editor_assets', 'sustainable_theme_enqueue_page_template_modal');
+
+/**
  * Get URL for a theme placeholder image.
  * Use for patterns that need consistent placeholder images without media library dependencies.
  *
