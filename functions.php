@@ -35,6 +35,7 @@ include_once get_template_directory() . '/includes/class-query-exclude-current.p
 include_once get_template_directory() . '/includes/class-excerpt-hide-readmore.php';
 include_once get_template_directory() . '/includes/class-video-block.php';
 include_once get_template_directory() . '/includes/class-update-checker.php';
+include_once get_template_directory() . '/includes/class-style-wizard.php';
 
 // Initialize the classes
 new SustainableTheme\Settings();
@@ -48,6 +49,7 @@ new SustainableTheme\BlockPatterns();
 new SustainableTheme\DesignSettings();
 new SustainableTheme\SecurityManager();
 new SustainableTheme\UpdateChecker();
+new SustainableTheme\StyleWizard();
 
 /**
  * Enqueue main frontend styles
