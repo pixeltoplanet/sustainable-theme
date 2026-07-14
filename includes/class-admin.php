@@ -61,6 +61,16 @@ class AdminMenu
       [$this, 'render_design_page']
     );
 
+    // Style Wizard submenu
+    add_submenu_page(
+      'sustainable-theme',
+      __('Style Wizard', 'sustainable-theme'),
+      __('Style Wizard', 'sustainable-theme'),
+      'manage_options',
+      'sustainable-theme-style-wizard',
+      [$this, 'render_style_wizard_page']
+    );
+
     if (!$plugin_menu_exists) {
       remove_submenu_page('sustainable-theme', 'sustainable-theme');
     }
@@ -109,6 +119,11 @@ class AdminMenu
     echo '<div id="sustainable-theme-design-page-root"></div>';
   }
 
+  public function render_style_wizard_page(): void
+  {
+    echo '<div id="sustainable-theme-style-wizard-root"></div>';
+  }
+
   public function enqueue_react_assets(): void
   {
     $screen = get_current_screen();
@@ -119,7 +134,8 @@ class AdminMenu
         'toplevel_page_sustainable-theme',
         'sustainable-theme_page_sustainable-theme-settings',
         'sustainable-theme_page_sustainable-theme-sustainability',
-        'sustainable-theme_page_sustainable-theme-design'
+        'sustainable-theme_page_sustainable-theme-design',
+        'sustainable-theme_page_sustainable-theme-style-wizard'
       ], true);
     }
 
@@ -129,7 +145,8 @@ class AdminMenu
         'sustainable-theme',
         'sustainable-theme-settings',
         'sustainable-theme-sustainability',
-        'sustainable-theme-design'
+        'sustainable-theme-design',
+        'sustainable-theme-style-wizard'
       ], true);
     }
 
@@ -153,10 +170,16 @@ class AdminMenu
         true
       );
 
-      if (file_exists(SUSTAINABLE_THEME_DIR . '/build/admin.css')) {
+      $css_file = SUSTAINABLE_THEME_DIR . "/build/{$script_name}.css";
+      $css_url = SUSTAINABLE_THEME_URL . "/build/{$script_name}.css";
+      if (!file_exists($css_file)) {
+        $css_file = SUSTAINABLE_THEME_DIR . '/build/admin.css';
+        $css_url = SUSTAINABLE_THEME_URL . '/build/admin.css';
+      }
+      if (file_exists($css_file)) {
         wp_enqueue_style(
           'sustainable-theme-admin',
-          SUSTAINABLE_THEME_URL . '/build/admin.css',
+          $css_url,
           ['wp-components'],
           $asset_data['version']
         );
@@ -170,10 +193,16 @@ class AdminMenu
         true
       );
 
-      if (file_exists(SUSTAINABLE_THEME_DIR . '/build/admin.css')) {
+      $css_file = SUSTAINABLE_THEME_DIR . "/build/{$script_name}.css";
+      $css_url = SUSTAINABLE_THEME_URL . "/build/{$script_name}.css";
+      if (!file_exists($css_file)) {
+        $css_file = SUSTAINABLE_THEME_DIR . '/build/admin.css';
+        $css_url = SUSTAINABLE_THEME_URL . '/build/admin.css';
+      }
+      if (file_exists($css_file)) {
         wp_enqueue_style(
           'sustainable-theme-admin',
-          SUSTAINABLE_THEME_URL . '/build/admin.css',
+          $css_url,
           ['wp-components'],
           SUSTAINABLE_THEME_VERSION
         );
@@ -207,6 +236,8 @@ class AdminMenu
           return 'sustainability-admin';
         case 'sustainable-theme_page_sustainable-theme-design':
           return 'design-admin';
+        case 'sustainable-theme_page_sustainable-theme-style-wizard':
+          return 'style-wizard-admin';
       }
     }
 
@@ -218,6 +249,8 @@ class AdminMenu
         return 'sustainability-admin';
       case 'sustainable-theme-design':
         return 'design-admin';
+      case 'sustainable-theme-style-wizard':
+        return 'style-wizard-admin';
       default:
         return 'admin';
     }

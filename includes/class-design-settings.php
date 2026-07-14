@@ -24,6 +24,16 @@ class DesignSettings
   }
 
   /**
+   * When the Style Wizard is active, DesignSettings should not output
+   * competing values — the wizard takes precedence.
+   */
+  private function is_wizard_active(): bool
+  {
+    $wizard_settings = get_option('sustainable_theme_style_wizard', []);
+    return is_array($wizard_settings) && !empty($wizard_settings['wizard_completed']);
+  }
+
+  /**
    * @return array<string, string>
    */
   public static function get_defaults(): array
@@ -124,6 +134,10 @@ class DesignSettings
 
   public function enqueue_css_variables(): void
   {
+    if ($this->is_wizard_active()) {
+      return;
+    }
+
     $css = $this->get_css_variables();
 
     if (wp_style_is('sustainable-theme-frontend-styles', 'enqueued')) {
@@ -138,6 +152,10 @@ class DesignSettings
 
   public function print_css_variables_tag(): void
   {
+    if ($this->is_wizard_active()) {
+      return;
+    }
+
     printf(
       '<style id="sustainable-theme-design-vars">%s</style>',
       wp_strip_all_tags($this->get_css_variables())
@@ -163,6 +181,10 @@ class DesignSettings
    */
   public function filter_theme_json(\WP_Theme_JSON_Data $theme_json): \WP_Theme_JSON_Data
   {
+    if ($this->is_wizard_active()) {
+      return $theme_json;
+    }
+
     $data = $theme_json->get_data();
     $settings = $this->get_settings();
 
