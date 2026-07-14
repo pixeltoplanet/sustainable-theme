@@ -24,6 +24,11 @@ module.exports = {
 			'src',
 			'page-template-modal.js'
 		),
+		'style-wizard-admin': path.resolve(
+			process.cwd(),
+			'src',
+			'style-wizard-admin.js'
+		),
 		frontend: path.resolve(process.cwd(), 'src', 'frontend.js'),
 		'frontend-styles': path.resolve(
 			process.cwd(),
