@@ -35,7 +35,7 @@
 
 ## 1. Wat is The Sustainable Theme?
 
-The Sustainable Theme is een WordPress-thema gemaakt door Pixel to Planet. Het is gebouwd voor creatieve professionals — fotografen, designers, freelancers, kleine bureaus — die een strak, modern portfolio of bedrijfssite willen bouwen.
+The Sustainable Theme is een WordPress-thema gemaakt door [Pixel to Planet](https://www.pixeltoplanet.earth/). Het is gebouwd voor creatieve professionals — fotografen, designers, freelancers, kleine bureaus — die een strak, modern portfolio of bedrijfssite willen bouwen.
 
 Het thema maakt gebruik van het **Full Site Editing (FSE)** systeem van WordPress. Dat betekent: je bouwt je complete website — van koptekst tot voettekst, van paginatemplates tot navigatiemenu's — via de visuele **Site Editor** in WordPress. Geen apart thema-customizer, geen shortcodes, gewoon blokken slepen en klikken.
 
