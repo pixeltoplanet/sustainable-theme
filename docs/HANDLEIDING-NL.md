@@ -1,11 +1,18 @@
 # The Sustainable Theme — Handleiding
 
+*Een duurzame website bouwen, stap voor stap.*
 **Door Pixel to Planet · pixeltoplanet.earth**  
 **Versie 0.2.4**
 
 ---
 
-> Hey! Welkom bij The Sustainable Theme. Dit is de officiële handleiding voor creatieve professionals die zelf hun website willen bouwen — zonder code, zonder gedoe, maar mét resultaat. We houden het zo praktisch mogelijk, dus geen technisch jargon. Gewoon: wat doe je als eerste, wat daarna, en hoe ziet je site er straks uit.
+> Welkom! In deze handleiding bouwen we samen een duurzame WordPress-website. Geen technisch handboek vol ingewikkelde instellingen, maar een praktische gids die je stap voor stap helpt. Aan het einde heb je niet alleen een mooie website, maar ook een website die een stuk minder energie verbruikt dan de gemiddelde WordPress-site.
+
+The Sustainable Theme is ontwikkeld voor creatieve professionals die hun eigen website willen bouwen. Fotografen, ontwerpers, illustratoren, architecten, makers, kleine studio's en freelancers. Je hoeft geen developer te zijn. Als je met WordPress overweg kunt, kom je een heel eind.
+
+We beginnen bij de basis: het installeren van het thema en het instellen van je huisstijl. Daarna bouwen we stap voor stap een portfoliowebsite op. Onderweg leggen we uit waarom bepaalde keuzes duurzamer zijn, en laten we zien hoe je met een paar eenvoudige aanpassingen een groot verschil kunt maken.
+
+Laten we beginnen.
 
 ---
 
@@ -33,47 +40,110 @@
 
 ---
 
-## 1. Wat is The Sustainable Theme?
+# 1. Waarom The Sustainable Theme?
 
-The Sustainable Theme is een WordPress-thema gemaakt door [Pixel to Planet](https://www.pixeltoplanet.earth/). Het is gebouwd voor creatieve professionals — fotografen, designers, freelancers, kleine bureaus — die een strak, modern portfolio of bedrijfssite willen bouwen.
+Er bestaan duizenden WordPress-thema's. Veel daarvan zien er prachtig uit, maar hebben ook een nadeel: ze laden ontzettend veel bestanden die je website eigenlijk helemaal niet nodig heeft. Meer code betekent meer data. Meer data betekent meer energieverbruik. En uiteindelijk ook meer CO₂-uitstoot.
 
-Het thema maakt gebruik van het **Full Site Editing (FSE)** systeem van WordPress. Dat betekent: je bouwt je complete website — van koptekst tot voettekst, van paginatemplates tot navigatiemenu's — via de visuele **Site Editor** in WordPress. Geen apart thema-customizer, geen shortcodes, gewoon blokken slepen en klikken.
+The Sustainable Theme is ontstaan vanuit een simpele vraag:
 
-**Wat maakt dit thema anders dan andere WordPress-thema's?**
+> Kan een WordPress-website net zo mooi zijn, maar veel lichter?
+Ons antwoord is: ja.
 
-- Het heeft een ingebouwde bibliotheek van **78 kant-en-klare pagina-secties en volledige paginalay-outs** (zogenoemde *patterns*). Daarmee bouw je een professionele pagina in minuten in plaats van uren.
-- Het bevat een **duurzaamheidsoptimizer** die automatisch overbodige WordPress-scripts, databases en overhead verwijdert. Je site wordt sneller én beter voor het milieu.
-- Het designsysteem is gebouwd op **design tokens**: vaste kleuren, lettergroottes en spacings die overal consistent worden toegepast. Verander je één kleur, dan verandert die op je hele site.
-- De typografie is gebaseerd op **DM Sans**, een variabel lettertype dat al ingebakken zit. Je hoeft niets apart te laden.
+In plaats van een alles-in-één thema met honderden instellingen, krijg je een lichte basis waarmee je snel een professionele website kunt bouwen. Geen dichtgetimmerd ontwerp, maar een flexibel systeem dat je volledig naar je eigen hand kunt zetten. Het thema helpt je op verschillende manieren:
+
+- een verzameling kant-en-klare layouts waarmee je snel een website opzet;
+- een bibliotheek met meer dan 75 patterns die je als bouwstenen kunt gebruiken;
+- een duurzaamheidsoptimizer die onnodige WordPress-functionaliteit uitschakelt;
+- aanbevolen plugins die afbeeldingen optimaliseren, WordPress opruimen en je website sneller maken;
+- een ontwerp dat gebruikmaakt van vaste kleuren, lettertypen en afstanden, zodat je website automatisch één geheel blijft.
+
+Het doel is niet om jouw creativiteit te beperken. Juist het tegenovergestelde. Hoe minder tijd je kwijt bent aan technische instellingen en steeds opnieuw dezelfde onderdelen bouwen, hoe meer tijd je overhoudt om een website te maken die echt bij jou of je opdrachtgever past.
+
+---
+
+# 2. Waarom (en hoe) duurzame websites?
+
+Misschien vraag je je af: maakt een website nou echt zoveel verschil? Het korte antwoord: **ja**. Elke keer dat iemand je website bezoekt, worden er bestanden verstuurd. Afbeeldingen, video's, lettertypen, stylesheets, scripts... Samen vormen ze de pagina die je bezoeker ziet. Hoe groter die bestanden zijn, hoe meer data er over het internet moet worden verstuurd. En dat kost energie: op de server waarop je website staat, in de netwerken die de data vervoeren en op het apparaat van de bezoeker. Door minder data te versturen, verbruikt een website minder energie en veroorzaakt deze minder uitstoot. Meer hierover lees je in ons artikel [**Waarom websites CO₂ uitstoten**](https://carbonfooter.nl/posts/waarom-hebben-websites-een-negatieve-impact-op-het-milieu).
+
+Hoewel één paginabezoek weinig lijkt, lopen die kleine beetjes snel op. Een portfolio met duizenden bezoekers per jaar wordt al snel miljoenen megabytes aan dataverkeer. Door websites slimmer te bouwen, kunnen we die hoeveelheid data – en daarmee het energieverbruik – flink terugbrengen.
+
+## Wat doet The Sustainable Theme?
+
+The Sustainable Theme is ontworpen om zo min mogelijk data te versturen, zonder in te leveren op uitstraling of gebruiksgemak. Dat doet het op verschillende manieren.
+
+### Een lichte basis
+
+Het thema verwijdert verschillende WordPress-onderdelen die op veel websites nooit worden gebruikt, maar wel standaard worden meegestuurd. Denk aan emoji-scripts, ongebruikte embeds en andere overbodige code.
+
+### Slimmere afbeeldingen
+
+Afbeeldingen zijn vaak verantwoordelijk voor het grootste deel van het dataverkeer van een website. Daarom raden we tijdens de installatie een aantal plugins aan die afbeeldingen automatisch optimaliseren. Samen met een goede export uit Photoshop of Figma kan dit de bestandsgrootte van afbeeldingen met tientallen procenten verminderen.
+
+<!-- TODO:
+Link toevoegen naar artikel "Afbeeldingen optimaliseren"
+-->
+
+### Minder code
+
+Door CSS en JavaScript op te schonen en te combineren hoeft de browser minder bestanden op te halen. Dat zorgt niet alleen voor een lagere uitstoot, maar maakt je website meestal ook sneller.
+
+### Een schonere WordPress-installatie
+
+Na verloop van tijd verzamelt WordPress allerlei tijdelijke bestanden, revisies en ongebruikte gegevens. The Sustainable Theme helpt je installatie schoon te houden, zodat je website efficiënt blijft werken.
+
+### Hoeveel scheelt dat?
+
+Dat verschilt natuurlijk per website. Alleen al door het thema te gebruiken, zien we vaak een flinke afname in de hoeveelheid data die een pagina verstuurt. Uit gebruik in de praktijk blijkt dat sites met The Sustainable Theme **15–45% minder CO₂ uitstoten per paginalading** vergeleken met een standaard WordPress-installatie. Een site met 22 miljoen bezoeken per jaar reduceerde zo de uitstoot van 1,13 gram naar 0,39 gram CO₂ per paginabezoek — een besparing van **16 ton CO₂ per jaar**.
+
+Combineer je het thema met geoptimaliseerde afbeeldingen en de aanbevolen plugins, dan kan een portfoliowebsite tot **90–95% minder data versturen** dan een gemiddelde portfolio die gebouwd is met een traditioneel multipurpose WordPress-thema. 
+
+Dat betekent niet alleen een lagere CO₂-uitstoot, maar meestal ook een website die sneller laadt en prettiger aanvoelt voor je bezoekers.
+
+## Nog een stap duurzamer
+
+De duurzaamste website is natuurlijk geen website. Maar; daar hebben we het hier niet over. We hebben het nu over als je tóch besluit een website te nemen, hoe we die zo licht mogelijk kunnen maken. Een licht thema is een goed begin, maar er zijn meer manieren om de impact van je website of onlinen voetafdruk te verkleinen. Denk bijvoorbeeld aan een groene hostingprovider. Of je camera uitzetten tijdens video meetings. Of bijlages niet via de mail versturen, maar via een link die automatisch verloopt. Maar voor nu; aan de slag met je website!
+
+<!-- TODO:
+Link toevoegen naar:
+- Groene hosting kiezen
+- WordPress installeren
+-->
 
 ---
 
-## 2. Waarom duurzaam?
+# 3. Voordat je begint
 
-Het internet verbruikt meer stroom dan veel landen. Elke website die laadt kost energie — voor de server die hem verstuurt, het netwerk dat hem transporteert, en het apparaat van je bezoeker. The Sustainable Theme is ontworpen om dat verbruik structureel te verlagen.
+Voordat we het thema installeren, zijn er twee dingen die je nodig hebt: een WordPress-website en een hostingprovider. Heb je allebei al? Mooi, dan kun je dit hoofdstuk overslaan en direct doorgaan naar de installatie.
 
-**Wat doet het concreet?**
+## Nog geen WordPress?
 
-- Verwijdert automatisch onnodige WordPress-scripts (emoji's, embeds, jQuery-migratie). Dat scheelt al **30KB+ per paginalading**.
-- Beperkt afbeeldingen tot wat écht geladen hoeft te worden via **lazy loading**.
-- Houdt de database schoon via een **wekelijkse automatische opruimronde**: verouderde revisies, verlopen tijdelijke data, weesgekoppelde metagegevens — weg.
-- Optioneel: via de **Grid Awareness**-functie kan je site de actuele CO₂-intensiteit van het elektriciteitsnet monitoren en bezoekers hierover informeren.
+The Sustainable Theme werkt met de nieuwste versie van WordPress en maakt gebruik van de Site Editor (Full Site Editing). Zorg daarom dat je een recente WordPress-installatie gebruikt. Nog geen WordPress geïnstalleerd? Volg dan eerst de officiële installatiehandleiding van WordPress:
 
-**Wat zijn de resultaten in de praktijk?**
+**WordPress installeren**  
+https://wordpress.org/documentation/article/how-to-install-wordpress/
 
-Uit gebruik in de praktijk blijkt dat sites met The Sustainable Theme **15–45% minder CO₂ uitstoten per paginalading** vergeleken met een standaard WordPress-installatie. Een site met 22 miljoen bezoeken per jaar reduceerde zo de uitstoot van 1,13 gram naar 0,39 gram CO₂ per paginabezoek — een besparing van **16 ton CO₂ per jaar**.
+<!-- TODO:
+Vervangen door kennisbankartikel zodra beschikbaar.
+-->
 
-Duurzaamheid is hier geen marketingterm. Het is ingebakken in de code.
+## Kies een groene hostingprovider
 
----
+De impact van een website wordt niet alleen bepaald door het thema, maar ook door de server waarop hij draait. Steeds meer hostingproviders maken gebruik van hernieuwbare energie of compenseren hun uitstoot. Dat is een mooie eerste stap richting een duurzamere website.
+
+Twijfel je of jouw hostingprovider groene stroom gebruikt? Check het op [**De Green Web Check**] (https://www.thegreenwebfoundation.org/green-web-check/):
+
+Dat gezegd hebbende: maak je vooral niet te druk als je website al ergens draait. Door je website lichter te maken, kun je ook op je huidige hostingomgeving vaak al een flinke stap zetten.
+
 
 ## 3. Downloaden en uploaden
 
 ### Stap 1 — Download de theme
 
-Ga naar [pixeltoplanet.earth/the-sustainable-theme](https://pixeltoplanet.earth/the-sustainable-theme) en download de meest recente versie van het thema als `.zip`-bestand.
+Ga naar [pixeltoplanet.earth/the-sustainable-theme](https://pixeltoplanet.earth/the-sustainable-theme) en download de meest recente versie van het thema als `sustainable-theme.zip`-bestand. 
 
 > **Let op:** download altijd de officiële release. Gebruik je een ontwikkelversie direct van GitHub, dan moet je zelf de assets bouwen (dat is voor developers). De kant-en-klare download werkt direct.
+
+<img width="1920" height="1080" alt="1_Install 001" src="https://github.com/user-attachments/assets/a01a9435-cf61-4ccc-93d6-2e93479967f7" />
 
 ### Stap 2 — Upload naar WordPress
 
