@@ -139,7 +139,11 @@ Dat gezegd hebbende: maak je vooral niet te druk als je website al ergens draait
 
 ### Stap 1 — Download de theme
 
-Ga naar [pixeltoplanet.earth/the-sustainable-theme](https://pixeltoplanet.earth/the-sustainable-theme) en download de meest recente versie van het thema als `sustainable-theme.zip`-bestand. 
+Ga naar [pixeltoplanet.earth/the-sustainable-theme](https://pixeltoplanet.earth/the-sustainable-theme) en download de meest recente versie van het thema als `sustainable-theme.zip`-bestand.
+
+![Download sustainable-theme.zip via GitHub Releases](images/download-theme.jpeg)
+
+
 
 > **Let op:** download altijd de officiële release. Gebruik je een ontwikkelversie direct van GitHub, dan moet je zelf de assets bouwen (dat is voor developers). De kant-en-klare download werkt direct.
 
