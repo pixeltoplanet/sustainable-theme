@@ -135,39 +135,193 @@ Twijfel je of jouw hostingprovider groene stroom gebruikt? Check het op [**De Gr
 Dat gezegd hebbende: maak je vooral niet te druk als je website al ergens draait. Door je website lichter te maken, kun je ook op je huidige hostingomgeving vaak al een flinke stap zetten.
 
 
-## 3. Downloaden en uploaden
+# 4. Het thema installeren
 
-### Stap 1 — Download de theme
+Nu is het tijd om The Sustainable Theme te installeren. De installatie bestaat uit vier stappen:
 
-Ga naar [pixeltoplanet.earth/the-sustainable-theme](https://pixeltoplanet.earth/the-sustainable-theme) en download de meest recente versie van het thema als `sustainable-theme.zip`-bestand.
+1. [Download het thema](https://pixeltoplanet.earth/the-sustainable-theme).
+2. Upload en activeer het in WordPress.
+3. Installeer de aanbevolen plugins.
+4. Controleer of alles goed werkt.
+
+Binnen een paar minuten ben je klaar.
+
+## Stap 1 — Download het thema
+
+Download de meest recente versie van het thema vanaf GitHub of vanaf de website van Pixel to Planet. Het bestand dat je nodig hebt heet:`sustainable-theme.zip`
 
 ![Download sustainable-theme.zip via GitHub Releases](images/download-theme.jpeg)
 
+> Gebruik altijd het ZIP-bestand van een officiële release. Download je de volledige GitHub-repository, dan bevat deze ook bestanden die alleen bedoeld zijn voor developers.
+
+## Stap 2 — Upload het thema
+
+Log in op je WordPress-dashboard. Ga vervolgens naar:
+
+**Weergave → Thema's → Nieuw thema toevoegen → Thema uploaden**
+
+![Upload het thema in je WordPress omgeving](images/UploadTheme.png)
+
+Selecteer het bestand `sustainable-theme.zip` en klik op **Nu installeren**. Na de installatie klik je op **Activeren**.
+
+Kom je er niet uit? Op de website van WordPress vind je een uitgebreide uitleg over het installeren van thema's:
+
+https://wordpress.org/documentation/article/work-with-themes/
+
+## Stap 3 — Installeer de aanbevolen plugins
+
+Na het activeren van het thema verschijnt bovenaan het dashboard een melding met aanbevolen plugins.
+
+Deze plugins zijn niet verplicht, maar we raden sterk aan om ze meteen te installeren.
+
+| Plugin | Waarom? |
+|---------|----------|
+| **Smush** | Verkleint afbeeldingen automatisch tijdens het uploaden. |
+| **WP-Optimize** | Houdt WordPress schoon door oude revisies en tijdelijke bestanden op te ruimen. |
+| **Autoptimize** | Verkleint en combineert CSS en JavaScript zodat je website minder bestanden hoeft te laden. |
+| **LiteSpeed Cache** | Zorgt voor snellere laadtijden door pagina's te cachen. |
+<!-- TOEVOEGEN carbonfooter plugin -->
+
+Klik op **Installeren** en activeer daarna de plugins.
+
+Wil je weten hoe je een plugin installeert? Bekijk dan de officiële uitleg van WordPress:
+
+https://wordpress.org/documentation/article/manage-plugins/
+
+<!-- SCREENSHOT:
+Suggested plugins melding
+-->
+
+## Stap 4 — Controleer de installatie
+
+Ga terug naar het dashboard. Als de installatie gelukt is, zie je een nieuw menu-item: **Sustainable Theme**
+
+![Nieuw menu item Sustainable Theme](images/Theme_installed.png)
+
+Open daarna je website door linksboven over het huisje te hoveren en op **Bezoek site** te klikken.
+
+Waarschijnlijk ziet je website er nog behoorlijk leeg uit. Dat is precies de bedoeling. In de volgende hoofdstukken gaan we stap voor stap je huisstijl instellen en beginnen we met bouwen.
+
+![Bekijk website](images/VisitSite.png)
 
 
-> **Let op:** download altijd de officiële release. Gebruik je een ontwikkelversie direct van GitHub, dan moet je zelf de assets bouwen (dat is voor developers). De kant-en-klare download werkt direct.
+---
+# 5. Je huisstijl instellen
 
-<img width="1920" height="1080" alt="1_Install 001" src="https://github.com/user-attachments/assets/a01a9435-cf61-4ccc-93d6-2e93479967f7" />
+Voordat we pagina's gaan bouwen, beginnen we met je huisstijl. Misschien niet het spannendste onderdeel, maar wel eentje waar je straks veel plezier van hebt. Zodra je kleuren, lettertypen en afstanden goed staan, vallen bijna alle patterns automatisch op hun plek. Je hoeft ze daarna meestal nog maar één keer in te stellen.
 
-### Stap 2 — Upload naar WordPress
+In dit hoofdstuk stellen we achter elkaar de **kleuren, lettertypen en spacing** van je website in. Dit doe je in de Editor. 
 
-1. Log in op je WordPress-dashboard (`jouwsite.nl/wp-admin`)
-2. Ga naar **Weergave → Thema's** (of **Appearance → Themes** als je WordPress in het Engels hebt)
-3. Klik op **Nieuw thema toevoegen → Thema uploaden**
-4. Klik op **Bestand kiezen**, selecteer het `.zip`-bestand dat je net hebt gedownload
-5. Klik op **Nu installeren**
-6. Klik daarna op **Activeer thema**
-
-WordPress installeert nu het thema. Even geduld.
-
-### Stap 3 — Controleer of alles werkt
-
-Na activatie zie je bovenaan het dashboard een nieuw menu-item verschijnen: **Sustainable Theme**. Als je dat ziet, is de installatie gelukt.
-
-Ga ook even naar de voorkant van je site (klik op "Bezoek site" rechtsboven in het dashboard). Je ziet nu een clean, leeg canvas — klaar om in te vullen.
+![Open de WordPress editor](images/OpenEditor.png)
 
 ---
 
+## Kleuren
+
+The Sustainable Theme werkt met vaste kleurrollen. In plaats van iedere knop of achtergrond handmatig een kleur te geven, geef je eerst een aantal kleuren een vaste functie binnen je website (je kunt ze straks wel per onderdeel wijzigen, als je wilt). Daardoor blijft je ontwerp consistent. Verander je later één kleur, dan verandert deze automatisch overal waar die kleur wordt gebruikt.
+
+![Styles instellen](images/EditStyles.png)
+
+
+### De kleuren aanpassen
+
+1. Ga naar **Weergave → Editor**.
+2. Open **Styles**.
+3. Kies **Colors**.
+4. Open **Edit Palette**.
+5. Pas de kleuren aan onder **Theme**, of kies één van de standaard kleurencombinaties.
+6. Klik op **Save**.
+
+![Palet aanpassen](images/EditPalette.png)
+
+Wil je weten welk bolletje waar op je website iets aanpast? Het thema bevat acht kleurrollen.
+
+| Kleur | Gebruik |
+|--------|----------|
+| Background | Achtergronden |
+| Foreground | Standaard tekst |
+| Primary | Belangrijkste accentkleur |
+| Secondary | Tweede accentkleur |
+| Tertiary | Extra accentkleur |
+| Accent | Kleine highlights |
+| Neutral 1 | Lichte vlakken en randen |
+| Neutral 2 | Subtiele tekst en ondersteunende elementen |
+
+Gebruik je liever maar twee kleuren? Dat kan ook. Kies dan alleen een **Background**- en **Foreground**-kleur. De overige kleuren kun je later altijd vervangen of laten verwijzen naar één van deze twee basiskleuren.
+
+---
+
+## Lettertypen
+
+Typografie bepaalt voor een groot deel de uitstraling van je website. Je kunt ervoor kiezen om één lettertype voor alles te gebruiken, of een combinatie van twee lettertypen: één voor koppen en één voor lopende tekst.
+
+Voor de meeste portfolio's raden we aan om het eenvoudig te houden. Dat is niet alleen rustiger, maar ook duurzamer: **ieder extra lettertype betekent namelijk een extra bestand dat bezoekers moeten downloaden.**
+
+### Lettertypen toevoegen
+
+1. Ga naar **Weergave → Editor**.
+2. Open **Styles**.
+3. Kies **Typography**.
+4. Klik rechtsboven op het menu met de drie schuifjes.
+5. Kies een font uit de **Font Library** (standaard staat DM Sans al geinstalleerd). Voor een ander font klik je het tabblad 'Upload' om up te loaden, of 'Install fonts' om een GoogleFont te installeren.
+
+Een volgende stap is het juiste font en fontgrootte toewijzen aan verschillende tekststijlen. 
+
+![Fonts styles openen](images/EditFont.001.png)
+![Fonts aanpassen](images/EditFont.002.png)
+![Nieuwe fonts toevoegen](images/EditFont.003.png)
+
+Meer uitleg over de Font Library vind je in de officiële WordPress-documentatie: https://wordpress.org/documentation/article/font-library/
+
+<!-- TODO:
+Artikel schrijven:
+Welke fontformaten zijn het meest geschikt?
+-->
+
+### Welke instelling wordt waarvoor gebruikt?
+
+| Instelling | Wordt gebruikt voor |
+|------------|--------------------|
+| Text | Alle gewone tekst |
+| Headings | H1 t/m H6 |
+| Links | Alle hyperlinks |
+| Captions | Afbeeldingsonderschriften |
+| Buttons | Tekst in knoppen |
+
+> Zie je andere instellingen? Dat kan. WordPress blijft de Site Editor verder ontwikkelen waardoor sommige onderdelen per versie kunnen verschillen.
+
+<!-- TODO:
+Controleren welke typography presets het theme precies gebruikt.
+-->
+
+### Lettergroottes
+
+Het thema bevat een vaste schaal met lettergroottes. Deze zijn zo gekozen dat koppen, tussenkoppen en lopende tekst automatisch goed met elkaar in verhouding blijven.
+
+Alle lettergroottes zijn bovendien *fluid*. Dat betekent dat ze automatisch meeschalen tussen mobiel en desktop. Je hoeft hiervoor geen aparte instellingen te maken.
+
+<!-- SCREENSHOT:
+Typography → Font sizes
+-->
+
+---
+
+## Spacing
+
+Spacing is de ruimte tussen elementen op je website.
+
+Goede spacing zorgt ervoor dat een pagina rustig leest en prettig aanvoelt. Daarom gebruikt The Sustainable Theme een vaste set afstanden die overal terugkomt.
+
+Net als de lettergroottes zijn deze afstanden *fluid*: op een groot scherm worden ze iets groter, op een klein scherm juist iets kleiner.
+
+In de meeste gevallen hoef je deze instellingen helemaal niet aan te passen.
+
+Gebruik je later extra padding of margins op een blok? Kies dan altijd één van de standaard spacing-waardes. Zo blijft je hele website mooi in balans.
+
+<!-- SCREENSHOT:
+Styles → Spacing
+-->
+---
 ## 4. Eerste stappen na activatie
 
 Voordat je begint met bouwen, doorloop je deze stappen in volgorde. Dit is de logische volgorde — je bouwt eerst het fundament, dan de muren, dan de inrichting.
