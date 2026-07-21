@@ -15,28 +15,76 @@ We beginnen bij de basis: het installeren van het thema en het instellen van je 
 Laten we beginnen.
 
 ---
-<!-- UPDATEN!!!! -->
 ## Inhoudsopgave
 
-1. [Wat is The Sustainable Theme?](#1-wat-is-the-sustainable-theme)
-2. [Waarom duurzaam?](#2-waarom-duurzaam)
-3. [Downloaden en uploaden](#3-downloaden-en-uploaden)
-4. [Eerste stappen na activatie](#4-eerste-stappen-na-activatie)
-5. [Je huisstijl instellen — kleurenpalet](#5-je-huisstijl-instellen--kleurenpalet)
-6. [Lettertypen toevoegen](#6-lettertypen-toevoegen)
-7. [Spacing en afstanden](#7-spacing-en-afstanden)
-8. [Ronde hoeken instellen (Design Settings)](#8-ronde-hoeken-instellen-design-settings)
-9. [Wat zijn block patterns en waarom gebruik je ze?](#9-wat-zijn-block-patterns-en-waarom-gebruik-je-ze)
-10. [Het patronenbibliotheek van de theme](#10-het-patronenbibliotheek-van-de-theme)
-11. [De meestgebruikte blocks](#11-de-meestgebruikte-blocks)
-12. [Je eerste pagina bouwen](#12-je-eerste-pagina-bouwen)
-13. [Header en footer aanpassen](#13-header-en-footer-aanpassen)
-14. [Duurzaamheidsinstellingen](#14-duurzaamheidsinstellingen)
-15. [Grid Awareness — real-time koolstofmeting](#15-grid-awareness--real-time-koolstofmeting)
-16. [Aanbevolen plugins](#16-aanbevolen-plugins)
-17. [Database opruimen](#17-database-opruimen)
-18. [Je website lanceren](#18-je-website-lanceren)
-19. [Updates ontvangen](#19-updates-ontvangen)
+### Deel 1 — Aan de slag
+
+1. [Waarom The Sustainable Theme?](#1-waarom-the-sustainable-theme)
+2. [Waarom en hoezo duurzame websites?](#2-waarom-en-hoezo-duurzame-websites)
+   - [Wat doet The Sustainable Theme?](#wat-doet-the-sustainable-theme)
+   - [Nog een stap duurzamer](#nog-een-stap-duurzamer)
+3. [Voordat je begint](#3-voordat-je-begint)
+   - [Nog geen WordPress?](#nog-geen-wordpress)
+   - [Kies een groene hostingprovider](#kies-een-groene-hostingprovider)
+4. [Het thema installeren](#4-het-thema-installeren)
+   - [Stap 1 — Download het thema](#stap-1--download-het-thema)
+   - [Stap 2 — Upload het thema](#stap-2--upload-het-thema)
+   - [Stap 3 — Installeer de aanbevolen plugins](#stap-3--installeer-de-aanbevolen-plugins)
+   - [Stap 4 — Controleer de installatie](#stap-4--controleer-de-installatie)
+5. [Je huisstijl instellen](#5-je-huisstijl-instellen)
+   - [Kleuren](#kleuren)
+   - [Lettertypen](#lettertypen)
+   - [Spacing](#spacing)
+   - [Ronde hoeken instellen](#ronde-hoeken-instellen)
+6. [Je eerste projectpagina](#6-je-eerste-projectpagina)
+   - [Posts en pagina's](#posts-en-paginas)
+   - [Een nieuw project maken](#een-nieuw-project-maken)
+   - [Een pattern toevoegen](#een-pattern-toevoegen)
+   - [Werken met de List View](#werken-met-de-list-view)
+   - [Een pattern aanpassen](#een-pattern-aanpassen)
+   - [De editor verkennen](#de-editor-verkennen)
+   - [Tekst aanpassen](#tekst-aanpassen)
+   - [Afbeeldingen vervangen](#afbeeldingen-vervangen)
+   - [Een blok toevoegen](#een-blok-toevoegen)
+   - [Breedte van een blok aanpassen](#breedte-van-een-blok-aanpassen)
+   - [Een Featured Image instellen](#een-featured-image-instellen)
+   - [Je eigen pattern opslaan](#je-eigen-pattern-opslaan)
+   - [Maak nog een paar projecten](#maak-nog-een-paar-projecten)
+7. [Je homepage bouwen](#7-je-homepage-bouwen)
+   - [Een nieuwe homepage aanmaken](#een-nieuwe-homepage-aanmaken)
+   - [Je projecten verschijnen automatisch](#je-projecten-verschijnen-automatisch)
+   - [De volgorde van projecten wijzigen](#de-volgorde-van-projecten-wijzigen)
+   - [Het projectoverzicht aanpassen](#het-projectoverzicht-aanpassen)
+   - [De homepage verder uitbreiden](#de-homepage-verder-uitbreiden)
+8. [Andere pagina's toevoegen](#8-andere-paginas-toevoegen)
+   - [Een nieuwe pagina maken](#een-nieuwe-pagina-maken)
+   - [Een layout toevoegen](#een-layout-toevoegen)
+   - [De inhoud aanpassen](#de-inhoud-aanpassen)
+   - [De pagina publiceren](#de-pagina-publiceren)
+9. [Header, footer en navigatie](#9-header-footer-en-navigatie)
+   - [De header bewerken](#de-header-bewerken)
+   - [Een logo toevoegen](#een-logo-toevoegen)
+   - [Het navigatiemenu aanpassen](#het-navigatiemenu-aanpassen)
+   - [De footer aanpassen](#de-footer-aanpassen)
+   - [Site title en tagline](#site-title-en-tagline)
+   - [Favicon instellen](#favicon-instellen)
+10. [Klaar om live te gaan](#10-klaar-om-live-te-gaan)
+
+
+---
+
+### Deel 2 — Praktische handleidingen
+
+- [Werken met afbeeldingen](#werken-met-afbeeldingen)
+- [Video toevoegen](#video-toevoegen)
+- [PDF's toevoegen](#pdfs-toevoegen)
+- [De Query Loop aanpassen](#de-query-loop-aanpassen)
+- [Projecten filteren](#projecten-filteren)
+- [Volgend en vorig project](#volgend-en-vorig-project)
+- [Design Settings](#design-settings-1)
+- [Duurzaamheidsinstellingen](#duurzaamheidsinstellingen)
+- [Updates](#updates)
+- [Veelgestelde vragen](#veelgestelde-vragen)
 
 ---
 
@@ -52,16 +100,16 @@ Ons antwoord is: ja.
 In plaats van een alles-in-één thema met honderden instellingen, krijg je een lichte basis waarmee je snel een professionele website kunt bouwen. Geen dichtgetimmerd ontwerp, maar een flexibel systeem dat je volledig naar je eigen hand kunt zetten. Het thema helpt je op verschillende manieren:
 
 - een verzameling kant-en-klare layouts waarmee je snel een website opzet;
-- een bibliotheek met meer dan 75 patterns die je als bouwstenen kunt gebruiken;
+- een bibliotheek met meer dan 75 patterns waarmee je snel pagina's opbouwt;;
 - een duurzaamheidsoptimizer die onnodige WordPress-functionaliteit uitschakelt;
 - aanbevolen plugins die afbeeldingen optimaliseren, WordPress opruimen en je website sneller maken;
 - een ontwerp dat gebruikmaakt van vaste kleuren, lettertypen en afstanden, zodat je website automatisch één geheel blijft.
 
-Het doel is niet om jouw creativiteit te beperken. Juist het tegenovergestelde. Hoe minder tijd je kwijt bent aan technische instellingen en steeds opnieuw dezelfde onderdelen bouwen, hoe meer tijd je overhoudt om een website te maken die echt bij jou of je opdrachtgever past.
+Het doel is niet om jouw creativiteit te beperken. Juist het tegenovergestelde. Hoe minder tijd je kwijt bent aan technische instellingen en steeds opnieuw dezelfde onderdelen bouwen, hoe meer tijd je overhoudt om een website te maken die echt bij jou of je opdrachtgever past. In het volgende hoofdstuk kijken we kort waarom duurzame websites eigenlijk belangrijk zijn en hoe The Sustainable Theme daarbij helpt.
 
 ---
 
-# 2. Waarom (en hoe) duurzame websites?
+# 2. Waarom en hoezo duurzame websites?
 
 Misschien vraag je je af: maakt een website nou echt zoveel verschil? Het korte antwoord: **ja**. Elke keer dat iemand je website bezoekt, worden er bestanden verstuurd. Afbeeldingen, video's, lettertypen, stylesheets, scripts... Samen vormen ze de pagina die je bezoeker ziet. Hoe groter die bestanden zijn, hoe meer data er over het internet moet worden verstuurd. En dat kost energie: op de server waarop je website staat, in de netwerken die de data vervoeren en op het apparaat van de bezoeker. Door minder data te versturen, verbruikt een website minder energie en veroorzaakt deze minder uitstoot. Meer hierover lees je in ons artikel [**Waarom websites CO₂ uitstoten**](https://carbonfooter.nl/posts/waarom-hebben-websites-een-negatieve-impact-op-het-milieu).
 
@@ -332,6 +380,24 @@ Gebruik je later extra padding of margins op een blok? Kies dan altijd één van
 Styles → Spacing
 -->
 
+## Ronde hoeken instellen
+
+Naast kleuren, lettertypen en spacing kun je ook de uitstraling van je website bepalen met de ronding van afbeeldingen, kaarten en knoppen.
+
+Ga naar:
+
+**Sustainable Theme → Design Settings**
+
+Hier kun je drie waarden aanpassen:
+
+- **Card Radius** – de ronding van kaarten en containers;
+- **Image Radius** – de ronding van afbeeldingen;
+- **Button Radius** – de ronding van knoppen.
+
+De wijzigingen worden automatisch overal in je website toegepast. Zo geef je je hele portfolio met één instelling een zachtere of juist strakkere uitstraling.
+
+![Verander ronde hoeken in The Sustainable Theme Design Settings](images/DesignSettingsChangeRadius.png.png)
+
 # 6. Je eerste projectpagina
 
 Nu je huisstijl staat, gaan we eindelijk beginnen met bouwen. We beginnen *niet* met de homepage.
@@ -346,8 +412,10 @@ WordPress maakt onderscheid tussen **Posts** en **Pages**.
 
 Binnen The Sustainable Theme gebruiken we:
 
-- **Posts** voor projecten.
-- **Pages** voor pagina's zoals Home, About en Contact.
+- **Posts** gebruik je voor projecten in je portfolio.
+- **Pagina's** gebruik je voor vaste pagina's, zoals Over mij of Contact.
+
+Het thema zorgt er vervolgens automatisch voor dat je projecten op de juiste plekken verschijnen.
 
 Meer weten over het verschil?
 
@@ -368,7 +436,7 @@ Publiceer de pagina nog niet. Eerst voegen we een layout toe.
 
 ## Een pattern toevoegen
 
-Klik linksboven op het **+**-icoon.
+Een pattern is een kant-en-klare pagina-indeling die je als startpunt gebruikt. Je hoeft dus niet iedere pagina helemaal vanaf nul op te bouwen. Klik linksboven op het **+**-icoon.
 
 Open daarna het tabblad **Patterns**.
 
@@ -403,11 +471,11 @@ Open linksboven het icoon met de drie horizontale streepjes. Hier zie je alle on
 
 ![Open de List View](images/OpenListView.png)
 
-Je zult merken dat je deze weergave al snel vaker gebruikt dan de pagina zelf.
+Je zult merken dat je deze weergave al snel vaker gebruikt dan de pagina zelf. 
 
 ## Een pattern aanpassen
 
-Klik in de List View op het pattern dat je hebt toegevoegd. Je ziet nu een paarse rand om het volledige pattern verschijnen. Boven het pattern verschijnt een knop **Edit Pattern**.
+Je kunt alles aanpassen wat je ziet. Een pattern is alleen het startpunt; daarna wordt het jouw eigen ontwerp. Klik in de List View op het pattern dat je hebt toegevoegd. Je ziet nu een paarse rand om het volledige pattern verschijnen. Boven het pattern verschijnt een knop **Edit Pattern**.
 
 Klik hierop.
 
@@ -457,6 +525,8 @@ Let op dat je echt de afbeelding hebt geselecteerd (en niet de hele gallery).
 
 ![Instellingen voorbeeld voor een afbeelding](images/InstellingenAanpassenAfbeelding.png)
 
+In de praktische handleidingen lees je later meer over afbeeldingsformaten, uitsneden en Featured Images.
+
 <!-- TODO:
 Verwijzen naar hoofdstuk Afbeeldingen.
 -->
@@ -488,7 +558,7 @@ Niet ieder blok ondersteunt dezelfde opties. Welke instellingen je ziet, hangt a
 
 Elke projectpagina heeft een **Featured Image**.
 
-Deze afbeelding wordt gebruikt op verschillende plekken in je website, bijvoorbeeld in projectoverzichten en op de homepage. Open de instellingen van de pagina in de rechterzijbalk en kies **Featured Image**.
+Deze afbeelding wordt gebruikt op verschillende plekken in je website, bijvoorbeeld in projectoverzichten op de homepage of als je een link deelt via sociale media. Open de instellingen van de pagina in de rechterzijbalk en kies **Featured Image**. 
 
 ![Stel een Featured Image in](SetFeaturedImage.png)
 
@@ -499,8 +569,7 @@ Let op; als je geen featured image instelt is je project ook niet zichtbaar op d
 ## Je eigen pattern opslaan
 
 Ben je tevreden over de opbouw van je project? Dan kun je deze bewaren als een eigen pattern. Zo hoef je bij je volgende projecten niet steeds opnieuw dezelfde layout op te bouwen of dezelfde wijzigingen door te voeren.
-
-Denk bijvoorbeeld aan een vaste structuur met:
+Gebruik dit vooral voor onderdelen die je vaker wilt gebruiken. Zo bouw je stap voor stap je eigen bibliotheek met layouts op.
 
 ### Een pattern maken
 
@@ -633,7 +702,7 @@ Geef de pagina een titel, bijvoorbeeld **About** of **Contact**.
 
 Publiceer de pagina nog niet. Eerst voegen we een layout toe.
 
-## Een pattern toevoegen
+## Een layout toevoegen
 
 Klik linksboven op het **+**-icoon en open het tabblad **Patterns**.
 
@@ -651,7 +720,7 @@ Ben je tevreden met het resultaat? Klik dan rechtsboven op **Publish**. Herhaal 
 In het volgende hoofdstuk gaan we de verschillende pagina's met elkaar verbinden door een navigatiemenu toe te voegen.
 
 
-# 9. Header, footer & navigatie
+# 9. Header, footer en navigatie
 
 Je website begint inmiddels echt vorm te krijgen. Nu is het tijd om de verschillende pagina's met elkaar te verbinden, zodat bezoekers eenvoudig door je portfolio kunnen navigeren.
 
@@ -697,7 +766,7 @@ Net als bij alle andere patterns kun je ook hier blokken toevoegen, verwijderen 
 
 ![Pas je footer aan](ChangeFooterLayout.png)
 
-## Site title & tagline
+## Site title en tagline
 Er zijn ook nog wat standaard dingen die je moet instellen voor je live kan. Ga naar:
 
 **Settings → General**
@@ -748,27 +817,63 @@ Ben je tevreden? Dan is het tijd om je website live te zetten.
 
 Veel plezier met je nieuwe duurzame website!
 
-<!-- VANAF HIER DEEL 2 -->
+
+# Praktische handleidingen
+
+Gefeliciteerd! Je portfolio staat live.
+
+Misschien wil je nu video's toevoegen, projecten filteren of de duurzaamheidsinstellingen verder aanpassen. In deze handleidingen leggen we een aantal functies uit die je minder vaak gebruikt, maar waarmee je nog meer uit The Sustainable Theme haalt.
+
+Je hoeft deze handleidingen niet op volgorde te lezen. Gebruik ze als naslagwerk wanneer je een specifieke functie nodig hebt.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- VANAF HIER DEEL 2 
+O.a.
+- Media toevoegen
+  - video
+  - PDF
+  - audiobestand
+  - Een header afbeelding instellen
+
+- Belangrijkste verschillen Groups, Columns en Blocks
+
+- Extra features toevoegen
+  - Portfolio categorieën en homepagina filter 
+  - Next posts instellen 
+  - weergave mobiel versus desktop instellen
+
+- Duurzaamheidsinstellingen thema
+  - switches
+  - Grid Aware
+  - Database opruimen(?) 
+
+- Instellen carbonfooter plugin
+
+- Updates
+
+- FAQ
+
+
+-->
+
 
 <!-- Stukken tekst die misschien nog handig zijn om ergens te verwerken -->
 
-## 8. Ronde hoeken instellen (Design Settings)
 
-Het thema heeft een speciaal Design Settings-paneel waar je de ronding van hoeken van kaarten, afbeeldingen en knoppen kunt instellen. Dit is een van de snelste manieren om je site een eigen karakter te geven.
-
-1. Ga naar **Sustainable Theme → Design** in het WordPress-dashboard
-2. Je ziet drie schuifregelaars:
-   - **Card radius** — ronding van kaarten en containers (standaard: 15px)
-   - **Image radius** — ronding van afbeeldingen (standaard: 15px)
-   - **Button radius** — ronding van knoppen (standaard: 4px)
-3. Pas de waarden aan naar jouw smaak
-4. Klik op **Opslaan**
-
-De waarden die je hier instelt worden toegepast op **al je afbeeldingen, kaarten en knoppen tegelijk** — op je hele site.
-
-
-
----
 
 ### Group (Groep)
 
