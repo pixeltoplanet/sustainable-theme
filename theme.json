@@ -22,16 +22,6 @@
 					"slug": "foreground"
 				},
 				{
-					"color": "#D8D8D8",
-					"name": "Neutral 1",
-					"slug": "neutral-1"
-				},
-				{
-					"color": "#7F7F7F",
-					"name": "Neutral 2",
-					"slug": "neutral-2"
-				},
-				{
 					"color": "#00FF00",
 					"name": "Primary",
 					"slug": "primary"
@@ -50,6 +40,16 @@
 					"color": "#FFFF00",
 					"name": "Accent",
 					"slug": "accent"
+				},
+				{
+					"color": "#D8D8D8",
+					"name": "Neutral 1",
+					"slug": "neutral-1"
+				},
+				{
+					"color": "#7F7F7F",
+					"name": "Neutral 2",
+					"slug": "neutral-2"
 				}
 			]
 		},
