@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Content image text home 02
+ * Title: Content — Image left, text right
  * Slug: sustainable-theme/content-image-text-home-02
- * Categories: sustainable-theme,sustainable-theme/new,sustainable-theme/content
+ * Categories: sustainable-theme,sustainable-theme/content
  * Description: Left image with right text and call to action.
  * Keywords: content, image, text, button
  * Inserter: true

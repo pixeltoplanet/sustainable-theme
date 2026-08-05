@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Content with image vertical
+ * Title: Content — Image vertical
  * Slug: sustainable-theme/content-with-image-vertical
  * Categories: sustainable-theme,sustainable-theme/content
  * Description: A content section with an image below the text.

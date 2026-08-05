@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: CTA cover home 02
+ * Title: CTA — Cover
  * Slug: sustainable-theme/cta-cover-home-02
- * Categories: sustainable-theme,sustainable-theme/new,sustainable-theme/cta
+ * Categories: sustainable-theme,sustainable-theme/cta
  * Description: Full-width cover call to action with heading, text, and button.
  * Keywords: cta, call to action, cover, contact
  * Inserter: true

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Gallery grid
+ * Title: Gallery — Grid
  * Slug: sustainable-theme/gallery-grid
  * Categories: sustainable-theme,sustainable-theme/gallery
  * Description: Image grid gallery.

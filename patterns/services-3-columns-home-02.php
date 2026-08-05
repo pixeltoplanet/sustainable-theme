@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Services 3 columns home 02
+ * Title: Services — 3 columns with heading
  * Slug: sustainable-theme/services-3-columns-home-02
- * Categories: sustainable-theme,sustainable-theme/new,sustainable-theme/services
+ * Categories: sustainable-theme,sustainable-theme/services
  * Description: Three-column services grid with images, titles, and descriptions.
  * Keywords: services, columns, grid, image
  * Inserter: true

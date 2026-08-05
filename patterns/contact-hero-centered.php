@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Contact hero centered
+ * Title: Contact — Hero centered
  * Slug: sustainable-theme/contact-hero-centered
- * Categories: sustainable-theme,sustainable-theme/contact,sustainable-theme/new
+ * Categories: sustainable-theme,sustainable-theme/contact
  * Description: Centered hero for contact pages with title and intro text.
  * Keywords: contact, hero, centered, get in touch
  * Inserter: true

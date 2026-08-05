@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Page about 1
+ * Title: About 01
  * Slug: sustainable-theme/page-about-1
- * Categories: sustainable-theme,sustainable-theme/content,sustainable-theme/pages,sustainable-theme/new
+ * Categories: sustainable-theme,sustainable-theme/pages,sustainable-theme/pages-portfolio
  * Description: Full about page with hero, portrait story, approach, stats, quote, and CTA.
  * Keywords: about, page, image, intro, portrait, team, studio
  * Inserter: true
@@ -75,7 +75,7 @@
 </div>
 <!-- /wp:group -->
 
-<!-- wp:group {"tagName":"section","metadata":{"patternName":"sustainable-theme/stats-3-columns-home-02","name":"Stats 3 columns home 02","description":"Three-column stats section with dividers.","categories":["sustainable-theme","sustainable-theme/new","sustainable-theme/content"]},"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|fluid-large","bottom":"var:preset|spacing|fluid-large","left":"var:preset|spacing|fluid-small","right":"var:preset|spacing|fluid-small"},"margin":{"top":"0"}}},"backgroundColor":"neutral-1","textColor":"foreground","layout":{"type":"constrained"}} -->
+<!-- wp:group {"tagName":"section","metadata":{"patternName":"sustainable-theme/stats-3-columns-home-02","name":"Stats 3 columns home 02","description":"Three-column stats section with dividers.","categories":["sustainable-theme","sustainable-theme/content"]},"align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|fluid-large","bottom":"var:preset|spacing|fluid-large","left":"var:preset|spacing|fluid-small","right":"var:preset|spacing|fluid-small"},"margin":{"top":"0"}}},"backgroundColor":"neutral-1","textColor":"foreground","layout":{"type":"constrained"}} -->
 <section class="wp-block-group alignfull has-foreground-color has-neutral-1-background-color has-text-color has-background" style="margin-top:0;padding-top:var(--wp--preset--spacing--fluid-large);padding-right:var(--wp--preset--spacing--fluid-small);padding-bottom:var(--wp--preset--spacing--fluid-large);padding-left:var(--wp--preset--spacing--fluid-small)"><!-- wp:columns {"isStackedOnMobile":false,"style":{"spacing":{"blockGap":{"top":"var:preset|spacing|fluid-large","left":"0"}}}} -->
   <div class="wp-block-columns is-not-stacked-on-mobile"><!-- wp:column {"style":{"border":{"right":{"color":"var:preset|color|neutral-2","width":"2px"}},"spacing":{"padding":{"right":"var:preset|spacing|40","left":"var:preset|spacing|40"}}},"layout":{"type":"constrained","contentSize":"13rem"}} -->
     <div class="wp-block-column" style="border-right-color:var(--wp--preset--color--neutral-2);border-right-width:2px;padding-right:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)"><!-- wp:heading {"level":6,"style":{"spacing":{"margin":{"bottom":"var:preset|spacing|40"}},"typography":{"textAlign":"center"}},"textColor":"secondary","fontSize":"xxl"} -->

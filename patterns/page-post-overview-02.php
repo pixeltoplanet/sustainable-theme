@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Page post overview 2
+ * Title: Blog 01
  * Slug: sustainable-theme/page-post-overview-2
- * Categories: sustainable-theme,sustainable-theme/posts,sustainable-theme/pages,sustainable-theme/new
+ * Categories: sustainable-theme,sustainable-theme/pages,sustainable-theme/pages-agency
  * Description: Full blog index page with a large featured post and secondary 3-column grid.
  * Keywords: posts, blog, overview, page, featured, grid
  * Inserter: true

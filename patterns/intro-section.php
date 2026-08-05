@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Intro section
+ * Title: Content — Intro section
  * Slug: sustainable-theme/intro-section-new
  * Categories: sustainable-theme,sustainable-theme/content
  * Description: A section that introduces the page.

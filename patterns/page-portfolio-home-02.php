@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Page portfolio home 02
+ * Title: Home 02
  * Slug: sustainable-theme/page-portfolio-home-02
- * Categories: sustainable-theme,sustainable-theme/new,sustainable-theme/pages
+ * Categories: sustainable-theme,sustainable-theme/pages,sustainable-theme/pages-portfolio
  * Description: Portfolio home page with boxed hero, post grid, and CTA.
  * Keywords: portfolio, portfolio home, portfolio page, portfolio landing
  * Inserter: true

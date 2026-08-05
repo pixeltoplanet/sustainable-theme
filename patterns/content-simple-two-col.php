@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Content simple two column
+ * Title: Content — Two columns
  * Slug: sustainable-theme/content-simple-two-col
  * Categories: sustainable-theme,sustainable-theme/content
  * Description: Simple two-column text layout.

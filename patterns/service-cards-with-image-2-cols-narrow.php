@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Service cards with image 2 columns narrow
+ * Title: Services — Cards 2 cols narrow
  * Slug: sustainable-theme/service-cards-with-image-2-cols-narrow
  * Categories: sustainable-theme,sustainable-theme/services
  * Description: A narrow two-column grid of service cards with a title, description, and button.

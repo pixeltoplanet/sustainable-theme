@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Single post hero simple
+ * Title: Single post — Hero simple
  * Slug: sustainable-theme/single-post-hero-simple
  * Categories: sustainable-theme,sustainable-theme/single-post
  * Description: Minimal text-only hero with category, title, date, and excerpt.

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Hero bent
+ * Title: Hero — Bent edge
  * Slug: sustainable-theme/hero-bent
  * Categories: sustainable-theme,sustainable-theme/hero
  * Description: Hero with bent/angled bottom edge and overlay.

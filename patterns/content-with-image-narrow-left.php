@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Content with image narrow left
+ * Title: Content — Image narrow left
  * Slug: sustainable-theme/content-with-image-narrow-left
  * Categories: sustainable-theme,sustainable-theme/content
  * Description: A content section with an image on the left.

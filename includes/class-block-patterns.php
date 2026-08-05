@@ -48,20 +48,28 @@ class BlockPatterns
   public function register_block_pattern_categories(): void
   {
     register_block_pattern_category('sustainable-theme/pages', [
-      'label'       => __('Pages', 'sustainable-theme'),
-      'description' => __('Full-page patterns for Sustainable Theme.', 'sustainable-theme'),
+      'label'       => __('00 Pages', 'sustainable-theme'),
+      'description' => __('All full-page layout patterns.', 'sustainable-theme'),
+    ]);
+    register_block_pattern_category('sustainable-theme/pages-portfolio', [
+      'label'       => __('10 Pages — Portfolio', 'sustainable-theme'),
+      'description' => __('Full-page layouts for portfolio and creative project sites.', 'sustainable-theme'),
+    ]);
+    register_block_pattern_category('sustainable-theme/pages-agency', [
+      'label'       => __('20 Pages — Agency', 'sustainable-theme'),
+      'description' => __('Full-page layouts for agency and business sites.', 'sustainable-theme'),
+    ]);
+    register_block_pattern_category('sustainable-theme/pages-single-post', [
+      'label'       => __('50 Pages — Single post', 'sustainable-theme'),
+      'description' => __('Full single post page layouts.', 'sustainable-theme'),
     ]);
     register_block_pattern_category('sustainable-theme/content', [
       'label'       => __('Content', 'sustainable-theme'),
       'description' => __('Content patterns for Sustainable Theme.', 'sustainable-theme'),
     ]);
-    register_block_pattern_category('sustainable-theme/portfolio', [
-      'label'       => __('Portfolio', 'sustainable-theme'),
-      'description' => __('Portfolio patterns for Sustainable Theme.', 'sustainable-theme'),
-    ]);
     register_block_pattern_category('sustainable-theme/posts', [
-      'label'       => __('Posts', 'sustainable-theme'),
-      'description' => __('Posts patterns for Sustainable Theme.', 'sustainable-theme'),
+      'label'       => __('Posts & projects', 'sustainable-theme'),
+      'description' => __('Post and project grid patterns.', 'sustainable-theme'),
     ]);
     register_block_pattern_category('sustainable-theme/hero', [
       'label'       => __('Hero', 'sustainable-theme'),
@@ -80,24 +88,20 @@ class BlockPatterns
       'description' => __('Gallery and image layout patterns.', 'sustainable-theme'),
     ]);
     register_block_pattern_category('sustainable-theme/cta', [
-      'label'       => __('CTA', 'sustainable-theme'),
+      'label'       => __('Call to action', 'sustainable-theme'),
       'description' => __('Call to action patterns.', 'sustainable-theme'),
     ]);
     register_block_pattern_category('sustainable-theme/services', [
-      'label'       => __('Services & features', 'sustainable-theme'),
-      'description' => __('Services and features patterns.', 'sustainable-theme'),
+      'label'       => __('Services & pricing', 'sustainable-theme'),
+      'description' => __('Services and pricing patterns.', 'sustainable-theme'),
     ]);
     register_block_pattern_category('sustainable-theme/single-post', [
       'label'       => __('Single post', 'sustainable-theme'),
-      'description' => __('Single post patterns.', 'sustainable-theme'),
+      'description' => __('Single post section patterns.', 'sustainable-theme'),
     ]);
     register_block_pattern_category('sustainable-theme/contact', [
       'label'       => __('Contact', 'sustainable-theme'),
-      'description' => __('Contact and form patterns.', 'sustainable-theme'),
-    ]);
-    register_block_pattern_category('sustainable-theme/new', [
-      'label'       => __('NEW', 'sustainable-theme'),
-      'description' => __('New patterns pending review and testing.', 'sustainable-theme'),
+      'description' => __('Contact section patterns.', 'sustainable-theme'),
     ]);
   }
 }

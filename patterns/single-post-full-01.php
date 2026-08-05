@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Single post full 01
+ * Title: Single post 01
  * Slug: sustainable-theme/single-post-full-01
- * Categories: sustainable-theme,sustainable-theme/single-post,sustainable-theme/pages
+ * Categories: sustainable-theme,sustainable-theme/pages,sustainable-theme/pages-single-post
  * Description: Full single post layout with cover hero, content, and credits.
  * Keywords: single post, full, cover, content, credits
  * Inserter: true

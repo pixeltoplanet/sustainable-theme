@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Contact split info and form
+ * Title: Contact — Split info + form
  * Slug: sustainable-theme/contact-split-info-form
- * Categories: sustainable-theme,sustainable-theme/contact,sustainable-theme/new
+ * Categories: sustainable-theme,sustainable-theme/contact
  * Description: Contact details on the left with a form placeholder on the right.
  * Keywords: contact, form, split, email, phone, address
  * Inserter: true

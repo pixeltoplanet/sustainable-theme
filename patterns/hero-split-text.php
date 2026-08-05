@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Hero split text
+ * Title: Hero — Split text
  * Slug: sustainable-theme/hero-split-text
- * Categories: sustainable-theme,sustainable-theme/new,sustainable-theme/hero, New
+ * Categories: sustainable-theme,sustainable-theme/hero
  * Description: Full-width hero with title, subtitle, and call to action.
  * Keywords: hero, cover, home, header
  * Inserter: true

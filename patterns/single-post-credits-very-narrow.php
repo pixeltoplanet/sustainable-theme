@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Single post credits very narrow
+ * Title: Single post — Credits very narrow
  * Slug: sustainable-theme/single-post-credits-very-narrow
  * Categories: sustainable-theme,sustainable-theme/single-post
  * Description: A very narrow single post credits section.

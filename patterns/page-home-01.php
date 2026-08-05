@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Page home 01
+ * Title: Home 01
  * Slug: sustainable-theme/page-home-01
- * Categories: sustainable-theme,sustainable-theme/new,sustainable-theme/pages
+ * Categories: sustainable-theme,sustainable-theme/pages,sustainable-theme/pages-agency
  * Description: Agency-style home page with hero, services, USP stats, image text, testimonials, posts, pricing, and CTA.
  * Keywords: home, home page, homepage, agency, landing
  * Inserter: true

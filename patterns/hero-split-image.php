@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Hero split with image
+ * Title: Hero — Split with image
  * Slug: sustainable-theme/hero-split-image
  * Categories: sustainable-theme,sustainable-theme/hero
  * Description: A hero with split layout—image on one side, text on the other.

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Page home 02 
+ * Title: Home 02
  * Slug: sustainable-theme/page-home-02
- * Categories: sustainable-theme,sustainable-theme/new,sustainable-theme/pages
+ * Categories: sustainable-theme,sustainable-theme/pages,sustainable-theme/pages-agency
  * Description: Full home page layout with hero, stats, services, content, testimonials, and CTA.
  * Keywords: home, home page, homepage, landing
  * Inserter: true

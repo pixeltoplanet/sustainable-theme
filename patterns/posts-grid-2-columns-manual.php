@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Posts grid 2 columns manual
+ * Title: Posts — Grid 2 columns (manual)
  * Slug: sustainable-theme/posts-grid-2-columns-manual
- * Categories: sustainable-theme,sustainable-theme/portfolio,sustainable-theme/posts,sustainable-theme/new
+ * Categories: sustainable-theme,sustainable-theme/posts
  * Description: A 2-column grid of manually curated project cards.
  * Keywords: posts, portfolio, blog, overview, grid, manual, projects
  * Inserter: true

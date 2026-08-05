@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Posts featured grid
+ * Title: Posts — Featured + grid
  * Slug: sustainable-theme/posts-featured-grid
- * Categories: sustainable-theme,sustainable-theme/portfolio,sustainable-theme/posts
+ * Categories: sustainable-theme,sustainable-theme/posts
  * Description: Featured post with smaller grid below.
  * Keywords: posts, featured, grid, blog
  * Inserter: true

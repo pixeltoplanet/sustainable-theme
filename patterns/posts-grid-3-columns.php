@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Posts grid 3 columns
+ * Title: Posts — Grid 3 columns
  * Slug: sustainable-theme/posts-grid-3-columns
- * Categories: sustainable-theme,sustainable-theme/portfolio,sustainable-theme/posts
+ * Categories: sustainable-theme,sustainable-theme/posts
  * Description: A 3-column grid of the latest posts.
  * Keywords: posts, portfolio, blog, overview, grid
  * Inserter: true

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Page post overview 1
+ * Title: Work 01
  * Slug: sustainable-theme/page-post-overview-1
- * Categories: sustainable-theme,sustainable-theme/posts,sustainable-theme/pages,sustainable-theme/new
+ * Categories: sustainable-theme,sustainable-theme/pages,sustainable-theme/pages-portfolio
  * Description: Full blog index page with editorial heading and 2-column post grid.
  * Keywords: posts, blog, overview, page, grid, editorial
  * Inserter: true

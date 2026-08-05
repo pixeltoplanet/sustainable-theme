@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Page portfolio home 03
+ * Title: Home 03
  * Slug: sustainable-theme/page-portfolio-home-03
- * Categories: sustainable-theme,sustainable-theme/new,sustainable-theme/pages
+ * Categories: sustainable-theme,sustainable-theme/pages,sustainable-theme/pages-portfolio
  * Description: Portfolio home page with split hero and manual project grid.
  * Keywords: home, portfolio, homepage, landing, projects
  * Inserter: true

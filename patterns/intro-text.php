@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Intro text
+ * Title: Content — Intro text
  * Slug: sustainable-theme/intro-text
  * Categories: sustainable-theme,sustainable-theme/content
  * Description: A text section that introduces the page.

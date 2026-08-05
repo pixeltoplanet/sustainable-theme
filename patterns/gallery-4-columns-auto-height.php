@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Gallery grid 4 columns auto height
+ * Title: Gallery — 4 columns auto height
  * Slug: sustainable-theme/gallery-grid-4-columns-auto-height
  * Categories: sustainable-theme,sustainable-theme/gallery
  * Description: Image grid gallery 4 columns auto height.

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Hero overlay dark
+ * Title: Hero — Overlay dark
  * Slug: sustainable-theme/hero-overlay-dark
  * Categories: sustainable-theme,sustainable-theme/hero
  * Description: A full-bleed hero with dark overlay and centered white text.

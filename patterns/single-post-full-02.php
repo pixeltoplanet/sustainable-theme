@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Single post full 02
+ * Title: Single post 02
  * Slug: sustainable-theme/single-post-full-02
- * Categories: sustainable-theme,sustainable-theme/single-post,sustainable-theme/pages
+ * Categories: sustainable-theme,sustainable-theme/pages,sustainable-theme/pages-single-post
  * Description: Full single post layout with overlay hero, wide content, and related posts.
  * Keywords: single post, full, overlay, content, related
  * Inserter: true
