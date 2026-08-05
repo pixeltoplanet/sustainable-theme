@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Latest posts masonry
+ * Title: Posts — Masonry
  * Slug: sustainable-theme/latest-posts-masonry
- * Categories: sustainable-theme,sustainable-theme/portfolio,sustainable-theme/posts
+ * Categories: sustainable-theme,sustainable-theme/posts
  * Description: A masonry-style grid of the latest posts with varied heights.
  * Keywords: posts, masonry, portfolio, blog, grid
  * Inserter: true

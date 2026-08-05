@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: CTA banner centered
+ * Title: CTA — Banner centered
  * Slug: sustainable-theme/cta-banner-centered
  * Categories: sustainable-theme,sustainable-theme/cta
  * Description: A centered CTA banner with a bold title and a paragraph.

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Hero cover boxed
+ * Title: Hero — Cover boxed
  * Slug: sustainable-theme/hero-cover-boxed
  * Categories: sustainable-theme,sustainable-theme/hero
  * Description: A boxed hero with background image to start your page.

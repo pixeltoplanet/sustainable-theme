@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Posts grid 2 columns
+ * Title: Posts — Grid 2 columns
  * Slug: sustainable-theme/posts-grid-2-columns
- * Categories: sustainable-theme,sustainable-theme/portfolio,sustainable-theme/posts
+ * Categories: sustainable-theme,sustainable-theme/posts
  * Description: A 2-column grid of the latest posts.
  * Keywords: posts, portfolio, blog, overview, grid
  * Inserter: true

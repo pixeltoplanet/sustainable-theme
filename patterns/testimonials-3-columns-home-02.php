@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Testimonials 3 columns home 02
+ * Title: Content — Testimonials 3 columns
  * Slug: sustainable-theme/testimonials-3-columns-home-02
- * Categories: sustainable-theme,sustainable-theme/new,sustainable-theme/content
+ * Categories: sustainable-theme,sustainable-theme/content
  * Description: Three-column testimonials section with quote and attribution.
  * Keywords: testimonials, quotes, columns, reviews
  * Inserter: true

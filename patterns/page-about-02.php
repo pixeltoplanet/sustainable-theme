@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Title: Page about 2
+ * Title: About 01
  * Slug: sustainable-theme/page-about-2
- * Categories: sustainable-theme,sustainable-theme/content,sustainable-theme/pages,sustainable-theme/new
+ * Post Types: page
+ * Categories: sustainable-theme,sustainable-theme/pages,sustainable-theme/pages-agency
  * Description: Full about page with split hero, icon value cards, quote, and horizontal CTA.
  * Keywords: about, page, values, mission, process, icons, cards
  * Inserter: true

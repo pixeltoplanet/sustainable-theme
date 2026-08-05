@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Pricing 3 columns home 01
+ * Title: Services — Pricing 3 columns
  * Slug: sustainable-theme/pricing-3-columns-home-01
- * Categories: sustainable-theme,sustainable-theme/new,sustainable-theme/services
+ * Categories: sustainable-theme,sustainable-theme/services
  * Description: Three-column pricing table with plans, features, and call to action.
  * Keywords: pricing, plans, columns, agency, services
  * Inserter: true

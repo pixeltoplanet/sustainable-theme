@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Title: Page contact 1
+ * Title: Contact 01
  * Slug: sustainable-theme/page-contact-1
- * Categories: sustainable-theme,sustainable-theme/contact,sustainable-theme/pages,sustainable-theme/new
+ * Post Types: page
+ * Categories: sustainable-theme,sustainable-theme/pages,sustainable-theme/pages-portfolio,sustainable-theme/pages-agency
  * Description: Full contact page with split hero, info and form side by side, and detail icons.
  * Keywords: contact, page, form, email, phone, address
  * Inserter: true

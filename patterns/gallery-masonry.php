@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Gallery masonry
+ * Title: Gallery — Masonry
  * Slug: sustainable-theme/gallery-masonry
  * Categories: sustainable-theme,sustainable-theme/gallery
  * Description: Masonry-style image gallery with varied aspect ratios.

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Hero asymmetric
+ * Title: Hero — Asymmetric
  * Slug: sustainable-theme/hero-asymmetric
  * Categories: sustainable-theme,sustainable-theme/hero
  * Description: Asymmetric hero with offset image and bold typography.

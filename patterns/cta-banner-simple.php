@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: CTA banner simple
+ * Title: CTA — Banner simple
  * Slug: sustainable-theme/cta-banner-simple
  * Categories: sustainable-theme,sustainable-theme/cta
  * Description: Simple banner CTA with bold typography.

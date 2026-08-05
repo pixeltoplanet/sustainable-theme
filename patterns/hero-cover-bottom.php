@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Hero cover bottom
+ * Title: Hero — Cover (text bottom)
  * Slug: sustainable-theme/hero-cover-bottom
  * Categories: sustainable-theme,sustainable-theme/hero
  * Description: A hero with background image and overlay at the bottom of the page.

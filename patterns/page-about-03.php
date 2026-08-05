@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Title: Page about 3
+ * Title: About 02
  * Slug: sustainable-theme/page-about-3
- * Categories: sustainable-theme,sustainable-theme/content,sustainable-theme/pages,sustainable-theme/new
+ * Post Types: page
+ * Categories: sustainable-theme,sustainable-theme/pages,sustainable-theme/pages-portfolio
  * Description: Full about page with intro, editorial story, image sections, big number, quote, and CTA.
  * Keywords: about, page, editorial, image, story, landscape, history
  * Inserter: true

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Stats 3 columns home 02
+ * Title: Content — Stats 3 columns
  * Slug: sustainable-theme/stats-3-columns-home-02
- * Categories: sustainable-theme,sustainable-theme/new,sustainable-theme/content
+ * Categories: sustainable-theme,sustainable-theme/content
  * Description: Three-column stats section with dividers.
  * Keywords: stats, columns, numbers, metrics
  * Inserter: true

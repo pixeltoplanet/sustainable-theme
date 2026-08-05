@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Posts grid 4 columns
+ * Title: Posts — Grid 4 columns
  * Slug: sustainable-theme/posts-grid-4-columns
- * Categories: sustainable-theme,sustainable-theme/portfolio,sustainable-theme/posts,sustainable-theme/new
+ * Categories: sustainable-theme,sustainable-theme/posts
  * Description: A 4-column grid of the latest posts with rounded featured images.
  * Keywords: posts, portfolio, blog, grid, query
  * Inserter: true

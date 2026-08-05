@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Service cards with image grid 3 columns
+ * Title: Services — Cards grid 3 cols
  * Slug: sustainable-theme/service-cards-with-image-grid-3-cols
  * Categories: sustainable-theme,sustainable-theme/services
  * Description: A grid of service cards with a title, description, and button.

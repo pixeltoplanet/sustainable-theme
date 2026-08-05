@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Header with tagline
+ * Title: Header — With tagline
  * Slug: sustainable-theme/header-with-tagline
  * Categories: sustainable-theme,sustainable-theme/header
  * Description: A header with logo, tagline, and navigation.

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Content quote
+ * Title: Content — Quote
  * Slug: sustainable-theme/content-quote
  * Categories: sustainable-theme,sustainable-theme/content
  * Description: A content section with a quote.

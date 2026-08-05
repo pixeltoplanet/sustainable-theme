@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Content big number
+ * Title: Content — Big number
  * Slug: sustainable-theme/content-big-number
  * Categories: sustainable-theme,sustainable-theme/content
  * Description: Content section with oversized number focus.

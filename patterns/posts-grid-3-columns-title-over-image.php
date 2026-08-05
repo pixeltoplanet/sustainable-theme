@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Posts grid 3 columns title over image
+ * Title: Posts — Grid 3 columns (title overlay)
  * Slug: sustainable-theme/posts-grid-3-columns-title-over-image
  * Categories: sustainable-theme,sustainable-theme/posts
  * Description: A 3-column grid of the latest posts with the title overlaid on the featured image.

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Content with image right
+ * Title: Content — Image right
  * Slug: sustainable-theme/content-with-image-right
  * Categories: sustainable-theme,sustainable-theme/content
  * Description: A content section with an image on the right.

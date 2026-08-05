@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Header with topbar
+ * Title: Header — With top bar
  * Slug: sustainable-theme/header-with-topbar
  * Categories: sustainable-theme,sustainable-theme/header
  * Description: A header with a topbar and a logo and navigation.

@@ -1,8 +1,9 @@
 <?php
 
 /**
- * Title: Single post hero overlay
+ * Title: Single post — Hero overlay
  * Slug: sustainable-theme/single-post-hero-overlay
+ * Post Types: post
  * Categories: sustainable-theme,sustainable-theme/single-post
  * Description: Full-width featured image cover with dark overlay and centered post meta.
  * Keywords: single post, hero, overlay, featured image, centered

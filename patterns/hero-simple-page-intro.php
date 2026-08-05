@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Hero simple page intro
+ * Title: Hero — Simple page intro
  * Slug: sustainable-theme/hero-simple-page-intro
  * Categories: sustainable-theme,sustainable-theme/hero
  * Description: A simple hero section with a bold title and a paragraph.

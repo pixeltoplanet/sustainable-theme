@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Service cards with icon
+ * Title: Services — Cards with icon
  * Slug: sustainable-theme/service-cards-icon
  * Categories: sustainable-theme,sustainable-theme/services
  * Description: A simple grid of service cards with a title, description, and button.

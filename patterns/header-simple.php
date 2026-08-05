@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Header simple
+ * Title: Header — Simple
  * Slug: sustainable-theme/header-simple
  * Categories: sustainable-theme,sustainable-theme/header
  * Description: A simple header with a logo and navigation.

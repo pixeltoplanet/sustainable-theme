@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Footer simple
+ * Title: Footer — Simple
  * Slug: sustainable-theme/footer-simple
  * Categories: sustainable-theme,sustainable-theme/footer
  * Description: Simple footer with copyright and navigation.

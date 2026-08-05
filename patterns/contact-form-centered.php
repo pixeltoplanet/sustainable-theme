@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Contact form centered
+ * Title: Contact — Form centered
  * Slug: sustainable-theme/contact-form-centered
- * Categories: sustainable-theme,sustainable-theme/contact,sustainable-theme/new
+ * Categories: sustainable-theme,sustainable-theme/contact
  * Description: Centered contact form section with heading and form placeholder.
  * Keywords: contact, form, centered, message
  * Inserter: true

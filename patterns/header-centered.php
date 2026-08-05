@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Header centered
+ * Title: Header — Centered
  * Slug: sustainable-theme/header-centered
  * Categories: sustainable-theme,sustainable-theme/header
  * Description: A centered header with logo and navigation.

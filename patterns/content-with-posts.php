@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Title: Content with posts
+ * Title: Posts — Content with grid
  * Slug: sustainable-theme/content-with-posts
- * Categories: sustainable-theme,sustainable-theme/portfolio,sustainable-theme/posts
+ * Categories: sustainable-theme,sustainable-theme/posts
  * Description: A content section with a post grid.
  * Keywords: content, content with posts, posts, portfolio, blog, overview
  * Inserter: true

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Content simple narrow
+ * Title: Content — Simple narrow
  * Slug: sustainable-theme/content-simple-narrow
  * Categories: sustainable-theme,sustainable-theme/content
  * Description: Simple narrow content section with a title and a paragraph.

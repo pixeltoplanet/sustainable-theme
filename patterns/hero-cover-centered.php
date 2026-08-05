@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: Hero cover boxed centered
+ * Title: Hero — Cover centered
  * Slug: sustainable-theme/hero-cover-centered
  * Categories: sustainable-theme,sustainable-theme/hero
  * Description: A centered hero with background image and overlay.
