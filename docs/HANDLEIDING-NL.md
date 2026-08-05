@@ -2,7 +2,7 @@
 
 *Een duurzame website bouwen, stap voor stap.*
 **Door Pixel to Planet · pixeltoplanet.earth**  
-**Versie 0.2.4**
+**Versie 0.3.0**
 
 ---
 
@@ -100,7 +100,7 @@ Ons antwoord is: ja.
 In plaats van een alles-in-één thema met honderden instellingen, krijg je een lichte basis waarmee je snel een professionele website kunt bouwen. Geen dichtgetimmerd ontwerp, maar een flexibel systeem dat je volledig naar je eigen hand kunt zetten. Het thema helpt je op verschillende manieren:
 
 - een verzameling kant-en-klare layouts waarmee je snel een website opzet;
-- een bibliotheek met meer dan 75 patterns waarmee je snel pagina's opbouwt;;
+- een bibliotheek met meer dan 75 patterns waarmee je snel pagina's opbouwt;
 - een duurzaamheidsoptimizer die onnodige WordPress-functionaliteit uitschakelt;
 - aanbevolen plugins die afbeeldingen optimaliseren, WordPress opruimen en je website sneller maken;
 - een ontwerp dat gebruikmaakt van vaste kleuren, lettertypen en afstanden, zodat je website automatisch één geheel blijft.
@@ -442,23 +442,29 @@ Open daarna het tabblad **Patterns**.
 
 ![Patterns toevoegen](images/PostPatternToevoegen.png)
 
-Het thema bevat meer dan 75 patterns die je kunt gebruiken als startpunt. Denk bijvoorbeeld aan:
+Het thema bevat meer dan 75 patterns. Je ziet alleen de patterns van The Sustainable Theme — de standaard WordPress-patterns en patterns uit de online bibliotheek staan uit, zodat je overzicht houdt.
 
-- complete projectpagina's;
-- hero-secties;
-- afbeeldingsgalerijen;
-- projectinformatie;
-- call-to-actions;
-- grids;
-- contactsecties.
+De patterns zijn gegroepeerd in categorieën. De nummers vooraan helpen je snel de juiste groep te vinden:
 
-In plaats van een lege pagina op te bouwen, begin je dus met een goed ontworpen basis. Daarna pas je alles aan naar je eigen wensen.
+| Categorie | Wat vind je hier? |
+| --- | --- |
+| **00 — Single Post Layout** | Complete layouts voor een projectpagina (zichtbaar bij Posts) |
+| **Single post** | Losse onderdelen voor een project: hero's, credits |
+| **00 Pages** | Alle complete pagina-layouts bij elkaar |
+| **10 Pages — Portfolio** | Complete pagina's voor een portfolio (Home, About, Work, Contact) |
+| **20 Pages — Agency** | Complete pagina's voor een agency- of bedrijfswebsite |
+| **Hero**, **Content**, **Gallery**, **Posts & projects**, **Services & pricing**, **Call to action**, **Contact** | Losse secties die je kunt combineren |
+| **Header**, **Footer** | Site-onderdelen (meestal via de Site Editor) |
 
-Kies voor je eerste project een simpele basis. Bijvoorbeeld:
+Belangrijk: WordPress toont patterns die bij het type inhoud passen. Bewerk je een **Post** (project), dan zie je vooral de Single Post-layouts en -secties. Bewerk je een **Page**, dan zie je de complete pagina-layouts en de losse secties voor pagina's.
 
-**Portfolio Post Layout 1**
+Kies voor je eerste project een complete layout. Open de categorie **00 — Single Post Layout** en kies:
 
-Maak je geen zorgen over kleuren, afbeeldingen of teksten. Die gaan we nu vervangen.
+**Single post — Portfolio layout 01**
+
+Dat is een kant-en-klare projectpagina met intro, credits en galerijen. Maak je geen zorgen over kleuren, afbeeldingen of teksten. Die gaan we nu vervangen.
+
+Wil je liever zelf opbouwen? Kies dan onderdelen uit **Single post** (bijvoorbeeld een hero) en vul daarna aan met galerijen of content-secties.
 
 
 ## Werken met de List View
@@ -610,13 +616,13 @@ Geef de pagina de titel **Home**. Publiceer de pagina nog niet. Klik linksboven 
 
 ![Voeg een layout toe](AddHomePattern.png)
 
-Kies vervolgens een pattern uit de categorie **Homepages**. Net als bij de projectpagina's begin je met een complete layout die je daarna helemaal kunt aanpassen aan je eigen wensen.
+Kies vervolgens een pattern uit de categorie **10 Pages — Portfolio**. Net als bij de projectpagina's begin je met een complete layout die je daarna helemaal kunt aanpassen. Voor een portfolio-homepage past bijvoorbeeld **Home 01**, **Home 02** of **Home 03**.
 
-In dit voorbeeld kiezen we 'Hero split text' en daaronder 'Post masonry 3 columns' 
+Liever zelf samenstellen? Combineer dan losse secties, bijvoorbeeld **Hero — Split text** en daaronder **Posts — Masonry 3 columns** uit de categorieën **Hero** en **Posts & projects**.
 
 ![Voorbeeld toegevoegde blokken](HomeBuildup.png)
 
-Nu kan je aan de slag met inhoud toepassen, net zoals je dit bij je projectposts deed. 
+Nu kun je aan de slag met inhoud toepassen, net zoals je dit bij je projectposts deed. 
 
 ## Je projecten verschijnen automatisch
 
@@ -706,7 +712,14 @@ Publiceer de pagina nog niet. Eerst voegen we een layout toe.
 
 Klik linksboven op het **+**-icoon en open het tabblad **Patterns**.
 
-Kies vervolgens een pattern dat past bij de pagina die je wilt maken. Je kunt meerdere patterns en blokken combineren om een pagina helemaal naar je eigen wensen op te bouwen.
+Kies een complete pagina uit **10 Pages — Portfolio** (of **20 Pages — Agency** als je een meer zakelijke site bouwt). Voor een portfolio zijn dit handige startpunten:
+
+- **About 01** of **About 02** — over-ons pagina;
+- **Work 01** — overzicht van je projecten;
+- **Contact 01** of **Contact 02** — contactpagina;
+- **Blog 01** — blog- of nieuws-overzicht (onder Agency).
+
+Je kunt ook meerdere losse patterns en blokken combineren. Alle complete pagina-layouts staan ook bij elkaar in **00 Pages**.
 
 ## De inhoud aanpassen
 
@@ -978,7 +991,7 @@ Kies een variant via het zijpaneel → **Stijlen** na het selecteren van een hea
 
 **Wat het is:** Een automatisch bijgewerkt overzicht van berichten, gefilterd op categorie, tag, datum, etc.
 
-**Hoe het gebruikt wordt:** Alle "Posts"-patterns in het thema gebruiken een Query Loop. Je stelt in welke berichten worden getoond en hoe ze eruitzien.
+**Hoe het gebruikt wordt:** Alle patterns in de categorie **Posts & projects** gebruiken een Query Loop. Je stelt in welke berichten worden getoond en hoe ze eruitzien.
 
 **Thema-uitbreiding:** Het thema voegt een extra optie toe aan de Query Loop: **"Huidige post uitsluiten"**. Als je een gerelateerde posts-sectie op een blogbericht-pagina zet, zorgt deze optie dat het bericht dat je op dit moment leest, niet in de lijst verschijnt.
 
@@ -1151,7 +1164,7 @@ Wat er opgeruimd wordt:
 Ja. Je kunt een lettertype als bestand uploaden via **Weergave → Editor → Lettertypen → Uploaden**. Zorg voor een `.woff2`-bestand voor de beste prestaties.
 
 **Kan ik patterns aanpassen en hergebruiken?**  
-Ja. Pas een pattern aan op een pagina, selecteer alle blokken erin, en kies **+ Patroon aanmaken** in de blokwerkbalk. Je slaat het dan op als jouw eigen pattern.
+Ja. Pas een pattern aan op een pagina of post, selecteer alle blokken erin, en kies **Create pattern** in de blokwerkbalk. Sla het op als jouw eigen pattern (met Synced uit). Tip: complete projectlayouts vind je onder **00 — Single Post Layout**; complete pagina's onder **10 Pages — Portfolio** of **20 Pages — Agency**.
 
 **Werkt dit thema met WooCommerce?**  
 De kernfuncties van WooCommerce werken, maar het thema bevat geen WooCommerce-specifieke templates of patronen. Gebruik Base Mode als je een webshop runt.
