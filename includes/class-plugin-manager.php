@@ -59,6 +59,13 @@ class PluginManager
 
     $recommended_plugins = [
       [
+        'slug' => 'carbonfooter',
+        'name' => 'Carbonfooter',
+        'description' => 'Measure and display the carbon footprint of your pages, with optional footer widget.',
+        'is_installed' => $this->is_plugin_installed('carbonfooter/carbonfooter.php'),
+        'is_active' => is_plugin_active('carbonfooter/carbonfooter.php'),
+      ],
+      [
         'slug' => 'wp-smushit',
         'name' => 'Smush - Image Optimization',
         'description' => 'Automatically optimize images for better performance and reduced bandwidth usage.',
@@ -139,6 +146,7 @@ class PluginManager
 
     // Map plugin slugs to their actual plugin files
     $plugin_map = [
+      'carbonfooter' => 'carbonfooter/carbonfooter.php',
       'wp-smushit' => 'wp-smushit/wp-smush.php',
       'litespeed-cache' => 'litespeed-cache/litespeed-cache.php',
       'wp-optimize' => 'wp-optimize/wp-optimize.php',
@@ -356,6 +364,7 @@ class PluginManager
 
     // Map plugin slugs to their actual plugin files
     $plugin_map = [
+      'carbonfooter' => 'carbonfooter/carbonfooter.php',
       'wp-smushit' => 'wp-smushit/wp-smush.php',
       'litespeed-cache' => 'litespeed-cache/litespeed-cache.php',
       'wp-optimize' => 'wp-optimize/wp-optimize.php',
@@ -552,6 +561,7 @@ class PluginManager
 
     // Map plugin slugs to their actual plugin files
     $plugin_map = [
+      'carbonfooter' => 'carbonfooter/carbonfooter.php',
       'wp-smushit' => 'wp-smushit/wp-smush.php',
       'litespeed-cache' => 'litespeed-cache/litespeed-cache.php',
       'wp-optimize' => 'wp-optimize/wp-optimize.php',

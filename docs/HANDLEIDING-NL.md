@@ -224,12 +224,11 @@ Deze plugins zijn niet verplicht, maar we raden sterk aan om ze meteen te instal
 
 | Plugin | Waarom? |
 |---------|----------|
+| **Carbonfooter** | Meet de CO2 footprint van elke webpagina, met de optie om deze in de footer te tonen. |
 | **Smush** | Verkleint afbeeldingen automatisch tijdens het uploaden. |
 | **WP-Optimize** | Houdt WordPress schoon door oude revisies en tijdelijke bestanden op te ruimen. |
 | **Autoptimize** | Verkleint en combineert CSS en JavaScript zodat je website minder bestanden hoeft te laden. |
 | **LiteSpeed Cache** | Zorgt voor snellere laadtijden door pagina's te cachen. |
-| **Carbonfooter** | Meet de CO2 footprint van elke webpagina, met de optie om deze in de footer te tonen. |
-<!-- TOEVOEGEN carbonfooter plugin -->
 
 Klik op **Installeren** en activeer daarna de plugins.
 
