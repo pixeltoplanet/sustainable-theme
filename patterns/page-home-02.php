@@ -3,6 +3,7 @@
 /**
  * Title: Home 02
  * Slug: sustainable-theme/page-home-02
+ * Post Types: page
  * Categories: sustainable-theme,sustainable-theme/pages,sustainable-theme/pages-agency
  * Description: Full home page layout with hero, stats, services, content, testimonials, and CTA.
  * Keywords: home, home page, homepage, landing

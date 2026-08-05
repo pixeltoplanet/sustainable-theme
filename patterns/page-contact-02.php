@@ -3,6 +3,7 @@
 /**
  * Title: Contact 02
  * Slug: sustainable-theme/page-contact-2
+ * Post Types: page
  * Categories: sustainable-theme,sustainable-theme/pages,sustainable-theme/pages-portfolio,sustainable-theme/pages-agency
  * Description: Full contact page with centered hero, centered form, and detail icons.
  * Keywords: contact, page, form, centered, email, location

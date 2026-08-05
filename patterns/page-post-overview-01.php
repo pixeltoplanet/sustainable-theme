@@ -3,6 +3,7 @@
 /**
  * Title: Work 01
  * Slug: sustainable-theme/page-post-overview-1
+ * Post Types: page
  * Categories: sustainable-theme,sustainable-theme/pages,sustainable-theme/pages-portfolio
  * Description: Full blog index page with editorial heading and 2-column post grid.
  * Keywords: posts, blog, overview, page, grid, editorial

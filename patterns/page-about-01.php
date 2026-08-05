@@ -3,6 +3,7 @@
 /**
  * Title: About 01
  * Slug: sustainable-theme/page-about-1
+ * Post Types: page
  * Categories: sustainable-theme,sustainable-theme/pages,sustainable-theme/pages-portfolio
  * Description: Full about page with hero, portrait story, approach, stats, quote, and CTA.
  * Keywords: about, page, image, intro, portrait, team, studio

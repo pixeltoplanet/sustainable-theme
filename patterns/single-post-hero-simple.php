@@ -3,6 +3,7 @@
 /**
  * Title: Single post — Hero simple
  * Slug: sustainable-theme/single-post-hero-simple
+ * Post Types: post
  * Categories: sustainable-theme,sustainable-theme/single-post
  * Description: Minimal text-only hero with category, title, date, and excerpt.
  * Keywords: single post, hero, simple, title, excerpt

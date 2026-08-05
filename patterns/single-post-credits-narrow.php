@@ -3,6 +3,7 @@
 /**
  * Title: Single post — Credits narrow
  * Slug: sustainable-theme/single-post-credits-narrow
+ * Post Types: post
  * Categories: sustainable-theme,sustainable-theme/single-post
  * Description: A narrow single post credits section.
  * Keywords: single post, credits, narrow

@@ -59,10 +59,6 @@ class BlockPatterns
       'label'       => __('20 Pages — Agency', 'sustainable-theme'),
       'description' => __('Full-page layouts for agency and business sites.', 'sustainable-theme'),
     ]);
-    register_block_pattern_category('sustainable-theme/pages-single-post', [
-      'label'       => __('50 Pages — Single post', 'sustainable-theme'),
-      'description' => __('Full single post page layouts.', 'sustainable-theme'),
-    ]);
     register_block_pattern_category('sustainable-theme/content', [
       'label'       => __('Content', 'sustainable-theme'),
       'description' => __('Content patterns for Sustainable Theme.', 'sustainable-theme'),
@@ -95,9 +91,13 @@ class BlockPatterns
       'label'       => __('Services & pricing', 'sustainable-theme'),
       'description' => __('Services and pricing patterns.', 'sustainable-theme'),
     ]);
+    register_block_pattern_category('sustainable-theme/single-post-layout', [
+      'label'       => __('00 — Single Post Layout', 'sustainable-theme'),
+      'description' => __('Complete layout patterns for single post content.', 'sustainable-theme'),
+    ]);
     register_block_pattern_category('sustainable-theme/single-post', [
       'label'       => __('Single post', 'sustainable-theme'),
-      'description' => __('Single post section patterns.', 'sustainable-theme'),
+      'description' => __('Single post section patterns such as heroes and credits.', 'sustainable-theme'),
     ]);
     register_block_pattern_category('sustainable-theme/contact', [
       'label'       => __('Contact', 'sustainable-theme'),
