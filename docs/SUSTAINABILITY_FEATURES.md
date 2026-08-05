@@ -83,6 +83,7 @@ Monitor your local electricity grid's carbon intensity in real-time:
 ### Performance Plugins
 The theme recommends and can automatically install:
 
+- **Carbonfooter**: Measure and display page carbon footprint
 - **Smush**: Image optimization for reduced bandwidth
 - **LiteSpeed Cache**: Advanced caching for faster page loads
 - **WP-Optimize**: Database cleanup and optimization
