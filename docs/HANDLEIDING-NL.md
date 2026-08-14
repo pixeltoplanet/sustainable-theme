@@ -549,7 +549,7 @@ Kijk weer in je List-view waar het blok terecht is gekomen. Sleep 'm dan naar de
 Je kunt natuurlijk ook bestaande blokken kopiëren of dupliceren als je een vergelijkbare opmaak wilt gebruiken.
 Wil je bijvoorbeeld een extra tekstblok toevoegen? Typ dan 'Paragraph' in. Een video blok voeg je toe door te zoeken op 'Video'. 
 
-![Voorbeeld: een video blok in een 1-columns blok](HierarchyNewBlock.png)
+![Voorbeeld: een video blok in een 1-columns blok](AddNewItem.png)
 
 ## Breedte van een blok aanpassen
 
