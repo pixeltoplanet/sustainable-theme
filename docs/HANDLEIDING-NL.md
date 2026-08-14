@@ -395,7 +395,7 @@ Hier kun je drie waarden aanpassen:
 
 De wijzigingen worden automatisch overal in je website toegepast. Zo geef je je hele portfolio met één instelling een zachtere of juist strakkere uitstraling.
 
-![Verander ronde hoeken in The Sustainable Theme Design Settings](images/DesignSettingsChangeRadius.png.png)
+![Verander ronde hoeken in The Sustainable Theme Design Settings](images/DesignSettingsChangeRadius.png)
 
 # 6. Je eerste projectpagina
 
