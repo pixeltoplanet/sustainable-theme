@@ -9,6 +9,16 @@ A WordPress block theme built for creative sites that care about performance, ac
 - **Requires PHP:** 8.0+
 - **License:** GPL v2 or later
 
+## Contents
+
+- [Build your own site with the theme (NL)](./docs/HANDLEIDING-NL.md)
+- [Features](#features)
+- [Installation](#installation)
+- [Development](#development)
+- [Documentation](#documentation)
+- [Privacy](#privacy)
+- [Credits](#credits)
+
 ## Features
 
 - **Block theme** — `theme.json`, templates, template parts, and style variations
@@ -51,6 +61,7 @@ Releases are automated via GitHub Actions when a labeled PR is merged to `main` 
 
 Full documentation lives in [`docs/`](./docs/README.md):
 
+- [Build your own site with the theme (NL)](./docs/HANDLEIDING-NL.md)
 - [Documentation index](./docs/README.md)
 - [Sustainability features](./docs/SUSTAINABILITY_FEATURES.md)
 - [Implementation status](./docs/IMPLEMENTATION_STATUS.md)

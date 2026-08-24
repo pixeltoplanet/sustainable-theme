@@ -6,6 +6,7 @@ Documentation for **The Sustainable Theme** — a WordPress block theme with bui
 
 | Document | Description |
 | --- | --- |
+| [Build your own site with the theme (NL)](./HANDLEIDING-NL.md) | Step-by-step Dutch guide to building a site with the theme |
 | [Sustainability Features](./SUSTAINABILITY_FEATURES.md) | Overview of sustainability modes, optimizations, and environmental impact |
 | [Implementation Status](./IMPLEMENTATION_STATUS.md) | Which settings are implemented and their current status |
 | [Developer Guide](./DEVELOPER.md) | Architecture, extending the theme, hooks, and contribution notes |
