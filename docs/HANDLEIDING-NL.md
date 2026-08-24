@@ -2,7 +2,6 @@
 
 *Een duurzame website bouwen, stap voor stap.*
 **Door Pixel to Planet · pixeltoplanet.earth**  
-**Versie 0.3.0**
 
 ---
 
@@ -49,7 +48,7 @@ Laten we beginnen.
    - [Breedte van een blok aanpassen](#breedte-van-een-blok-aanpassen)
    - [Een Featured Image instellen](#een-featured-image-instellen)
    - [Je eigen pattern opslaan](#je-eigen-pattern-opslaan)
-   - [Maak nog een paar projecten](#maak-nog-een-paar-projecten)
+   - [Maak nog een paar projecten](#maak-nu-nog-een-paar-projecten)
 7. [Je homepage bouwen](#7-je-homepage-bouwen)
    - [Een nieuwe homepage aanmaken](#een-nieuwe-homepage-aanmaken)
    - [Je projecten verschijnen automatisch](#je-projecten-verschijnen-automatisch)
@@ -75,15 +74,11 @@ Laten we beginnen.
 
 ### Deel 2 — Praktische handleidingen
 
-- [Werken met afbeeldingen](#werken-met-afbeeldingen)
-- [Video toevoegen](#video-toevoegen)
-- [PDF's toevoegen](#pdfs-toevoegen)
-- [De Query Loop aanpassen](#de-query-loop-aanpassen)
-- [Projecten filteren](#projecten-filteren)
-- [Volgend en vorig project](#volgend-en-vorig-project)
-- [Design Settings](#design-settings-1)
+Extra handleidingen (afbeeldingen, video, Query Loop) volgen. Dit staat er nu:
+
 - [Duurzaamheidsinstellingen](#duurzaamheidsinstellingen)
-- [Updates](#updates)
+- [Grid Awareness](#grid-awareness)
+- [Database opruimen](#database-opruimen)
 - [Veelgestelde vragen](#veelgestelde-vragen)
 
 ---
@@ -178,7 +173,7 @@ Vervangen door kennisbankartikel zodra beschikbaar.
 
 De impact van een website wordt niet alleen bepaald door het thema, maar ook door de server waarop hij draait. Steeds meer hostingproviders maken gebruik van hernieuwbare energie of compenseren hun uitstoot. Dat is een mooie eerste stap richting een duurzamere website.
 
-Twijfel je of jouw hostingprovider groene stroom gebruikt? Check het op [**De Green Web Check**] (https://www.thegreenwebfoundation.org/green-web-check/):
+Twijfel je of jouw hostingprovider groene stroom gebruikt? Check het op [De Green Web Check](https://www.thegreenwebfoundation.org/green-web-check/).
 
 Dat gezegd hebbende: maak je vooral niet te druk als je website al ergens draait. Door je website lichter te maken, kun je ook op je huidige hostingomgeving vaak al een flinke stap zetten.
 
@@ -244,7 +239,9 @@ Suggested plugins melding
 
 Ga terug naar het dashboard. Als de installatie gelukt is, zie je een nieuw menu-item: **Sustainable Theme**
 
-![Nieuw menu item Sustainable Theme](images/Theme_installed.png)
+<!-- SCREENSHOT:
+Nieuw menu-item Sustainable Theme in de linkerzijbalk van het dashboard.
+-->
 
 Open daarna je website door linksboven over het huisje te hoveren en op **Bezoek site** te klikken.
 
@@ -348,20 +345,26 @@ Bijvoorbeeld:
 
 > Zie je andere instellingen? Dat kan. WordPress blijft de Site Editor verder ontwikkelen waardoor sommige onderdelen per versie kunnen verschillen.
 
-<!-- TODO:
-Controleren welke typography presets het theme precies gebruikt.
--->
-
 ### Lettergroottes
 
-Het thema bevat een vaste schaal met lettergroottes die je zelf kan aanpassen. Deze zijn zo gekozen dat koppen, tussenkoppen en lopende tekst automatisch goed met elkaar in verhouding blijven.
+Het thema bevat een vaste schaal met zeven lettergroottes. Extra vrije formaten staan uit: je kiest dus altijd één van deze presets. Daardoor blijven koppen, tussenkoppen en lopende tekst automatisch in verhouding.
+
+| Preset | Bedoeld voor |
+|--------|----------------|
+| **XS** — credits / captions | Onderschriften, credits, kleine labels |
+| **SM** — small copy | Kleine begeleidende tekst |
+| **MD** — body text | Lopende tekst (standaard) |
+| **LG** — intros / quotes | Intro's en citaten |
+| **XL** — subtitles | Subtitels |
+| **2XL** — headings | Koppen |
+| **3XL** — titles | Grote titels, bijvoorbeeld op de homepage |
 
 ![Fonts size presets openen](images/FontSizePresetsOpenen.png)
 ![Fonts size presets aanpassen](images/FontSizePresetsAanpassen.png)
 
-Alle lettergroottes zijn bovendien *fluid*. Dat betekent dat ze automatisch meeschalen tussen mobiel en desktop. Je hoeft hiervoor geen aparte instellingen te maken. Je kunt kiezen of je je fontgroottes instelt in pixels, REM, EM, vw of hw. Pixelgroottes staan vast, de andere maten zijn relatief. Twijfel je? Dan raden we aan om te kiezen voor REM, mocht een slechtziende bezoeker dan bijvoorbeeld gebruik maken van tekstvergrotingssoftware, dan schaalt de tekst automatisch mee. 
+Alle lettergroottes zijn *fluid*. Dat betekent dat ze automatisch meeschalen tussen mobiel en desktop. Je hoeft hiervoor geen aparte instellingen te maken. Je kunt kiezen of je je fontgroottes instelt in pixels, REM, EM, vw of vh. Pixelgroottes staan vast, de andere maten zijn relatief. Twijfel je? Dan raden we aan om te kiezen voor REM: als een slechtziende bezoeker tekstvergrotingssoftware gebruikt, schaalt de tekst dan automatisch mee.
 
-**En tip; 1 REM is 16 pixels, en dat is de standaard grootte van 'gewone' bodycopy tekst!**
+**Een tip: 1 REM is 16 pixels, en dat is de standaardgrootte van gewone bodytekst.**
 
 ---
 
@@ -371,9 +374,9 @@ Spacing is de ruimte tussen elementen op je website. Per blok of element kan je 
 
 Goede spacing zorgt ervoor dat een pagina rustig leest en prettig aanvoelt. Daarom gebruikt The Sustainable Theme een vaste set afstanden die overal terugkomt. Net als de lettergroottes zijn deze afstanden *fluid*: op een groot scherm worden ze iets groter, op een klein scherm juist iets kleiner.
 
-In de meeste gevallen hoef je deze instellingen helemaal niet aan te passen.
+In de meeste gevallen hoef je deze instellingen helemaal niet aan te passen. Het thema gebruikt vijf fluid afstanden: **X-Small**, **Small**, **Medium**, **Large** en **X-Large**.
 
-Gebruik je later extra padding of margins op een blok? Kies dan altijd één van de standaard spacing-waardes. Zo blijft je hele website mooi in balans.
+Gebruik je later extra padding of margins op een blok? Kies dan altijd één van deze standaardwaardes. Zo blijft je hele website mooi in balans.
 
 <!-- SCREENSHOT:
 Styles → Spacing
@@ -530,11 +533,7 @@ Let op dat je echt de afbeelding hebt geselecteerd (en niet de hele gallery).
 
 ![Instellingen voorbeeld voor een afbeelding](images/InstellingenAanpassenAfbeelding.png)
 
-In de praktische handleidingen lees je later meer over afbeeldingsformaten, uitsneden en Featured Images.
-
-<!-- TODO:
-Verwijzen naar hoofdstuk Afbeeldingen.
--->
+In een later hoofdstuk gaan we dieper in op afbeeldingsformaten, uitsneden en Featured Images.
 
 ## Een blok toevoegen
 
@@ -549,7 +548,7 @@ Kijk weer in je List-view waar het blok terecht is gekomen. Sleep 'm dan naar de
 Je kunt natuurlijk ook bestaande blokken kopiëren of dupliceren als je een vergelijkbare opmaak wilt gebruiken.
 Wil je bijvoorbeeld een extra tekstblok toevoegen? Typ dan 'Paragraph' in. Een video blok voeg je toe door te zoeken op 'Video'. 
 
-![Voorbeeld: een video blok in een 1-columns blok](AddNewItem.png)
+![Voorbeeld: een video blok in een 1-columns blok](images/HierarchyNewBlock.png)
 
 ## Breedte van een blok aanpassen
 
@@ -557,7 +556,7 @@ Veel blokken kun je breder of smaller maken. Selecteer een blok en kijk in de to
 
 Niet ieder blok ondersteunt dezelfde opties. Welke instellingen je ziet, hangt af van het geselecteerde blok. Zie daarom ook de tip hierboven om inhoud altijd in een 1-Column blok (of group) te plaatsen!
 
-![Zo kan je de breedte van een blok aanpassen](AdjustWidthBlock.png)
+![Zo kan je de breedte van een blok aanpassen](images/AdjustWidthBlock.png)
 
 ## Een Featured Image instellen
 
@@ -565,7 +564,7 @@ Elke projectpagina heeft een **Featured Image**.
 
 Deze afbeelding wordt gebruikt op verschillende plekken in je website, bijvoorbeeld in projectoverzichten op de homepage of als je een link deelt via sociale media. Open de instellingen van de pagina in de rechterzijbalk en kies **Featured Image**. 
 
-![Stel een Featured Image in](SetFeaturedImage.png)
+![Stel een Featured Image in](images/SetFeaturedImage.png)
 
 Upload vervolgens een afbeelding die jouw project goed samenvat, of kies er een uit je media library.
 
@@ -586,8 +585,8 @@ Gebruik dit vooral voor onderdelen die je vaker wilt gebruiken. Zo bouw je stap 
 6. Let op dat het vinkje 'Synced' UIT staat.
 7. Sla het pattern op.
 
-![Selecteer blokken en sla op als pattern](SaveBlocksPattern.png)
-![Let op dat je niet synced](SavepatternInstellingen.png)
+![Selecteer blokken en sla op als pattern](images/SaveBlocksPattern.png)
+![Let op dat je niet synced](images/SavepatternInstellingen.png)
 
 Je eigen pattern verschijnt nu automatisch tussen de patterns in de bibliotheek.
 
@@ -609,17 +608,17 @@ Later kun je deze natuurlijk helemaal aanpassen aan je eigen stijl.
 
 Ga naar **Pages → Add New Page**.
 
-![Maak een nieuwe pagina aan](AddHomepage.png)
+![Maak een nieuwe pagina aan](images/AddHomepage.png)
 
 Geef de pagina de titel **Home**. Publiceer de pagina nog niet. Klik linksboven op het **+**-icoon en open het tabblad **Patterns**.
 
-![Voeg een layout toe](AddHomePattern.png)
+![Voeg een layout toe](images/AddHomePattern.png)
 
 Kies vervolgens een pattern uit de categorie **10 Pages — Portfolio**. Net als bij de projectpagina's begin je met een complete layout die je daarna helemaal kunt aanpassen. Voor een portfolio-homepage past bijvoorbeeld **Home 01**, **Home 02** of **Home 03**.
 
 Liever zelf samenstellen? Combineer dan losse secties, bijvoorbeeld **Hero — Split text** en daaronder **Posts — Masonry 3 columns** uit de categorieën **Hero** en **Posts & projects**.
 
-![Voorbeeld toegevoegde blokken](HomeBuildup.png)
+![Voorbeeld toegevoegde blokken](images/HomeBuildup.png)
 
 Nu kun je aan de slag met inhoud toepassen, net zoals je dit bij je projectposts deed. 
 
@@ -644,8 +643,8 @@ Dan kun je de publicatiedatum aanpassen. Dat doe je zo:
 3. Klik op 'Quick Edit'
 4. Pas de publicatiedatum van je project aan.
 
-![QuickEdit Post](QuickEditPost.png)
-![Publicatiedatum post aanpassen](ChangeDatePost.png)
+![QuickEdit Post](images/QuickEditPost.png)
+![Publicatiedatum post aanpassen](images/ChangeDatePost.png)
 
 Nieuwste projecten staan bovenaan. Let op; als je een masonry layout hebt gekozen voor je homepagina, dan lopen de blokken per rij van links naar rechts, van boven naar onder.  
 
@@ -656,21 +655,23 @@ Hier kan je ook direct comments en pings uitzetten (als je dat wilt), en een cat
 De homepage bevat een projectoverzicht waarin bezoekers direct een selectie van je werk zien.
 In het linkermenu (List View) kun je onderdelen toevoegen of verwijderen. Let op dat je in de goede 'laag' werkt. Zo kun je hier bijvoorbeeld de 'excerpt' verwijderen, waardoor je enkel nog een titel ziet staan. 
 
-![Let op dat je in de goede laag werkt](ChangeTitle.png)
+![Let op dat je in de goede laag werkt](images/ChangeTitle.png)
 
 In het rechtermenu kun je per onderdeel de instellingen wijzigen. Bijvoorbeeld de witruimte tussen de projecten, of de tekstgrootte van je titels. 
 
-![Verander bijvoorbeeld de witruimte tussen je projecttegels](ChangeTitleSomething.png)
+<!-- SCREENSHOT:
+Witruimte tussen projecttegels of tekstgrootte van titels in de rechterzijbalk.
+-->
 
 Wil je de hoeveelheid kolommen of de verhouding van de afbeeldingen op je homepage veranderen? 
 Klik op 'Edit Pattern' en ga naar de laag getiteld 'Post Template'. Hier kan je het aantal kolommen wijzigen. 
 Let op: bij layouts met masonry blokken is het niet mogelijk om het aantal kolommen te wijzigen, kies dan direct het pattern met het juiste aantal kolommen. 
 
-![Verder het aantal project kolommen](ChangeHomeColumns.png)
+![Verder het aantal project kolommen](images/ChangeHomeColumns.png)
 
 Wil je de verhouding van alle featured images op je home wijzigen? Ga dan in je List view naar 'Featured image' en kies rechts bij 'Aspect Ratio' voor een andere maat. 
 
-![Verander featured images](ChangeFeaturedImage.png)
+![Verander featured images](images/ChangeFeaturedImage.png)
 
 
 ## De homepage verder uitbreiden
@@ -701,7 +702,7 @@ Denk bijvoorbeeld aan een About, Contact of CV pagina. De werkwijze is steeds he
 
 Ga naar **Pages → Add New Page**.
 
-![Maak een nieuwe pagina aan](AddHomepage.png)
+![Maak een nieuwe pagina aan](images/AddHomepage.png)
 
 Geef de pagina een titel, bijvoorbeeld **About** of **Contact**.
 
@@ -744,27 +745,27 @@ Ga naar **Appearance → Editor**. Klik vervolgens links op **Patterns** en open
 
 Klik op **Edit** om het pattern te bewerken. Hier kun je ook weer gebruik maken van de List View door op het menu met drie streepjes linksboven te klikken. 
 
-![Open de editor](OpendeEditor.png)
-![Navigeer naar Patterns](OpenPatterns.png)
-![Klik op Header](OpenHeader.png)
+![Open de editor](images/OpendeEditor.png)
+![Navigeer naar Patterns](images/OpenPatterns.png)
+![Klik op Header](images/OpenHeader.png)
 
 ## Een logo toevoegen
 
 Selecteer het Site Logo-blok. Klik op **Replace** en upload je logo. Heb je nog geen logo? Dan kun je voorlopig ook gewoon de naam van je studio of je eigen naam gebruiken.
 
-![Klik op het logo in de list-view of op de pagina](ChangeSiteLogo.png)
+![Klik op het logo in de list-view of op de pagina](images/ChangeSiteLogo.png)
 
 ## Het navigatiemenu aanpassen
 
 Selecteer het Menu-blok. Klik vervolgens op **Edit**. Je kunt nu pagina's toevoegen, verwijderen of de volgorde aanpassen.
 
-![Voeg pagina's toe aan het menu](ChangeMenu.png)
+![Voeg pagina's toe aan het menu](images/ChangeMenu.png)
 
 
 ## De footer aanpassen
 
 Ga weer naar Patterns, en open vervolgens het **Footer** pattern.
-![Ga in de editor naar Patterns en kies Footer](ChangeFooterPattern.png)
+![Ga in de editor naar Patterns en kies Footer](images/ChangeFooterPattern.png)
 
 Hier kun je bijvoorbeeld aanpassen:
 
@@ -776,14 +777,14 @@ Hier kun je bijvoorbeeld aanpassen:
 
 Net als bij alle andere patterns kun je ook hier blokken toevoegen, verwijderen of verplaatsen.
 
-![Pas je footer aan](ChangeFooterLayout.png)
+![Pas je footer aan](images/ChangeFooterLayout.png)
 
 ## Site title en tagline
 Er zijn ook nog wat standaard dingen die je moet instellen voor je live kan. Ga naar:
 
 **Settings → General**
 
-![Stel een titel en tagline in](GeneralSettingsTitleTagline.png)
+![Stel een titel en tagline in](images/GeneralSettingsTitleTagline.png)
 
 Kies een Titel en Tagline, dit zijn bijvoorbeeld de dingen die mensen zien als je website in een Google search verschijnt. 
 
@@ -797,7 +798,7 @@ Ga naar:
 
 Upload vervolgens een vierkante afbeelding van minimaal **512 × 512 pixels**.
 
-![Pas je site icon of favicon aan](ChangeSiteIcon.png)
+![Pas je site icon of favicon aan](images/ChangeSiteIcon.png)
 
 In het volgende hoofdstuk lopen we samen nog één keer alles na voordat je website live gaat.
 
@@ -1056,7 +1057,7 @@ Deze vier blokken zijn **context-afhankelijk**: ze werken alleen binnen een Quer
 
 ---
 
-## 14. Duurzaamheidsinstellingen
+## Duurzaamheidsinstellingen
 
 Ga naar **Sustainable Theme → Sustainability** om de duurzaamheidsinstellingen te configureren.
 
@@ -1114,7 +1115,7 @@ Met Custom Mode zet je elke individuele instelling aan of uit. Handig als je de 
 
 ---
 
-## 15. Grid Awareness — real-time koolstofmeting
+## Grid Awareness
 
 Dit is een geavanceerde optionele functie. Met **Grid Awareness** monitort je site in realtime de CO₂-intensiteit van het lokale elektriciteitsnet. Op momenten dat het net meer op hernieuwbare energie draait, kan de site dit aan bezoekers laten zien.
 
@@ -1135,7 +1136,7 @@ De site toont een subtiele kleur-indicator die aangeeft of het net op dit moment
 ---
 
 
-## 17. Database opruimen
+## Database opruimen
 
 WordPress slaat van alles op dat je eigenlijk nooit meer nodig hebt: oude revisies van je berichten, verlopen tijdelijke bestanden, stukgelopen metagegevens. Dat maakt je database groter en langzamer.
 
