@@ -230,6 +230,11 @@
 							"fontFamily": "DM Sans"
 						}
 					]
+				},
+				{
+					"name": "System Mono",
+					"slug": "system-mono",
+					"fontFamily": "ui-monospace, SFMono-Regular, Menlo, Consolas, \"Liberation Mono\", monospace"
 				}
 			],
 			"fontStyle": true
@@ -300,7 +305,7 @@
 			},
 			"core/code": {
 				"typography": {
-					"fontFamily": "var:preset|font-family|fira-code",
+					"fontFamily": "var:preset|font-family|system-mono",
 					"fontSize": "var:preset|font-size|md",
 					"fontWeight": "300"
 				},
@@ -538,7 +543,7 @@
 			},
 			"core/pullquote": {
 				"typography": {
-					"fontSize": "var:preset|font-size|2xl",
+					"fontSize": "var:preset|font-size|xxl",
 					"fontWeight": "300",
 					"lineHeight": "1.2"
 				},
