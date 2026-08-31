@@ -193,7 +193,7 @@ Binnen een paar minuten ben je klaar.
 
 Download de meest recente versie van het thema vanaf GitHub of vanaf de website van Pixel to Planet. Het bestand dat je nodig hebt heet:`sustainable-theme.zip`
 
-![Download sustainable-theme.zip via GitHub Releases](images/download-theme.jpeg)
+![Download sustainable-theme.zip via GitHub Releases](https://www.pixeltoplanet.earth/images/the-sustainable-theme/download-theme.webp)
 
 > Gebruik altijd het ZIP-bestand van een officiële release. Download je de volledige GitHub-repository, dan bevat deze ook bestanden die alleen bedoeld zijn voor developers.
 
@@ -203,7 +203,7 @@ Log in op je WordPress-dashboard. Ga vervolgens naar:
 
 **Weergave → Thema's → Nieuw thema toevoegen → Thema uploaden**
 
-![Upload het thema in je WordPress omgeving](images/UploadTheme.png)
+![Upload het thema in je WordPress omgeving](https://www.pixeltoplanet.earth/images/the-sustainable-theme/UploadTheme.webp)
 
 Selecteer het bestand `sustainable-theme.zip` en klik op **Nu installeren**. Na de installatie klik je op **Activeren**.
 
@@ -247,7 +247,7 @@ Open daarna je website door linksboven over het huisje te hoveren en op **Bezoek
 
 Waarschijnlijk ziet je website er nog behoorlijk leeg uit. Dat is precies de bedoeling. In de volgende hoofdstukken gaan we stap voor stap je huisstijl instellen en beginnen we met bouwen.
 
-![Bekijk website](images/VisitSite.png)
+![Bekijk website](https://www.pixeltoplanet.earth/images/the-sustainable-theme/VisitSite.webp)
 
 
 ---
@@ -257,7 +257,7 @@ Voordat we pagina's gaan bouwen, beginnen we met je huisstijl. Misschien niet he
 
 In dit hoofdstuk stellen we achter elkaar de **kleuren, lettertypen en spacing** van je website in. Dit doe je in de Editor. 
 
-![Open de WordPress editor](images/OpenEditor.png)
+![Open de WordPress editor](https://www.pixeltoplanet.earth/images/the-sustainable-theme/OpenEditor.webp)
 
 ---
 
@@ -265,7 +265,7 @@ In dit hoofdstuk stellen we achter elkaar de **kleuren, lettertypen en spacing**
 
 The Sustainable Theme werkt met vaste kleurrollen. In plaats van iedere knop of achtergrond handmatig een kleur te geven, geef je eerst een aantal kleuren een vaste functie binnen je website (je kunt ze straks wel per onderdeel wijzigen, als je wilt). Daardoor blijft je ontwerp consistent. Verander je later één kleur, dan verandert deze automatisch overal waar die kleur wordt gebruikt.
 
-![Styles instellen](images/EditStyles.png)
+![Styles instellen](https://www.pixeltoplanet.earth/images/the-sustainable-theme/EditStyles.webp)
 
 
 ### De kleuren aanpassen
@@ -277,7 +277,7 @@ The Sustainable Theme werkt met vaste kleurrollen. In plaats van iedere knop of 
 5. Pas de kleuren aan onder **Theme**, of kies één van de standaard kleurencombinaties.
 6. Klik op **Save**.
 
-![Palet aanpassen](images/EditPalette.png)
+![Palet aanpassen](https://www.pixeltoplanet.earth/images/the-sustainable-theme/EditPalette.webp)
 
 Wil je weten welk bolletje waar op je website iets aanpast? Het thema bevat acht kleurrollen.
 
@@ -312,9 +312,9 @@ Voor de meeste portfolio's raden we aan om het eenvoudig te houden. Dat is niet 
 
 Een volgende stap is het juiste font en fontgrootte toewijzen aan verschillende tekststijlen. 
 
-![Fonts styles openen](images/EditFont.001.png)
-![Fonts aanpassen](images/EditFont.002.png)
-![Nieuwe fonts toevoegen](images/EditFont.003.png)
+![Fonts styles openen](https://www.pixeltoplanet.earth/images/the-sustainable-theme/EditFont.001.webp)
+![Fonts aanpassen](https://www.pixeltoplanet.earth/images/the-sustainable-theme/EditFont.002.webp)
+![Nieuwe fonts toevoegen](https://www.pixeltoplanet.earth/images/the-sustainable-theme/EditFont.003.webp)
 
 Meer uitleg over de Font Library vind je in de officiële WordPress-documentatie: https://wordpress.org/documentation/article/font-library/
 
@@ -359,8 +359,8 @@ Het thema bevat een vaste schaal met zeven lettergroottes. Extra vrije formaten 
 | **2XL** — headings | Koppen |
 | **3XL** — titles | Grote titels, bijvoorbeeld op de homepage |
 
-![Fonts size presets openen](images/FontSizePresetsOpenen.png)
-![Fonts size presets aanpassen](images/FontSizePresetsAanpassen.png)
+![Fonts size presets openen](https://www.pixeltoplanet.earth/images/the-sustainable-theme/FontSizePresetsOpenen.webp)
+![Fonts size presets aanpassen](https://www.pixeltoplanet.earth/images/the-sustainable-theme/FontSizePresetsAanpassen.webp)
 
 Alle lettergroottes zijn *fluid*. Dat betekent dat ze automatisch meeschalen tussen mobiel en desktop. Je hoeft hiervoor geen aparte instellingen te maken. Je kunt kiezen of je je fontgroottes instelt in pixels, REM, EM, vw of vh. Pixelgroottes staan vast, de andere maten zijn relatief. Twijfel je? Dan raden we aan om te kiezen voor REM: als een slechtziende bezoeker tekstvergrotingssoftware gebruikt, schaalt de tekst dan automatisch mee.
 
@@ -398,7 +398,7 @@ Hier kun je drie waarden aanpassen:
 
 De wijzigingen worden automatisch overal in je website toegepast. Zo geef je je hele portfolio met één instelling een zachtere of juist strakkere uitstraling.
 
-![Verander ronde hoeken in The Sustainable Theme Design Settings](images/DesignSettingsChangeRadius.png)
+![Verander ronde hoeken in The Sustainable Theme Design Settings](https://www.pixeltoplanet.earth/images/the-sustainable-theme/DesignSettingsChangeRadius.webp)
 
 # 6. Je eerste projectpagina
 
@@ -431,7 +431,7 @@ https://wordpress.org/documentation/article/posts-vs-pages/
 2. Klik op **Nieuwe post**.
 3. Geef je project een titel.
 
-![Nieuwe post aanmaken](images/NieuwePostAanmaken.png)
+![Nieuwe post aanmaken](https://www.pixeltoplanet.earth/images/the-sustainable-theme/NieuwePostAanmaken.webp)
 
 Publiceer de pagina nog niet. Eerst voegen we een layout toe.
 
@@ -442,7 +442,7 @@ Een pattern is een kant-en-klare pagina-indeling die je als startpunt gebruikt. 
 
 Open daarna het tabblad **Patterns**.
 
-![Patterns toevoegen](images/PostPatternToevoegen.png)
+![Patterns toevoegen](https://www.pixeltoplanet.earth/images/the-sustainable-theme/PostPatternToevoegen.webp)
 
 Het thema bevat meer dan 75 patterns. Je ziet alleen de patterns van The Sustainable Theme — de standaard WordPress-patterns en patterns uit de online bibliotheek staan uit, zodat je overzicht houdt.
 
@@ -477,7 +477,7 @@ Gelukkig heeft WordPress de **List View**.
 
 Open linksboven het icoon met de drie horizontale streepjes. Hier zie je alle onderdelen van de pagina overzichtelijk onder elkaar. Vanuit de List View kun je eenvoudig een specifiek blok selecteren, ook als het op de pagina lastig aanklikbaar is.
 
-![Open de List View](images/OpenListView.png)
+![Open de List View](https://www.pixeltoplanet.earth/images/the-sustainable-theme/OpenListView.webp)
 
 Je zult merken dat je deze weergave al snel vaker gebruikt dan de pagina zelf. 
 
@@ -487,7 +487,7 @@ Je kunt alles aanpassen wat je ziet. Een pattern is alleen het startpunt; daarna
 
 Klik hierop.
 
-![Edit Pattern](images/EditPattern.png)
+![Edit Pattern](https://www.pixeltoplanet.earth/images/the-sustainable-theme/EditPattern.webp)
 
 Je werkt nu in de Pattern Editor. Hier kun je de inhoud van het pattern aanpassen, zoals teksten, afbeeldingen en de volgorde van blokken.
 
@@ -505,7 +505,7 @@ Direct boven het geselecteerde blok verschijnt een kleine werkbalk met de meest 
 
 Vrijwel alle instellingen van een blok vind je in de rechterzijbalk. Zie je deze niet? Klik dan rechtsboven op het instellingen-icoon om de zijbalk te openen.
 
-![Rechterzijbalk openen](images/OpenRechterzijbalk.png)
+![Rechterzijbalk openen](https://www.pixeltoplanet.earth/images/the-sustainable-theme/OpenRechterzijbalk.webp)
 
 In de rechterzijbalk zie je verschillende tabbladen. Welke je ziet, hangt af van het type blok dat je hebt geselecteerd.
 
@@ -515,7 +515,7 @@ Raak niet ontmoedigd door alle opties. In deze handleiding gebruiken we alleen d
 
 Let op; welke opties je te zien krijgt in het rechtermenu hangt samen met welk onderdeel je in je List View hebt geselecteerd. Hier zit een hierarchie in. Zo stel je bijvoorbeeld in een Column in wat de 'regels' voor die column zijn, maar door specifiek een Paragraph blok aan te klikken kan je alles instellen voor alleen dat ene blok. 
 
-![Instellingen hangen af van wat er geselecteerd is](images/InstellingenAanpassenHierarchie.png)
+![Instellingen hangen af van wat er geselecteerd is](https://www.pixeltoplanet.earth/images/the-sustainable-theme/InstellingenAanpassenHierarchie.webp)
 
 ## Tekst aanpassen
 
@@ -531,7 +531,7 @@ In de rechterzijbalk vind je extra instellingen, zoals de beeldverhouding, afger
 
 Let op dat je echt de afbeelding hebt geselecteerd (en niet de hele gallery).
 
-![Instellingen voorbeeld voor een afbeelding](images/InstellingenAanpassenAfbeelding.png)
+![Instellingen voorbeeld voor een afbeelding](https://www.pixeltoplanet.earth/images/the-sustainable-theme/InstellingenAanpassenAfbeelding.webp)
 
 In een later hoofdstuk gaan we dieper in op afbeeldingsformaten, uitsneden en Featured Images.
 
@@ -539,7 +539,7 @@ In een later hoofdstuk gaan we dieper in op afbeeldingsformaten, uitsneden en Fe
 
 Wil je extra tekst, een afbeelding of een ander onderdeel toevoegen? Klik op het **+**-icoon tussen twee bestaande blokken of linksboven in de editor. Zoek vervolgens naar het gewenste blok of kies één van de patterns uit de bibliotheek.
 
-![Voeg een nieuw item toe, bijvoorbeeld een video](images/AddNewItem.png)
+![Voeg een nieuw item toe, bijvoorbeeld een video](https://www.pixeltoplanet.earth/images/the-sustainable-theme/AddNewItem.webp)
 
 Tip: voeg eerste een Column blok toe, en pas daarbinnen je content blok (zoals een afbeelding, tekst of video). Een column blok zorgt ervoor dat je losse content blokken niet gaan 'zweven' of buiten de marges vallen. 
 
@@ -548,7 +548,7 @@ Kijk weer in je List-view waar het blok terecht is gekomen. Sleep 'm dan naar de
 Je kunt natuurlijk ook bestaande blokken kopiëren of dupliceren als je een vergelijkbare opmaak wilt gebruiken.
 Wil je bijvoorbeeld een extra tekstblok toevoegen? Typ dan 'Paragraph' in. Een video blok voeg je toe door te zoeken op 'Video'. 
 
-![Voorbeeld: een video blok in een 1-columns blok](images/HierarchyNewBlock.png)
+![Voorbeeld: een video blok in een 1-columns blok](https://www.pixeltoplanet.earth/images/the-sustainable-theme/HierarchyNewBlock.webp)
 
 ## Breedte van een blok aanpassen
 
@@ -556,7 +556,7 @@ Veel blokken kun je breder of smaller maken. Selecteer een blok en kijk in de to
 
 Niet ieder blok ondersteunt dezelfde opties. Welke instellingen je ziet, hangt af van het geselecteerde blok. Zie daarom ook de tip hierboven om inhoud altijd in een 1-Column blok (of group) te plaatsen!
 
-![Zo kan je de breedte van een blok aanpassen](images/AdjustWidthBlock.png)
+![Zo kan je de breedte van een blok aanpassen](https://www.pixeltoplanet.earth/images/the-sustainable-theme/AdjustWidthBlock.webp)
 
 ## Een Featured Image instellen
 
@@ -564,7 +564,7 @@ Elke projectpagina heeft een **Featured Image**.
 
 Deze afbeelding wordt gebruikt op verschillende plekken in je website, bijvoorbeeld in projectoverzichten op de homepage of als je een link deelt via sociale media. Open de instellingen van de pagina in de rechterzijbalk en kies **Featured Image**. 
 
-![Stel een Featured Image in](images/SetFeaturedImage.png)
+![Stel een Featured Image in](https://www.pixeltoplanet.earth/images/the-sustainable-theme/SetFeaturedImage.webp)
 
 Upload vervolgens een afbeelding die jouw project goed samenvat, of kies er een uit je media library.
 
@@ -585,8 +585,8 @@ Gebruik dit vooral voor onderdelen die je vaker wilt gebruiken. Zo bouw je stap 
 6. Let op dat het vinkje 'Synced' UIT staat.
 7. Sla het pattern op.
 
-![Selecteer blokken en sla op als pattern](images/SaveBlocksPattern.png)
-![Let op dat je niet synced](images/SavepatternInstellingen.png)
+![Selecteer blokken en sla op als pattern](https://www.pixeltoplanet.earth/images/the-sustainable-theme/SaveBlocksPattern.webp)
+![Let op dat je niet synced](https://www.pixeltoplanet.earth/images/the-sustainable-theme/SavepatternInstellingen.webp)
 
 Je eigen pattern verschijnt nu automatisch tussen de patterns in de bibliotheek.
 
@@ -608,17 +608,17 @@ Later kun je deze natuurlijk helemaal aanpassen aan je eigen stijl.
 
 Ga naar **Pages → Add New Page**.
 
-![Maak een nieuwe pagina aan](images/AddHomepage.png)
+![Maak een nieuwe pagina aan](https://www.pixeltoplanet.earth/images/the-sustainable-theme/AddHomepage.webp)
 
 Geef de pagina de titel **Home**. Publiceer de pagina nog niet. Klik linksboven op het **+**-icoon en open het tabblad **Patterns**.
 
-![Voeg een layout toe](images/AddHomePattern.png)
+![Voeg een layout toe](https://www.pixeltoplanet.earth/images/the-sustainable-theme/AddHomePattern.webp)
 
 Kies vervolgens een pattern uit de categorie **10 Pages — Portfolio**. Net als bij de projectpagina's begin je met een complete layout die je daarna helemaal kunt aanpassen. Voor een portfolio-homepage past bijvoorbeeld **Home 01**, **Home 02** of **Home 03**.
 
 Liever zelf samenstellen? Combineer dan losse secties, bijvoorbeeld **Hero — Split text** en daaronder **Posts — Masonry 3 columns** uit de categorieën **Hero** en **Posts & projects**.
 
-![Voorbeeld toegevoegde blokken](images/HomeBuildup.png)
+![Voorbeeld toegevoegde blokken](https://www.pixeltoplanet.earth/images/the-sustainable-theme/HomeBuildup.webp)
 
 Nu kun je aan de slag met inhoud toepassen, net zoals je dit bij je projectposts deed. 
 
@@ -643,8 +643,8 @@ Dan kun je de publicatiedatum aanpassen. Dat doe je zo:
 3. Klik op 'Quick Edit'
 4. Pas de publicatiedatum van je project aan.
 
-![QuickEdit Post](images/QuickEditPost.png)
-![Publicatiedatum post aanpassen](images/ChangeDatePost.png)
+![QuickEdit Post](https://www.pixeltoplanet.earth/images/the-sustainable-theme/QuickEditPost.webp)
+![Publicatiedatum post aanpassen](https://www.pixeltoplanet.earth/images/the-sustainable-theme/ChangeDatePost.webp)
 
 Nieuwste projecten staan bovenaan. Let op; als je een masonry layout hebt gekozen voor je homepagina, dan lopen de blokken per rij van links naar rechts, van boven naar onder.  
 
@@ -655,7 +655,7 @@ Hier kan je ook direct comments en pings uitzetten (als je dat wilt), en een cat
 De homepage bevat een projectoverzicht waarin bezoekers direct een selectie van je werk zien.
 In het linkermenu (List View) kun je onderdelen toevoegen of verwijderen. Let op dat je in de goede 'laag' werkt. Zo kun je hier bijvoorbeeld de 'excerpt' verwijderen, waardoor je enkel nog een titel ziet staan. 
 
-![Let op dat je in de goede laag werkt](images/ChangeTitle.png)
+![Let op dat je in de goede laag werkt](https://www.pixeltoplanet.earth/images/the-sustainable-theme/ChangeTitle.webp)
 
 In het rechtermenu kun je per onderdeel de instellingen wijzigen. Bijvoorbeeld de witruimte tussen de projecten, of de tekstgrootte van je titels. 
 
@@ -667,11 +667,11 @@ Wil je de hoeveelheid kolommen of de verhouding van de afbeeldingen op je homepa
 Klik op 'Edit Pattern' en ga naar de laag getiteld 'Post Template'. Hier kan je het aantal kolommen wijzigen. 
 Let op: bij layouts met masonry blokken is het niet mogelijk om het aantal kolommen te wijzigen, kies dan direct het pattern met het juiste aantal kolommen. 
 
-![Verder het aantal project kolommen](images/ChangeHomeColumns.png)
+![Verder het aantal project kolommen](https://www.pixeltoplanet.earth/images/the-sustainable-theme/ChangeHomeColumns.webp)
 
 Wil je de verhouding van alle featured images op je home wijzigen? Ga dan in je List view naar 'Featured image' en kies rechts bij 'Aspect Ratio' voor een andere maat. 
 
-![Verander featured images](images/ChangeFeaturedImage.png)
+![Verander featured images](https://www.pixeltoplanet.earth/images/the-sustainable-theme/ChangeFeaturedImage.webp)
 
 
 ## De homepage verder uitbreiden
@@ -702,7 +702,7 @@ Denk bijvoorbeeld aan een About, Contact of CV pagina. De werkwijze is steeds he
 
 Ga naar **Pages → Add New Page**.
 
-![Maak een nieuwe pagina aan](images/AddHomepage.png)
+![Maak een nieuwe pagina aan](https://www.pixeltoplanet.earth/images/the-sustainable-theme/AddHomepage.webp)
 
 Geef de pagina een titel, bijvoorbeeld **About** of **Contact**.
 
@@ -745,27 +745,27 @@ Ga naar **Appearance → Editor**. Klik vervolgens links op **Patterns** en open
 
 Klik op **Edit** om het pattern te bewerken. Hier kun je ook weer gebruik maken van de List View door op het menu met drie streepjes linksboven te klikken. 
 
-![Open de editor](images/OpendeEditor.png)
-![Navigeer naar Patterns](images/OpenPatterns.png)
-![Klik op Header](images/OpenHeader.png)
+![Open de editor](https://www.pixeltoplanet.earth/images/the-sustainable-theme/OpendeEditor.webp)
+![Navigeer naar Patterns](https://www.pixeltoplanet.earth/images/the-sustainable-theme/OpenPatterns.webp)
+![Klik op Header](https://www.pixeltoplanet.earth/images/the-sustainable-theme/OpenHeader.webp)
 
 ## Een logo toevoegen
 
 Selecteer het Site Logo-blok. Klik op **Replace** en upload je logo. Heb je nog geen logo? Dan kun je voorlopig ook gewoon de naam van je studio of je eigen naam gebruiken.
 
-![Klik op het logo in de list-view of op de pagina](images/ChangeSiteLogo.png)
+![Klik op het logo in de list-view of op de pagina](https://www.pixeltoplanet.earth/images/the-sustainable-theme/ChangeSiteLogo.webp)
 
 ## Het navigatiemenu aanpassen
 
 Selecteer het Menu-blok. Klik vervolgens op **Edit**. Je kunt nu pagina's toevoegen, verwijderen of de volgorde aanpassen.
 
-![Voeg pagina's toe aan het menu](images/ChangeMenu.png)
+![Voeg pagina's toe aan het menu](https://www.pixeltoplanet.earth/images/the-sustainable-theme/ChangeMenu.webp)
 
 
 ## De footer aanpassen
 
 Ga weer naar Patterns, en open vervolgens het **Footer** pattern.
-![Ga in de editor naar Patterns en kies Footer](images/ChangeFooterPattern.png)
+![Ga in de editor naar Patterns en kies Footer](https://www.pixeltoplanet.earth/images/the-sustainable-theme/ChangeFooterPattern.webp)
 
 Hier kun je bijvoorbeeld aanpassen:
 
@@ -777,14 +777,14 @@ Hier kun je bijvoorbeeld aanpassen:
 
 Net als bij alle andere patterns kun je ook hier blokken toevoegen, verwijderen of verplaatsen.
 
-![Pas je footer aan](images/ChangeFooterLayout.png)
+![Pas je footer aan](https://www.pixeltoplanet.earth/images/the-sustainable-theme/ChangeFooterLayout.webp)
 
 ## Site title en tagline
 Er zijn ook nog wat standaard dingen die je moet instellen voor je live kan. Ga naar:
 
 **Settings → General**
 
-![Stel een titel en tagline in](images/GeneralSettingsTitleTagline.png)
+![Stel een titel en tagline in](https://www.pixeltoplanet.earth/images/the-sustainable-theme/GeneralSettingsTitleTagline.webp)
 
 Kies een Titel en Tagline, dit zijn bijvoorbeeld de dingen die mensen zien als je website in een Google search verschijnt. 
 
@@ -798,7 +798,7 @@ Ga naar:
 
 Upload vervolgens een vierkante afbeelding van minimaal **512 × 512 pixels**.
 
-![Pas je site icon of favicon aan](images/ChangeSiteIcon.png)
+![Pas je site icon of favicon aan](https://www.pixeltoplanet.earth/images/the-sustainable-theme/ChangeSiteIcon.webp)
 
 In het volgende hoofdstuk lopen we samen nog één keer alles na voordat je website live gaat.
 
