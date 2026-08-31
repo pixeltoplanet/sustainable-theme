@@ -14,7 +14,9 @@
 <div class="wp-block-group alignfull has-neutral-1-background-color has-background" style="padding-top:var(--wp--preset--spacing--fluid-small);padding-bottom:var(--wp--preset--spacing--fluid-small)"><!-- wp:group {"align":"wide","layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
   <div class="wp-block-group alignwide"><!-- wp:site-title {"level":0,"isLink":false} /-->
 
-    <!-- wp:navigation {"ref":9,"overlayBackgroundColor":"background","overlayTextColor":"foreground","style":{"layout":{"selfStretch":"fit","flexSize":null},"spacing":{"blockGap":"var:preset|spacing|fluid-small"}},"fontSize":"xs","layout":{"type":"flex","justifyContent":"right"}} /-->
+    <!-- wp:navigation {"overlayBackgroundColor":"background","overlayTextColor":"foreground","style":{"layout":{"selfStretch":"fit","flexSize":null},"spacing":{"blockGap":"var:preset|spacing|fluid-small"}},"fontSize":"xs","layout":{"type":"flex","justifyContent":"right"}} -->
+    <?php echo sustainable_theme_default_navigation_links(); ?>
+    <!-- /wp:navigation -->
   </div>
   <!-- /wp:group -->
 </div>
