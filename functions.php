@@ -31,6 +31,7 @@ include_once get_template_directory() . '/includes/class-security-manager.php';
 include_once get_template_directory() . '/includes/class-sustainability-tester.php';
 include_once get_template_directory() . '/includes/class-design-settings.php';
 include_once get_template_directory() . '/includes/class-block-patterns.php';
+include_once get_template_directory() . '/includes/class-navigation.php';
 include_once get_template_directory() . '/includes/class-query-exclude-current.php';
 include_once get_template_directory() . '/includes/class-excerpt-hide-readmore.php';
 include_once get_template_directory() . '/includes/class-video-block.php';
@@ -45,6 +46,7 @@ new SustainableTheme\LazyLoading();
 new SustainableTheme\Image_Sizes();
 new SustainableTheme\GridAwareness();
 new SustainableTheme\BlockPatterns();
+new SustainableTheme\Navigation();
 new SustainableTheme\DesignSettings();
 new SustainableTheme\SecurityManager();
 new SustainableTheme\UpdateChecker();
@@ -173,4 +175,74 @@ function sustainable_theme_placeholder_image(string $slug = 'hero'): string
   ];
   $filename = $images[$slug] ?? 'coming-soon-bg-image.webp';
   return get_theme_file_uri("assets/images/{$filename}");
+}
+
+/**
+ * Default navigation link blocks shipped with the theme.
+ *
+ * Renders inline core/navigation-link blocks so a fresh install always has a
+ * working menu without depending on a wp_navigation post from another site.
+ * Every item is a custom link pointing at the homepage; site owners can repoint
+ * each item to a real page in the editor once their content exists.
+ *
+ * @return string Serialized navigation-link block markup.
+ */
+function sustainable_theme_default_navigation_links(): string
+{
+  $home = esc_url(home_url('/'));
+  $items = [
+    __('Home', 'sustainable-theme'),
+    __('About', 'sustainable-theme'),
+    __('Latest Work', 'sustainable-theme'),
+    __('Contact', 'sustainable-theme'),
+  ];
+
+  $links = '';
+  foreach ($items as $label) {
+    $links .= sprintf(
+      '<!-- wp:navigation-link {"label":"%1$s","url":"%2$s","kind":"custom","isTopLevelLink":true} /-->' . "\n",
+      esc_attr($label),
+      $home
+    );
+  }
+
+  return $links;
+}
+
+/**
+ * ID of the central "Main Menu" navigation post, created on demand.
+ *
+ * @return int Post ID, or 0 if unavailable.
+ */
+function sustainable_theme_main_menu_id(): int
+{
+  return \SustainableTheme\Navigation::get_main_menu_id();
+}
+
+/**
+ * Render a core/navigation block wired to the shared Main Menu.
+ *
+ * Used by the header and footer patterns so every navigation references the
+ * same menu (edit once, updates everywhere). If the menu post cannot be
+ * created for some reason, the default links are inlined so the navigation is
+ * never empty.
+ *
+ * @param array $attributes Navigation block attributes (styling, layout, etc.).
+ * @return string Serialized core/navigation block markup.
+ */
+function sustainable_theme_navigation(array $attributes = []): string
+{
+  $flags   = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
+  $menu_id = sustainable_theme_main_menu_id();
+
+  if ($menu_id > 0) {
+    $attributes = ['ref' => $menu_id] + $attributes;
+    return sprintf('<!-- wp:navigation %s /-->', wp_json_encode($attributes, $flags));
+  }
+
+  return sprintf(
+    "<!-- wp:navigation %s -->\n%s<!-- /wp:navigation -->",
+    wp_json_encode($attributes, $flags),
+    sustainable_theme_default_navigation_links()
+  );
 }

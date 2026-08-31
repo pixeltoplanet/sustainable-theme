@@ -24,7 +24,15 @@
 </div>
 <!-- /wp:group -->
 
-<!-- wp:navigation {"overlayBackgroundColor":"background","overlayTextColor":"foreground","style":{"spacing":{"blockGap":"var:preset|spacing|fluid-small"}},"fontSize":"sm","layout":{"type":"flex","justifyContent":"right"}} /-->
+<?php echo sustainable_theme_navigation([
+  'overlayBackgroundColor' => 'background',
+  'overlayTextColor'       => 'foreground',
+  'style'                  => [
+    'spacing' => ['blockGap' => 'var:preset|spacing|fluid-small'],
+  ],
+  'fontSize'               => 'sm',
+  'layout'                 => ['type' => 'flex', 'justifyContent' => 'right'],
+]); ?>
 </div>
 <!-- /wp:group -->
 </div>
