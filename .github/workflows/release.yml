@@ -110,6 +110,7 @@ jobs:
             --exclude='webpack.config.js' \
             --exclude='biome.json' \
             --exclude='tsconfig.json' \
+            --exclude='*.map' \
             --exclude='*.zip' \
             ./ /tmp/sustainable-theme/
           cd /tmp && zip -r sustainable-theme.zip sustainable-theme/

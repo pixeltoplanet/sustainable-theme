@@ -17,7 +17,7 @@
     <!-- /wp:image -->
 
     <!-- wp:image {"sizeSlug":"large","linkDestination":"none"} -->
-    <figure class="wp-block-image size-large"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/red-hibiscus-closeup.webp" alt="" /></figure>
+    <figure class="wp-block-image size-large"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/delphinium-flowers.webp" alt="" /></figure>
     <!-- /wp:image -->
 
     <!-- wp:image {"sizeSlug":"large","linkDestination":"none"} -->

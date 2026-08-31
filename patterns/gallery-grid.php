@@ -32,12 +32,12 @@
     <figure class="wp-block-image size-large"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/color-yellow.webp" alt="" /></figure>
     <!-- /wp:image -->
 
-    <!-- wp:image {"url":"<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/color-orange-light.webp","sizeSlug":"large","linkDestination":"none"} -->
-    <figure class="wp-block-image size-large"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/color-orange-light.webp" alt="" /></figure>
+    <!-- wp:image {"url":"<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/color-orange.webp","sizeSlug":"large","linkDestination":"none"} -->
+    <figure class="wp-block-image size-large"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/color-orange.webp" alt="" /></figure>
     <!-- /wp:image -->
 
-    <!-- wp:image {"url":"<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/color-green-light.webp","sizeSlug":"large","linkDestination":"none"} -->
-    <figure class="wp-block-image size-large"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/color-green-light.webp" alt="" /></figure>
+    <!-- wp:image {"url":"<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/color-green.webp","sizeSlug":"large","linkDestination":"none"} -->
+    <figure class="wp-block-image size-large"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/color-green.webp" alt="" /></figure>
     <!-- /wp:image -->
   </figure>
   <!-- /wp:gallery -->

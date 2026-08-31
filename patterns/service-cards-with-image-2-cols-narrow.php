@@ -22,7 +22,7 @@
   <!-- wp:columns {"style":{"spacing":{"blockGap":{"top":"var:preset|spacing|fluid-small","left":"var:preset|spacing|fluid-small"}}}} -->
   <div class="wp-block-columns"><!-- wp:column {"style":{"spacing":{"blockGap":"var:preset|spacing|fluid-small","padding":{"top":"var:preset|spacing|fluid-small","bottom":"var:preset|spacing|fluid-small","left":"var:preset|spacing|fluid-small","right":"var:preset|spacing|fluid-small"}},"border":{"width":"0px","style":"none"}},"backgroundColor":"background"} -->
     <div class="wp-block-column has-background-background-color has-background" style="border-style:none;border-width:0px;padding-top:var(--wp--preset--spacing--fluid-small);padding-right:var(--wp--preset--spacing--fluid-small);padding-bottom:var(--wp--preset--spacing--fluid-small);padding-left:var(--wp--preset--spacing--fluid-small)"><!-- wp:image {"aspectRatio":"16/9","scale":"cover","sizeSlug":"large","linkDestination":"none"} -->
-      <figure class="wp-block-image size-large"><img src="http://pixeltoplanet.local/wp-content/themes/sustainable-theme/assets/images/botany-flowers.webp" alt="" style="aspect-ratio:16/9;object-fit:cover" /></figure>
+      <figure class="wp-block-image size-large"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/botany-flowers.webp" alt="" style="aspect-ratio:16/9;object-fit:cover" /></figure>
       <!-- /wp:image -->
 
       <!-- wp:heading {"level":3,"fontSize":"lg"} -->
@@ -44,7 +44,7 @@
 
     <!-- wp:column {"style":{"spacing":{"blockGap":"var:preset|spacing|fluid-small","padding":{"top":"var:preset|spacing|fluid-small","bottom":"var:preset|spacing|fluid-small","left":"var:preset|spacing|fluid-small","right":"var:preset|spacing|fluid-small"}},"border":{"width":"0px","style":"none"}},"backgroundColor":"background"} -->
     <div class="wp-block-column has-background-background-color has-background" style="border-style:none;border-width:0px;padding-top:var(--wp--preset--spacing--fluid-small);padding-right:var(--wp--preset--spacing--fluid-small);padding-bottom:var(--wp--preset--spacing--fluid-small);padding-left:var(--wp--preset--spacing--fluid-small)"><!-- wp:image {"aspectRatio":"16/9","scale":"cover","sizeSlug":"large","linkDestination":"none"} -->
-      <figure class="wp-block-image size-large"><img src="http://pixeltoplanet.local/wp-content/themes/sustainable-theme/assets/images/malibu-plantlife.webp" alt="" style="aspect-ratio:16/9;object-fit:cover" /></figure>
+      <figure class="wp-block-image size-large"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/delphinium-flowers.webp" alt="" style="aspect-ratio:16/9;object-fit:cover" /></figure>
       <!-- /wp:image -->
 
       <!-- wp:heading {"level":3,"fontSize":"lg"} -->

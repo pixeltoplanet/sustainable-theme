@@ -32,7 +32,7 @@
 
 <!-- wp:column {"style":{"spacing":{"blockGap":"var:preset|spacing|fluid-small"}},"layout":{"type":"constrained","contentSize":"300px","justifyContent":"center"}} -->
 <div class="wp-block-column"><!-- wp:image {"align":"center","lightbox":{"enabled":false},"width":"290px","sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image aligncenter size-full is-resized"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/malibu-plantlife.webp" alt="" style="width:290px"/></figure>
+<figure class="wp-block-image aligncenter size-full is-resized"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/delphinium-flowers.webp" alt="" style="width:290px"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading {"textAlign":"center","level":5,"textColor":"secondary","fontSize":"lg"} -->

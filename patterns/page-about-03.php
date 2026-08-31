@@ -13,7 +13,7 @@
 ?>
 <!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|70","padding":{"top":"var:preset|spacing|0","bottom":"var:preset|spacing|fluid-large"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignwide" style="padding-top:var(--wp--preset--spacing--0);padding-bottom:var(--wp--preset--spacing--fluid-large)"><!-- wp:image {"aspectRatio":"16/9","scale":"cover","sizeSlug":"full","linkDestination":"none","align":"wide"} -->
-  <figure class="wp-block-image alignwide size-full"><img src="http://pixeltoplanet.local/wp-content/themes/sustainable-theme/assets/images/botany-flowers.webp" alt="" style="aspect-ratio:16/9;object-fit:cover" /></figure>
+  <figure class="wp-block-image alignwide size-full"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/botany-flowers.webp" alt="" style="aspect-ratio:16/9;object-fit:cover" /></figure>
   <!-- /wp:image -->
 
   <!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"constrained"}} -->
