@@ -174,3 +174,35 @@ function sustainable_theme_placeholder_image(string $slug = 'hero'): string
   $filename = $images[$slug] ?? 'coming-soon-bg-image.webp';
   return get_theme_file_uri("assets/images/{$filename}");
 }
+
+/**
+ * Default navigation link blocks shipped with the theme.
+ *
+ * Renders inline core/navigation-link blocks so a fresh install always has a
+ * working menu without depending on a wp_navigation post from another site.
+ * Every item is a custom link pointing at the homepage; site owners can repoint
+ * each item to a real page in the editor once their content exists.
+ *
+ * @return string Serialized navigation-link block markup.
+ */
+function sustainable_theme_default_navigation_links(): string
+{
+  $home = esc_url(home_url('/'));
+  $items = [
+    __('Home', 'sustainable-theme'),
+    __('About', 'sustainable-theme'),
+    __('Latest Work', 'sustainable-theme'),
+    __('Contact', 'sustainable-theme'),
+  ];
+
+  $links = '';
+  foreach ($items as $label) {
+    $links .= sprintf(
+      '<!-- wp:navigation-link {"label":"%1$s","url":"%2$s","kind":"custom","isTopLevelLink":true} /-->' . "\n",
+      esc_attr($label),
+      $home
+    );
+  }
+
+  return $links;
+}
