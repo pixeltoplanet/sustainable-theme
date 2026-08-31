@@ -14,7 +14,7 @@
 <div class="wp-block-group alignfull has-foreground-color has-neutral-1-background-color has-text-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--fluid-large);padding-right:var(--wp--preset--spacing--fluid-small);padding-bottom:var(--wp--preset--spacing--fluid-large);padding-left:var(--wp--preset--spacing--fluid-small)"><!-- wp:columns {"verticalAlignment":"center","style":{"spacing":{"blockGap":{"top":"var:preset|spacing|fluid-large","left":"var:preset|spacing|fluid-x-large"}}}} -->
 <div class="wp-block-columns are-vertically-aligned-center"><!-- wp:column {"width":"45%","layout":{"type":"constrained","justifyContent":"left"}} -->
 <div class="wp-block-column" style="flex-basis:45%"><!-- wp:image {"align":"center","width":"446px","sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image aligncenter size-full is-resized"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/book-image.webp" alt="" style="width:446px"/></figure>
+<figure class="wp-block-image aligncenter size-full is-resized"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/botany-flowers.webp" alt="" style="width:446px"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 

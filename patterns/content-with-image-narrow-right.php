@@ -22,8 +22,8 @@
       <p class="is-style-default">This exquisite compilation showcases a diverse array of photographs that capture the essence of different eras and cultures, reflecting the unique styles and perspectives of each artist. Fleckenstein’s evocative imagery, Strand’s groundbreaking modernist approach, and Kōno’s meticulous documentation of Japanese life come together in a harmonious blend that celebrates the art of photography.</p>
       <!-- /wp:paragraph -->
 
-      <!-- wp:buttons {"style":{"spacing":{"padding":{"top":"0","bottom":"0"}}},"fontSize":"medium","layout":{"type":"flex","justifyContent":"left"}} -->
-      <div class="wp-block-buttons has-custom-font-size has-medium-font-size" style="padding-top:0;padding-bottom:0"><!-- wp:button {"className":"is-style-fill"} -->
+      <!-- wp:buttons {"style":{"spacing":{"padding":{"top":"0","bottom":"0"}}},"fontSize":"md","layout":{"type":"flex","justifyContent":"left"}} -->
+      <div class="wp-block-buttons has-custom-font-size has-md-font-size" style="padding-top:0;padding-bottom:0"><!-- wp:button {"className":"is-style-fill"} -->
         <div class="wp-block-button is-style-fill"><a class="wp-block-button__link wp-element-button">Read more</a></div>
         <!-- /wp:button -->
       </div>
@@ -32,7 +32,7 @@
     <!-- /wp:column -->
     <!-- wp:column {"verticalAlignment":"center","width":"","layout":{"type":"default"}} -->
     <div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"id":220,"aspectRatio":"1","scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
-      <figure class="wp-block-image size-full"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/color-blue-light.webp" alt="" class="wp-image-220" style="aspect-ratio:1;object-fit:cover" /></figure>
+      <figure class="wp-block-image size-full"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/color-blue.webp" alt="" class="wp-image-220" style="aspect-ratio:1;object-fit:cover" /></figure>
       <!-- /wp:image -->
     </div>
     <!-- /wp:column -->

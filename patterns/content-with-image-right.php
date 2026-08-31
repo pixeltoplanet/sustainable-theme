@@ -20,8 +20,8 @@
       <p class="is-style-default">This exquisite compilation showcases a diverse array of photographs that capture the essence of different eras and cultures, reflecting the unique styles and perspectives of each artist. Fleckenstein’s evocative imagery, Strand’s groundbreaking modernist approach, and Kōno’s meticulous documentation of Japanese life come together in a harmonious blend that celebrates the art of photography.</p>
       <!-- /wp:paragraph -->
 
-      <!-- wp:buttons {"style":{"spacing":{"padding":{"top":"0","bottom":"0"}}},"fontSize":"medium","layout":{"type":"flex","justifyContent":"left"}} -->
-      <div class="wp-block-buttons has-custom-font-size has-medium-font-size" style="padding-top:0;padding-bottom:0"><!-- wp:button {"backgroundColor":"tertiary","textColor":"background","className":"is-style-fill","style":{"elements":{"link":{"color":{"text":"var:preset|color|background"}}}}} -->
+      <!-- wp:buttons {"style":{"spacing":{"padding":{"top":"0","bottom":"0"}}},"fontSize":"md","layout":{"type":"flex","justifyContent":"left"}} -->
+      <div class="wp-block-buttons has-custom-font-size has-md-font-size" style="padding-top:0;padding-bottom:0"><!-- wp:button {"backgroundColor":"tertiary","textColor":"background","className":"is-style-fill","style":{"elements":{"link":{"color":{"text":"var:preset|color|background"}}}}} -->
         <div class="wp-block-button is-style-fill"><a class="wp-block-button__link has-background-color has-tertiary-background-color has-text-color has-background has-link-color wp-element-button">Read more</a></div>
         <!-- /wp:button -->
       </div>

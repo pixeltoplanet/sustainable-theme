@@ -25,7 +25,7 @@
   <!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|fluid-small"}},"layout":{"type":"grid","minimumColumnWidth":"20rem"}} -->
   <div class="wp-block-group alignwide"><!-- wp:group {"backgroundColor":"background","layout":{"type":"constrained"}} -->
     <div class="wp-block-group has-background-background-color has-background"><!-- wp:image {"aspectRatio":"16/9","scale":"cover","sizeSlug":"large","linkDestination":"none"} -->
-      <figure class="wp-block-image size-large"><img src="http://pixeltoplanet.local/wp-content/themes/sustainable-theme/assets/images/botany-flowers.webp" alt="" style="aspect-ratio:16/9;object-fit:cover" /></figure>
+      <figure class="wp-block-image size-large"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/botany-flowers.webp" alt="" style="aspect-ratio:16/9;object-fit:cover" /></figure>
       <!-- /wp:image -->
 
       <!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30","padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50","left":"var:preset|spacing|50","right":"var:preset|spacing|50"}}},"layout":{"type":"constrained"}} -->
@@ -50,7 +50,7 @@
 
     <!-- wp:group {"backgroundColor":"background","layout":{"type":"constrained"}} -->
     <div class="wp-block-group has-background-background-color has-background"><!-- wp:image {"aspectRatio":"16/9","scale":"cover","sizeSlug":"large","linkDestination":"none"} -->
-      <figure class="wp-block-image size-large"><img src="http://pixeltoplanet.local/wp-content/themes/sustainable-theme/assets/images/botany-flowers.webp" alt="" style="aspect-ratio:16/9;object-fit:cover" /></figure>
+      <figure class="wp-block-image size-large"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/botany-flowers.webp" alt="" style="aspect-ratio:16/9;object-fit:cover" /></figure>
       <!-- /wp:image -->
 
       <!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30","padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50","left":"var:preset|spacing|50","right":"var:preset|spacing|50"}}},"layout":{"type":"constrained"}} -->
@@ -75,7 +75,7 @@
 
     <!-- wp:group {"backgroundColor":"background","layout":{"type":"constrained"}} -->
     <div class="wp-block-group has-background-background-color has-background"><!-- wp:image {"aspectRatio":"16/9","scale":"cover","sizeSlug":"large","linkDestination":"none"} -->
-      <figure class="wp-block-image size-large"><img src="http://pixeltoplanet.local/wp-content/themes/sustainable-theme/assets/images/botany-flowers.webp" alt="" style="aspect-ratio:16/9;object-fit:cover" /></figure>
+      <figure class="wp-block-image size-large"><img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/botany-flowers.webp" alt="" style="aspect-ratio:16/9;object-fit:cover" /></figure>
       <!-- /wp:image -->
 
       <!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|30","padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50","left":"var:preset|spacing|50","right":"var:preset|spacing|50"}}},"layout":{"type":"constrained"}} -->

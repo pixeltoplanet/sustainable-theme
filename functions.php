@@ -161,15 +161,15 @@ function sustainable_theme_placeholder_image(string $slug = 'hero'): string
 {
   $images = [
     'hero'         => 'coming-soon-bg-image.webp',
-    'hero-boxed'   => 'hero-podcast.webp',
-    'square'       => 'flower-meadow-square.webp',
-    'square-1'     => 'flower-meadow-square.webp',
-    'portfolio-1'  => 'grid-flower-1.webp',
-    'portfolio-2'  => 'grid-flower-2.webp',
-    'portfolio-3'  => 'botany-flowers.webp',
-    'portfolio-4'  => 'delphinium-flowers.webp',
-    'portfolio-5'  => 'northern-buttercups-flowers.webp',
-    'portfolio-6'  => 'book-image.webp',
+    'hero-boxed'   => 'northern-buttercups-flowers.webp',
+    'square'       => 'botany-flowers.webp',
+    'square-1'     => 'botany-flowers.webp',
+    'portfolio-1'  => 'botany-flowers.webp',
+    'portfolio-2'  => 'delphinium-flowers.webp',
+    'portfolio-3'  => 'coming-soon-bg-image.webp',
+    'portfolio-4'  => 'northern-buttercups-flowers.webp',
+    'portfolio-5'  => 'botany-flowers.webp',
+    'portfolio-6'  => 'delphinium-flowers.webp',
   ];
   $filename = $images[$slug] ?? 'coming-soon-bg-image.webp';
   return get_theme_file_uri("assets/images/{$filename}");
