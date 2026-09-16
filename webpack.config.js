@@ -19,6 +19,11 @@ module.exports = {
 			'excerpt-block.js'
 		),
 		'video-block': path.resolve(process.cwd(), 'src', 'video-block.js'),
+		'page-template-modal': path.resolve(
+			process.cwd(),
+			'src',
+			'page-template-modal.js'
+		),
 		frontend: path.resolve(process.cwd(), 'src', 'frontend.js'),
 		'frontend-styles': path.resolve(
 			process.cwd(),
